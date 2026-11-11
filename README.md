@@ -55,7 +55,7 @@ Instrucciones completas en [`codigo/README.md`](codigo/README.md).
 | Ruta | Contenido |
 |---|---|
 | [`codigo/`](codigo/) | Implementación en Python (paquete `portadas`), scripts, experimentos, pruebas y cuaderno |
-| [`docs/etapa1/`](docs/etapa1/) | Guía de entrevistas, consentimiento, mapa de empatía e ideación |
+| [`docs/etapa1/`](docs/etapa1/) | Guía de entrevistas, consentimiento, ideación y el [mapa de empatía y lienzo de propuesta de valor](docs/etapa1/mapa_empatia_y_propuesta_de_valor.pdf) (PDF) |
 | [`main.tex`](main.tex) | Informe en LaTeX |
 
 ## Datos y licencias
