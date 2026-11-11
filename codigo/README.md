@@ -1,8 +1,8 @@
 # Portadas infantiles generativas — código (etapas 1 a 3)
 
 Proyecto 2 de *Planificación y Toma de Decisiones en IA* (UTEC). Aquí está la
-implementación de la etapa 2 (datos, Jimena) y de la etapa 3 (modelo generativo, Maria).
-Los materiales de la etapa 1 (design thinking, Andrea) están en `../docs/etapa1/`.
+implementación de la etapa 2 (datos) y de la etapa 3 (modelo generativo).
+Los materiales de la etapa 1 (design thinking) están en `../docs/etapa1/`.
 
 ## Cómo correrlo
 
@@ -59,22 +59,22 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 - **SD 1.5 / ControlNet:** CreativeML OpenRAIL-M (respetar los usos prohibidos).
 - **SD-Turbo:** Stability AI Community License (uso académico gratuito).
 
-## Trabajo pendiente (manual o en Colab)
+## Trabajo pendiente (en Colab o manual)
 
-El código ya está escrito y probado en CPU; falta ejecutarlo con GPU y hacer las tareas
-que requieren personas. Responsables según el reparto del informe (Tabla 6).
+El código de las etapas 2 y 3 está escrito y probado en CPU. Falta ejecutarlo con GPU y hacer las
+tareas que requieren personas. Cada tarea se indica con su etapa (el reparto está en la Tabla 6 del informe).
 
-### Correr el cuaderno en Colab
+### En Colab
 
-| # | Tarea | Celda del cuaderno | Responsable | Semana | Resultado |
+| # | Tarea | Celda del cuaderno | Etapa | Semana | Resultado |
 |---|---|---|---|---|---|
-| 1 | Subir `codigo/` a Google Drive, abrir el cuaderno con GPU (T4 gratis; L4/A100 con Colab Pro) y correr las pruebas | 0 y 1 | Jimena | 1 | Todas las pruebas en verde |
-| 2 | Descargar los datos en la computadora (`python -m scripts.preparar_datos --solo d1 d2 d4`), subir `datos/` dentro de `codigo/` en Drive y correr en Colab el análisis exploratorio con OCR (opción A del cuaderno) | 2 | Jimena | 1 | `salidas/eda/` (gráficos y `resumen_d1.json`) |
-| 3 | Primera ronda de 5 portadas con el motor A y con el motor B | 3.1 | Maria | 1 | `salidas/demo/lamina.png` (primer hito de la etapa 3) |
-| 4 | Calibración de la fidelidad y los pasos (y aplicar la propuesta a `config.py`) | 3.2 | Maria | 2 | `salidas/calibracion/` |
-| 4b | Experimento opcional con LoRA | 3.3 | Maria | 2 | `salidas/lora/` |
-| 5 | Evaluación E1: primero la prueba de 5 pares, luego la completa (si Colab se desconecta, se vuelve a correr y continúa) | E1 | Maria | 3 | `salidas/e1/e1_resumen.json` |
-| 6 | Evaluación E5 (partes a y b) | E5 | Maria | 3 | `salidas/e5/` |
+| 1 | ✅ Subir `codigo/` a Drive, abrir el cuaderno con GPU y correr las pruebas | 0 y 1 | 2 | 1 | Pruebas en verde |
+| 2 | ✅ Análisis exploratorio con OCR (opción A del cuaderno) | 2 | 2 | 1 | `salidas/eda/` |
+| 3 | Primera ronda de 5 portadas con el motor A y con el motor B | 3.1 | 3 | 1 | `salidas/demo/lamina.png` |
+| 4 | Calibración de la fidelidad y los pasos; la celda siguiente copia la propuesta a `config.py` | 3.2 | 3 | 2 | `salidas/calibracion/` |
+| 5 | Experimento opcional con LoRA | 3.3 | 3 | 2 | `salidas/lora/` |
+| 6 | Evaluación E1: primero 5 pares, luego la completa (si Colab se desconecta, se vuelve a correr y continúa) | E1 | 3 | 3 | `salidas/e1/e1_resumen.json` |
+| 7 | Evaluación E5 (partes a y b) | E5 | 3 | 3 | `salidas/e5/` |
 
 Problemas conocidos en Colab:
 - **`KeyError: 'The task translation has been removed'`**: viene de una versión vieja del cuaderno
@@ -86,23 +86,20 @@ Problemas conocidos en Colab:
 Cuidado: los resultados se guardan en `codigo/salidas/` y `codigo/datos/` dentro de Drive.
 `datos/d1_portadas/` tiene portadas con derechos de autor: no compartir esa carpeta.
 
-### Tareas manuales
+### Manuales
 
-| # | Tarea | Archivo | Responsable | Semana |
+| # | Tarea | Archivo | Etapa | Semana |
 |---|---|---|---|---|
-| 7 | Hacer las 5 entrevistas (2 docentes, 2 personas que escriben cuentos, 1 ilustrador) con consentimiento firmado | `docs/etapa1/guia_entrevistas.md`, `consentimiento_entrevista.md` | Bihonda (pasa las notas a Andrea) | 1 |
-| 8 | Llenar un mapa de empatía por entrevista y la síntesis (patrones, proto-persona, punto de vista, pregunta guía) | `docs/etapa1/mapa_empatia_plantilla.md` | Andrea | 1 |
-| 9 | Pasar los hallazgos al informe (texto en rojo de la sección 1.1) y ajustar la proto-persona | `main.tex` | Andrea | 1 |
-| 10 | Probar el prototipo en papel con 2 personas y pasar los cambios a la etapa 4 | `docs/etapa1/ideacion_y_prototipo.md` | Andrea (con Bihonda) | 1 |
-| 11 | Reunir unos 20 bocetos propios fotografiados con celular (D3) en `datos/d3_bocetos/` | — | Nayeli (apoyo a la etapa 2) | 1 |
-| 12 | ~~Revisar traducciones~~: ya no aplica, las historias se usan en inglés | — | — | — |
-| 13b | Anotar a mano, en español, las 30 historias de `datos/d4es_historias/anotacion_30_es.csv` | `datos/d4es_historias/` | Bihonda (apoyo a la etapa 2) | 2 |
-| 13 | Anotar a mano, en inglés, los elementos visuales de las 30 historias (personajes, objetos, lugar, momento, tono) | `datos/d4_historias/anotacion_30.csv` | Bihonda (apoyo a la etapa 2) | 2 |
-| 14 | Revisar los valores que propone la calibración; la celda `experimentos.aplicar_calibracion` los copia a `config.py` y corre las pruebas | `salidas/calibracion/resumen.json` | Maria | 2 |
-| 15 | ~~Ajustar `CRITERIOS_PALETA`~~: hecho con los percentiles de D1 | `portadas/metricas/color.py` | — | — |
-| 16 | Revisar a mano cada portada que mostró E5a (¿es apta para niños?) y recalibrar `UMBRAL_CLIP_NO_APTO` si hace falta | `salidas/e5/e5a_revision_manual.csv` | Maria | 3 |
-| 17 | Anotar el género y el tono de piel percibidos en las 100 imágenes de E5b, idealmente con dos anotadoras | `salidas/e5/e5b_anotacion_sesgo.csv` | Maria (con otra integrante) | 3 |
-| 18 | Escribir los resultados de la sección 6 (Jimena) y de la sección 7 (Maria) | `main.tex` | Jimena y Maria | 3 |
+| 8 | Hacer las 5 entrevistas (2 docentes, 2 personas que escriben cuentos, 1 ilustrador) con consentimiento firmado | `docs/etapa1/guia_entrevistas.md`, `consentimiento_entrevista.md` | 1 | 1 |
+| 9 | Un mapa de empatía por entrevista y la síntesis; comparar con el mapa de hipótesis | `docs/etapa1/mapa_empatia_plantilla.md` | 1 | 1 |
+| 10 | Pasar los hallazgos al informe (texto en rojo de la sección 1.1) | `main.tex` | 1 | 1 |
+| 11 | Probar el prototipo en papel con 2 personas | `docs/etapa1/ideacion_y_prototipo.md` | 1 y 4 | 1 |
+| 12 | Reunir unos 20 bocetos propios fotografiados con celular (D3) | `datos/d3_bocetos/` | 2 | 1 |
+| 13 | Anotar a mano, en inglés, los elementos visuales de 30 historias | `datos/d4_historias/anotacion_30.csv` | 2 | 2 |
+| 14 | Anotar a mano, en español, otras 30 historias | `datos/d4es_historias/anotacion_30_es.csv` | 2 | 2 |
+| 15 | Revisar a mano cada portada que mostró E5a (¿es apta para niños?) | `salidas/e5/e5a_revision_manual.csv` | 3 | 3 |
+| 16 | Anotar el género y el tono de piel percibidos en E5b, con dos anotadoras | `salidas/e5/e5b_anotacion_sesgo.csv` | 3 | 3 |
+| 17 | Escribir los resultados de la sección 7 | `main.tex` | 3 | 3 |
 
 ## Costo
 

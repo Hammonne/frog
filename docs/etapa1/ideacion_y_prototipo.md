@@ -31,4 +31,4 @@ Dibujar en hojas A4 (una pantalla por hoja) y probarlo con 2 personas antes de p
 5. **Resumen:** texto del agente + botón para descargar las portadas aceptadas.
 
 Preguntas para la prueba del prototipo: ¿entiende qué cambia entre las tarjetas? ¿Encuentra dónde cambiar la fuente? ¿Qué espera que pase al pedir otra ronda?
-Anotar los cambios y pasárselos a Bihonda (interfaz, etapa 4).
+Anotar los cambios y llevarlos al diseño de la interfaz (etapa 4).

@@ -1,6 +1,6 @@
 # Guía de entrevista semiestructurada (fase Empatizar)
 
-**Duración:** 20–30 min · **Modalidad:** presencial o videollamada · **Entrevista:** Bihonda (si se puede, otra integrante toma notas). Las notas van a Andrea para los mapas de empatía.
+**Duración:** 20–30 min · **Modalidad:** presencial o videollamada · **Entrevistan:** dos integrantes (una pregunta, la otra toma notas).
 **Participantes (5):** 2 docentes de inicial o primaria · 2 personas que escriben cuentos (estudiantes o autores independientes) · 1 ilustrador/a o diseñador/a
 
 Antes de empezar: leer el consentimiento (`consentimiento_entrevista.md`) y pedir permiso para grabar el audio. No se muestra todavía el sistema: queremos conocer su experiencia, no validar nuestra idea.
