@@ -3,8 +3,6 @@
 Proyecto 2 de *Planificación y Toma de Decisiones en IA* (UTEC). Aquí está la
 implementación de la etapa 2 (datos, Jimena) y de la etapa 3 (modelo generativo, Maria).
 Los materiales de la etapa 1 (design thinking, Andrea) están en `../docs/etapa1/`.
-El estado del proyecto y los pasos de cada integrante están en [`../PLAN.md`](../PLAN.md);
-las reglas y convenciones, en [`../CLAUDE.md`](../CLAUDE.md).
 
 ## Cómo correrlo
 

@@ -3,7 +3,8 @@
 </p>
 
 <h1 align="center">FROG</h1>
-<p align="center"><b>F</b>riendly <b>R</b>ounds <b>O</b>f <b>G</b>eneration · portadas de cuentos infantiles a partir de un boceto y una historia</p>
+<p align="center"><b>F</b>riendly <b>R</b>ounds <b>O</b>f <b>G</b>eneration</p>
+<p align="center"><i>From ROugh sketch to Great cover</i> · portadas de cuentos infantiles a partir de un boceto y una historia</p>
 
 ---
 
@@ -38,8 +39,6 @@ modelos abiertos de Hugging Face en Google Colab, sin APIs de pago.
 | 4. Interfaz | Por hacer |
 | 5. Agentes y evaluación | Por hacer |
 
-El detalle por persona está en [`PLAN.md`](PLAN.md).
-
 ## Empezar
 
 ```bash
@@ -58,8 +57,6 @@ Instrucciones completas en [`codigo/README.md`](codigo/README.md).
 | [`codigo/`](codigo/) | Implementación en Python (paquete `portadas`), scripts, experimentos, pruebas y cuaderno |
 | [`docs/etapa1/`](docs/etapa1/) | Guía de entrevistas, consentimiento, mapa de empatía e ideación |
 | [`main.tex`](main.tex) | Informe en LaTeX |
-| [`PLAN.md`](PLAN.md) | Tareas y estado por integrante |
-| [`CLAUDE.md`](CLAUDE.md) | Reglas y convenciones del proyecto |
 
 ## Datos y licencias
 
