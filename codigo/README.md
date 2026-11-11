@@ -39,6 +39,7 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 | `experimentos/aplicar_calibracion.py` | Copia la propuesta de la calibración a `config.py` | 3 |
 | `experimentos/lora.py` | Experimento opcional con LoRA: revisa la ficha (licencia, SD 1.5, sin artista) y compara con la base | 3 |
 | `experimentos/e1_automatica.py` | Evaluación E1 (2 000 + 1 000 portadas), con reanudación | 3 |
+| `experimentos/tabla_resultados.py` | Tabla LaTeX de E1 (motor A frente a B) para la sección 7 | 3 |
 | `experimentos/e5_seguridad.py` | Evaluación E5 (adversariales y sesgo) | 3 |
 
 ## Lo que usan las etapas 4 y 5
@@ -75,6 +76,7 @@ tareas que requieren personas. Cada tarea se indica con su etapa (el reparto est
 | 5 | Experimento opcional con LoRA | 3.3 | 3 | 2 | `salidas/lora/` |
 | 6 | Evaluación E1: primero 5 pares, luego la completa (si Colab se desconecta, se vuelve a correr y continúa) | E1 | 3 | 3 | `salidas/e1/e1_resumen.json` |
 | 7 | Evaluación E5 (partes a y b) | E5 | 3 | 3 | `salidas/e5/` |
+| 7b | Completar `experimentos/tabla_resultados.py` y generar la tabla de E1 | después de E1 | 3 | 3 | `salidas/e1/tabla_e1.tex` |
 
 Problemas conocidos en Colab:
 - **`KeyError: 'The task translation has been removed'`**: viene de una versión vieja del cuaderno
