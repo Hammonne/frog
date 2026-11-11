@@ -1,0 +1,20 @@
+# Colab (GPU T4). Instalar con: pip install -r requirements.txt
+numpy
+pillow
+opencv-python-headless
+scikit-learn
+requests
+matplotlib
+torch
+diffusers>=0.30
+transformers>=4.44
+accelerate
+safetensors
+peft                 # LoRA opcional
+controlnet_aux       # HED para fotos de dibujos y métrica de bordes
+lpips
+torchmetrics[image]  # KID / FID (incluye torch-fidelity)
+mediapipe            # detección de rostros (si falla, se usa Haar de OpenCV)
+easyocr              # posición del título en D1 (opcional, --ocr)
+sentencepiece        # traducción de historias (MarianMT, opcional)
+pytest

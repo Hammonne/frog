@@ -1,0 +1,7 @@
+# Solo para correr las pruebas en CPU (sin modelos)
+numpy
+pillow
+opencv-python-headless
+scikit-learn
+requests
+pytest
