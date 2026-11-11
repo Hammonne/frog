@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="t">
+  <title id="t">FROG: una ranita leyendo un libro</title>
+  <!-- fondo -->
+  <circle cx="120" cy="120" r="116" fill="#FFF6E0"/>
+  <!-- patas traseras -->
+  <ellipse cx="62" cy="186" rx="34" ry="20" fill="#5BAE5B"/>
+  <ellipse cx="178" cy="186" rx="34" ry="20" fill="#5BAE5B"/>
+  <!-- cuerpo -->
+  <ellipse cx="120" cy="160" rx="66" ry="52" fill="#6CC46C"/>
+  <ellipse cx="120" cy="172" rx="42" ry="32" fill="#C9EBB4"/>
+  <!-- cabeza -->
+  <ellipse cx="120" cy="104" rx="78" ry="54" fill="#6CC46C"/>
+  <!-- ojos -->
+  <circle cx="78" cy="62" r="28" fill="#6CC46C"/>
+  <circle cx="162" cy="62" r="28" fill="#6CC46C"/>
+  <circle cx="78" cy="60" r="19" fill="#FFFFFF"/>
+  <circle cx="162" cy="60" r="19" fill="#FFFFFF"/>
+  <circle cx="82" cy="63" r="10" fill="#2E3A2F"/>
+  <circle cx="166" cy="63" r="10" fill="#2E3A2F"/>
+  <circle cx="86" cy="59" r="3.5" fill="#FFFFFF"/>
+  <circle cx="170" cy="59" r="3.5" fill="#FFFFFF"/>
+  <!-- mejillas -->
+  <ellipse cx="66" cy="116" rx="13" ry="8" fill="#F59BA8" opacity="0.8"/>
+  <ellipse cx="174" cy="116" rx="13" ry="8" fill="#F59BA8" opacity="0.8"/>
+  <!-- sonrisa -->
+  <path d="M92 112 Q120 136 148 112" fill="none" stroke="#2E3A2F" stroke-width="5" stroke-linecap="round"/>
+  <!-- libro abierto -->
+  <path d="M120 150 L72 140 L72 192 L120 202 Z" fill="#FFFFFF" stroke="#E07A3F" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M120 150 L168 140 L168 192 L120 202 Z" fill="#FFFFFF" stroke="#E07A3F" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M82 156 L110 162 M82 168 L110 174 M82 180 L104 185" stroke="#F2B48A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M158 156 L130 162 M158 168 L130 174 M158 180 L136 185" stroke="#F2B48A" stroke-width="3" stroke-linecap="round"/>
+  <!-- manitos sujetando el libro -->
+  <ellipse cx="70" cy="168" rx="11" ry="9" fill="#5BAE5B"/>
+  <ellipse cx="170" cy="168" rx="11" ry="9" fill="#5BAE5B"/>
+</svg>
