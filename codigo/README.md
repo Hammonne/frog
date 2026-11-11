@@ -6,7 +6,9 @@ Los materiales de la etapa 1 (design thinking) están en `../docs/etapa1/`.
 
 ## Cómo correrlo
 
-**En Colab (recomendado, GPU T4):** abrir `notebooks/portadas_etapas_1_3.ipynb` y ejecutar las celdas en orden.
+**En Colab (recomendado, GPU T4):** la carpeta del equipo con código, datos y resultados está en
+[Google Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing). Agregarla a *Mi unidad* (clic derecho → *Organizar → Agregar acceso directo →
+Mi unidad*), abrir `codigo/notebooks/portadas_etapas_1_3.ipynb` con Google Colaboratory y ejecutar las celdas en orden.
 
 **Pruebas en tu computadora (sin GPU):**
 ```bash

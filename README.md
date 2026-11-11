@@ -46,7 +46,7 @@ python3 -m venv .venv && .venv/bin/pip install -r codigo/requirements-local.txt
 cd codigo && ../.venv/bin/python -m pytest -q tests      # pruebas en CPU
 ```
 
-Para generar portadas se usa el cuaderno de Colab
+Para generar portadas se usa, desde la [carpeta de Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing), el cuaderno de Colab
 [`codigo/notebooks/portadas_etapas_1_3.ipynb`](codigo/notebooks/portadas_etapas_1_3.ipynb) con GPU.
 Instrucciones completas en [`codigo/README.md`](codigo/README.md).
 
@@ -60,7 +60,9 @@ Instrucciones completas en [`codigo/README.md`](codigo/README.md).
 
 ## Datos y licencias
 
-Los datos no están en el repositorio: se descargan con `python -m scripts.preparar_datos`.
+Los datos no están en el repositorio. El equipo los tiene en esta **[carpeta de Google Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing)**
+(acceso restringido al equipo), junto con el código y los resultados, lista para correr el cuaderno en Colab.
+También se pueden volver a descargar con `python -m scripts.preparar_datos`.
 
 - **Portadas de Amazon (Book32):** tienen derechos de autor. Solo se usan para estadísticas; no se publican.
 - **Quick, Draw!:** CC BY 4.0. **TinyStories:** CDLA-Sharing-1.0. **Wikisource:** dominio público.
