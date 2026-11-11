@@ -105,6 +105,30 @@ Testear & Prueba piloto con 2 usuarios (semana 3) y estudio E4 con al menos 8 (S
 
 \textbf{Proto-persona (supuesto inicial).} \emph{Carmen, 34 años, docente de inicial.} Escribe cuentos cortos para su aula y quiere imprimir algunos como libritos para sus alumnos. Sabe lo que quiere contar y hace dibujos simples, pero no sabe diseñar, no puede pagar un ilustrador por cada cuento y las herramientas de IA que probó le dieron imágenes que no se parecían a su idea ni a su historia, con el título mal escrito. Esta persona es una hipótesis construida antes de las entrevistas; se ajustará con sus hallazgos \pend{hallazgos de las entrevistas}.
 
+\textbf{Mapa de empatía y propuesta de valor (supuestos).} Antes de entrevistar, el equipo registró sus supuestos sobre Carmen en un mapa de empatía \citep{gray2010} y en un lienzo de propuesta de valor \citep{osterwalder2014} (Tabla~\ref{tab:empatia}). Tras las entrevistas se hace un mapa por participante y se compara con este para ver qué supuestos se confirman. En el lienzo, cada aliviador de FROG responde a una frustración (no hace falta dibujar bien, no hay marcas de agua ni pagos, el título se verifica con OCR y el contenido se filtra para niños) y cada creador de alegrías a una ganancia esperada (respetar el boceto, usar la historia y aprender de las decisiones en hasta tres rondas).
+
+\begin{table}[t]
+\centering\scriptsize
+\caption{Mapa de empatía de la proto-persona (supuestos previos a las entrevistas).}\label{tab:empatia}
+\begin{tabularx}{\columnwidth}{@{}L{1.3cm}X@{}}
+\toprule
+\textbf{Cuadrante} & \textbf{Supuestos}\\
+\midrule
+Dice & ``Me gusta escribir libros, pero soy mala dibujando''; ``le pongo fotos con marca de agua''\\
+\filasep
+Piensa & ``Quisiera que mis niños tuvieran libros con dibujos''; ``¿y si la IA no entiende mi cuento?''\\
+\filasep
+Hace & Hace la portada sin dibujo o usa imágenes genéricas que no representan su cuento\\
+\filasep
+Siente & Tristeza, conformismo, desmotivación\\
+\filasep
+Dolores & No puede pagar un ilustrador; la IA ignora su idea y escribe mal los títulos; poco tiempo\\
+\filasep
+Ganancias & Una portada que se parezca a su cuento, a partir de su dibujo, gratis y eligiendo entre opciones\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \textbf{Punto de vista.} Carmen \emph{necesita} obtener rápido unas pocas portadas que respeten su dibujo y cuenten su historia, y poder elegir entre ellas, \emph{porque} sabe reconocer lo que quiere al verlo aunque no sepa diseñarlo, y las herramientas genéricas le dan resultados que no controla.
 
 \textbf{Pregunta guía.} \emph{¿Cómo podríamos} ayudar a quien escribe un cuento infantil a convertir su boceto y su historia en una portada que reconozca como suya, decidiendo entre pocas opciones claras y entendiendo por qué el sistema le propone cada una?
@@ -252,17 +276,17 @@ donde $M_i$ son los parámetros marcados como motivo del rechazo (\emph{estilo},
 \section{Selección y preparación de datos}\label{sec:datos}
 Como los modelos son preentrenados, los datos no se usan para entrenar sino para (a) caracterizar el dominio, (b) simular entradas de usuario en la evaluación automática y (c) servir de distribución de referencia.
 
-\textbf{D1: portadas reales (referencia).} \emph{Book Cover Dataset} \citep{iwana2016}: el listado Book32 tiene 207\,572 libros de Amazon en 32 categorías, con enlace a la portada, título y autor; se usa la categoría \emph{Children's Books}, con 13\,605 libros. Se elige porque es un dataset académico de portadas con etiqueta de género. Las portadas tienen derechos de autor, por lo que se usan solo para estadísticas y como referencia del KID/FID, sin redistribuirlas ni usarlas para entrenar. Se tomará una muestra aleatoria de 2\,000 portadas (tamaño propuesto); como los enlaces son de 2016, se reportará cuántas siguen disponibles.
+\textbf{D1: portadas reales (referencia).} \emph{Book Cover Dataset} \citep{iwana2016}: el listado Book32 tiene 207\,572 libros de Amazon en 32 categorías, con enlace a la portada, título y autor; se usa la categoría \emph{Children's Books}, con 13\,605 libros. Se elige porque es un dataset académico de portadas con etiqueta de género. Las portadas tienen derechos de autor, por lo que se usan solo para estadísticas y como referencia del KID/FID, sin redistribuirlas ni usarlas para entrenar. Se tomó una muestra aleatoria de 2\,000 portadas; aunque los enlaces son de 2016, todas siguen disponibles tras actualizar el dominio de las imágenes.
 
 \textbf{D2: bocetos simulados (entrada).} \emph{Quick, Draw!} \citep{ha2018,quickdraw}: más de 50 millones de dibujos de trazos hechos en menos de 20\,s, publicados bajo CC BY 4.0. Se eligen 10 categorías propias de cuentos infantiles (gato, perro, conejo, oso, pez, pájaro, árbol, casa, sol y dragón) y 20 dibujos por categoría, $N=200$ entradas.
 
 \textbf{D3: bocetos realistas.} Alrededor de 20 bocetos hechos a mano por el equipo, fotografiados con celular, para probar casos más cercanos al uso real (sombras, papel con textura, trazos irregulares) y para la demostración.
 
-\textbf{D4: historias de prueba.} \emph{TinyStories} \citep{eldan2023}: cuentos breves sintéticos escritos con vocabulario de niños de 3 a 4 años, publicados bajo licencia CDLA-Sharing-1.0. Se seleccionarán 200 historias cuyo personaje principal pertenezca a una de las 10 categorías de D2, y cada una se emparejará con un boceto de su categoría. Las historias se usan en inglés, su idioma original: una prueba de traducción automática con MarianMT \citep{tiedemann2020} produjo errores (nombres propios traducidos, cambios de género) que habrían contaminado la referencia. Además se anotarán a mano los elementos visuales de 30 historias, que servirán como referencia para evaluar al agente de historia.
+\textbf{D4: historias de prueba.} \emph{TinyStories} \citep{eldan2023}: cuentos breves sintéticos escritos con vocabulario de niños de 3 a 4 años, publicados bajo licencia CDLA-Sharing-1.0. Se seleccionaron 200 historias cuyo personaje principal pertenezca a una de las 10 categorías de D2, y cada una se emparejará con un boceto de su categoría. Las historias se usan en inglés, su idioma original: una prueba de traducción automática con MarianMT \citep{tiedemann2020} produjo errores (nombres propios traducidos, cambios de género) que habrían contaminado la referencia. Además se anotarán a mano los elementos visuales de 30 historias, que servirán como referencia para evaluar al agente de historia.
 
 \textbf{D4-es.} Para evaluar al agente en el idioma de la aplicación se descargaron con la API de Wikisource \citep{wikisource} 250 cuentos y fábulas en español de dominio público; tras quitar 41 por el filtro de contenido y 12 por longitud, se eligieron 60 en prosa (48 de Godofredo Daireaux, 3 de Horacio Quiroga, 9 de Esopo y Fedro), de las que se anotarán 30.
 
-\textbf{Análisis exploratorio (planificado).} Sobre D1 se calcularán: colorido de Hasler y Süsstrunk \citep{hasler2003}, brillo y saturación medios, paletas dominantes (k-means en CIELAB, $k=5$), densidad de bordes y posición del título (detección de texto con OCR, por tercios verticales). De ahí salen los rangos de referencia para las métricas de paleta y de densidad de la zona del título (Tabla~\ref{tab:met}). Sobre D2 y D3 se medirán la proporción de tinta, el tamaño del contenido y el grosor de trazo para fijar los umbrales de validación.
+\textbf{Análisis exploratorio.} Sobre D1 se midieron colorido \citep{hasler2003}, brillo, saturación, proporción de tonos cálidos, fríos y tierra, paletas dominantes (k-means en CIELAB, $k=5$), densidad de bordes por tercio vertical y posición del título con OCR. Las portadas infantiles son claras y moderadamente saturadas (medianas: brillo 0.70, saturación 0.39, colorido 72 con rango intercuartílico 53--94), y predominan los tonos cálidos (43\,\% de los píxeles con color, frente a 18\,\% fríos). El título está en el tercio superior en el 72\,\% de las portadas (17\,\% en el medio y 10\,\% abajo), y ese tercio es el de menor densidad de bordes (mediana 0.087 frente a 0.097 y 0.095): esto respalda la zona superior como valor por defecto, y el percentil 75 de esa densidad (0.111) es el umbral de la Tabla~\ref{tab:met}. Los criterios de paleta se fijaron en el cuartil más característico de cada rasgo, de modo que cada paleta abarca entre el 18 y el 29\,\% de las portadas reales. Dos hallazgos limitan el diseño: la mediana de la proporción alto/ancho es 1.28 y una de cada cuatro portadas es casi cuadrada, más baja que nuestro formato 2:3 (1.5); y la categoría \emph{Children's Books} incluye no ficción para lectores mayores, así que la referencia es más amplia que los cuentos ilustrados. En D2 la tinta va de 1.5 a 10.6\,\% (mediana 5.3\,\%) y el contenido ocupa en mediana el 67\,\% del lienzo, dentro de los umbrales de validación, por lo que ningún boceto se rechaza por error.
 
 \textbf{Preprocesamiento de la entrada.}
 (1)~Eliminación de metadatos EXIF y conversión a escala de grises;
@@ -475,7 +499,7 @@ Pocos participantes & Resultados descriptivos.\\
 
 % =====================================================================
 \section{Plan de trabajo}
-El trabajo se reparte siguiendo las cinco etapas del enunciado (Tabla~\ref{tab:roles}). Andrea Coa es responsable de la etapa 1 (problema y diseño) y Jimena Gurbillon de la etapa 2 (datos), la base de la que dependen las demás. Maria Surco es responsable de la etapa 3 completa (los dos motores, su calibración, los guardrails de salida y su evaluación) y coordina la sección de ética. Bihonda Epiquien y Nayeli Guzman son responsables de las etapas 4 y 5. Cada responsable mide las métricas de su módulo, y el estudio con usuarios (E4), el video y la presentación se hacen entre todos. La Tabla~\ref{tab:plan} muestra el cronograma hasta la entrega final \pend{fecha de entrega final}.
+El trabajo se reparte siguiendo las cinco etapas del enunciado, con una responsable por etapa y una carga similar para cada integrante (Tabla~\ref{tab:roles}). Cada responsable mide las métricas de su módulo; el trabajo de campo (entrevistas, anotación y estudio con usuarios), el video y la presentación se reparten entre todas. La Tabla~\ref{tab:plan} muestra el cronograma hasta la entrega final \pend{fecha de entrega final}.
 
 \begin{table}[t]
 \centering\scriptsize
@@ -484,15 +508,15 @@ El trabajo se reparte siguiendo las cinco etapas del enunciado (Tabla~\ref{tab:r
 \toprule
 \textbf{Etapa} & \textbf{Responsabilidades} & \textbf{Integrantes}\\
 \midrule
-1. Problema y diseño & Design thinking (entrevistas, mapa de empatía, proto-persona, POV, ideación), objetivos, restricciones, alcance, arquitectura y diagrama; secciones 1--5 del informe & Andrea Coa\\
+1. Problema y diseño & Design thinking, objetivos, alcance y arquitectura & Andrea Coa\\
 \filasep
-2. Datos & Selección de D1--D4 y revisión de licencias, análisis exploratorio, anotación de 30 historias, preprocesamiento y guardrails de entrada; sección 6 del informe & Jimena Gurbillon\\
+2. Datos & Selección de datos, licencias, análisis exploratorio y preprocesamiento & Jimena Gurbillon\\
 \filasep
-3. Modelo generativo & Motores A (SD 1.5 + ControlNet) y B (SD-Turbo), primera ronda de 5 portadas, calibración de la fidelidad y los pasos, LoRA, guardrails de salida, E1 y E5; sección 7 y coordinación de la sección 12 (ética) & Maria Surco\\
+3. Modelo generativo & Motores de generación, calibración y evaluación de las portadas & Maria Surco\\
 \filasep
-4. Interfaz & Gradio, registro JSON, agente tipográfico y renderizador; sección 8 & Bihonda Epiquien\\
+4. Interfaz & Interfaz, tipografía y registro de la sesión & Bihonda Epiquien\\
 \filasep
-5. Explicación y evaluación & Agente de historia, planificador, LLM explicador, validador, E2 y E3; secciones 9--11 & Nayeli Guzman\\
+5. Explicación y evaluación & Agentes, planificador y evaluación con usuarios & Nayeli Guzman\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -537,6 +561,7 @@ Acotar el sistema a portadas de libros infantiles convierte la generación de va
 \bibitem[Eldan y Li(2023)]{eldan2023} Eldan, R., \& Li, Y. (2023). TinyStories: How small can language models be and still speak coherent English? \emph{arXiv}. \url{https://doi.org/10.48550/arXiv.2305.07759}
 \bibitem[Genette(1997)]{genette1997} Genette, G. (1997). \emph{Paratexts: Thresholds of interpretation} (J. E. Lewin, Trad.). Cambridge University Press.
 \bibitem[Quick, Draw!(s.\,f.)]{quickdraw} Google Creative Lab. (s.\,f.). \emph{The Quick, Draw! dataset} [Repositorio de GitHub; datos bajo CC BY 4.0]. \url{https://github.com/googlecreativelab/quickdraw-dataset}
+\bibitem[Gray et al.(2010)]{gray2010} Gray, D., Brown, S., \& Macanufo, J. (2010). \emph{Gamestorming: A playbook for innovators, rulebreakers, and changemakers}. O'Reilly Media.
 \bibitem[Ha y Eck(2018)]{ha2018} Ha, D., \& Eck, D. (2018). A neural representation of sketch drawings. In \emph{International Conference on Learning Representations}. \url{https://doi.org/10.48550/arXiv.1704.03477}
 \bibitem[Hasler y Süsstrunk(2003)]{hasler2003} Hasler, D., \& Süsstrunk, S. (2003). Measuring colourfulness in natural images. In \emph{Human Vision and Electronic Imaging VIII} (Proc. SPIE 5007, pp. 87--95). \url{https://doi.org/10.1117/12.477378}
 \bibitem[d.school(2010)]{dschool2010} Hasso Plattner Institute of Design at Stanford. (2010). \emph{An introduction to design thinking: Process guide}. Stanford University.
@@ -555,6 +580,7 @@ Acotar el sistema a portadas de libros infantiles convierte la generación de va
 \bibitem[Meng et al.(2022)]{meng2021} Meng, C., He, Y., Song, Y., Song, J., Wu, J., Zhu, J.-Y., \& Ermon, S. (2022). SDEdit: Guided image synthesis and editing with stochastic differential equations. In \emph{International Conference on Learning Representations}. \url{https://doi.org/10.48550/arXiv.2108.01073}
 \bibitem[Mosqueira-Rey et al.(2023)]{mosqueira2023} Mosqueira-Rey, E., Hernández-Pereira, E., Alonso-Ríos, D., Bobes-Bascarán, J., \& Fernández-Leal, Á. (2023). Human-in-the-loop machine learning: A state of the art. \emph{Artificial Intelligence Review, 56}, 3005--3054. \url{https://doi.org/10.1007/s10462-022-10246-w}
 \bibitem[Nikolajeva y Scott(2001)]{nikolajeva2001} Nikolajeva, M., \& Scott, C. (2001). \emph{How picturebooks work}. Garland.
+\bibitem[Osterwalder et al.(2014)]{osterwalder2014} Osterwalder, A., Pigneur, Y., Bernarda, G., \& Smith, A. (2014). \emph{Value proposition design: How to create products and services customers want}. Wiley.
 \bibitem[Perú(1996)]{dl822} Perú. (1996). \emph{Decreto Legislativo N.º 822, Ley sobre el Derecho de Autor} (y modificatorias). WIPO Lex. \url{https://www.wipo.int/wipolex/es/legislation/details/15464}
 \bibitem[Qwen Team(2024)]{qwen2024} Qwen Team. (2024). Qwen2.5 technical report. \emph{arXiv}. \url{https://doi.org/10.48550/arXiv.2412.15115}
 \bibitem[Radford et al.(2021)]{radford2021} Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., \& Sutskever, I. (2021). Learning transferable visual models from natural language supervision. In \emph{Proceedings of the 38th International Conference on Machine Learning} (PMLR 139, pp. 8748--8763). \url{https://doi.org/10.48550/arXiv.2103.00020}
