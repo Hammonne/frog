@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Datos: D1 tiene derechos de autor y no se redistribuye; el resto se regenera con los scripts
+codigo/datos/
+codigo/salidas/
+# LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+.DS_Store
+# Material del curso (de la profesora): no se publica
+Evaluación_*.pdf
+Proyecto Final - Planificación.pdf
+# Respaldo que deja experimentos/aplicar_calibracion.py
+codigo/portadas/config.py.antes_calibracion
