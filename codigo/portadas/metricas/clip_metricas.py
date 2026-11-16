@@ -36,6 +36,7 @@ class EvaluadorCLIP:
         with self.torch.no_grad():
             x = self.proc(images=list(imgs), return_tensors="pt").to(self.device)
             e = self.modelo.get_image_features(**x)
+        if hasattr(e, 'pooler_output'): e = e.pooler_output
         return e / e.norm(dim=-1, keepdim=True)
 
     def _emb_txt(self, textos: Sequence[str]):
@@ -43,6 +44,7 @@ class EvaluadorCLIP:
             x = self.proc(text=list(textos), return_tensors="pt", padding=True,
                           truncation=True).to(self.device)
             e = self.modelo.get_text_features(**x)
+        if hasattr(e, 'pooler_output'): e = e.pooler_output
         return e / e.norm(dim=-1, keepdim=True)
 
     def clipscore(self, img: Image.Image, texto: str) -> float:

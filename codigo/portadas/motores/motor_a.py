@@ -42,7 +42,7 @@ class MotorA:
             pipe.scheduler.config, algorithm_type="dpmsolver++", use_karras_sigmas=True)
         pipe.set_progress_bar_config(disable=True)
         pipe.enable_attention_slicing()
-        pipe.enable_vae_slicing()
+        # # pipe.enable_vae_slicing()
         if cpu_offload:
             pipe.enable_model_cpu_offload()
         else:

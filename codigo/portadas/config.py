@@ -55,11 +55,11 @@ AMBIENTES = {
 # P5 Fidelidad al boceto -> escala de ControlNet (motor A) y strength de img2img (motor B,
 # inverso: más fidelidad = menos ruido sobre el boceto).
 FIDELIDAD = {
-    "muy_baja": {"controlnet": 0.5, "turbo": 0.90},
-    "baja": {"controlnet": 0.7, "turbo": 0.80},
-    "media": {"controlnet": 0.85, "turbo": 0.70},
-    "alta": {"controlnet": 1.0, "turbo": 0.60},
-    "muy_alta": {"controlnet": 1.2, "turbo": 0.50},
+    "muy_baja": {"controlnet": 0.60, "turbo": 0.90},
+    "baja": {"controlnet": 0.65, "turbo": 0.80},
+    "media": {"controlnet": 0.70, "turbo": 0.70},
+    "alta": {"controlnet": 0.75, "turbo": 0.60},
+    "muy_alta": {"controlnet": 0.80, "turbo": 0.50},
 }
 
 # P6 Zona del título: texto para el prompt y fracción de la altura reservada
@@ -111,7 +111,7 @@ MODELO_CLIP = "openai/clip-vit-base-patch32"
 MODELO_TURBO = "stabilityai/sd-turbo"
 PASOS_TURBO = 4
 
-PASOS = 25
+PASOS = 20
 GUIA = 7.0
 SEMILLAS_RONDA_1 = [101, 202, 303, 404, 505]
 
