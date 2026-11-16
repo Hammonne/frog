@@ -41,6 +41,15 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 | `experimentos/e1_automatica.py` | Evaluación E1 (2 000 + 1 000 portadas), con reanudación | 3 |
 | `experimentos/tabla_resultados.py` | Tabla LaTeX de E1 (motor A frente a B) para la sección 7 | 3 |
 | `experimentos/e5_seguridad.py` | Evaluación E5 (adversariales y sesgo) | 3 |
+| `portadas/agente/planificador.py` | Planificador con muestreo de Thompson (una Beta por valor), máx. 3 rondas | 5 |
+| `portadas/agente/historia.py` | Agente de historia: elementos en español e inglés, verificador contra el texto | 5 |
+| `portadas/agente/explicador.py` | Agente explicador, validador determinista, 2 reintentos y resumen por plantilla | 5 |
+| `portadas/agente/llm.py` | Qwen2.5-7B y Phi-3.5-mini en local, 4 bits, temperatura 0 | 5 |
+| `portadas/agente/simulacion.py` | Usuarios simulados (preferencia oculta) para E2 y E3 | 5 |
+| `experimentos/e2_planificador.py` | E2: Thompson frente a aleatorio con 50 usuarios simulados (CPU) | 5 |
+| `experimentos/e3_resumenes.py` | E3: aprobación del validador por LLM y CSV para anotar a mano | 5 |
+| `notebooks/portadas_etapa5.ipynb` | Cuaderno de Colab de la etapa 5 (E2, E3 y agente de historia) | 5 |
+| `experimentos/agente_historia.py` | Precisión del agente de historia frente a las 30 + 30 anotaciones | 5 |
 
 ## Lo que usan las etapas 4 y 5
 
@@ -50,6 +59,35 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 - El agente de historia (etapa 5) entrega `{"personajes": [...], "objetos": [...], "lugar": ...}`
   en inglés; `escena_desde_elementos` lo convierte en la parte de escena del prompt.
 - Todo texto del usuario pasa por `guardrails.texto.filtrar_texto` antes de generar.
+
+## Etapa 5: cómo se conecta
+
+```python
+from portadas.agente.planificador import Planificador
+from portadas.agente.historia import extraer_elementos
+from portadas.agente.explicador import explicar
+from portadas.agente.llm import LLMLocal
+from portadas.motores.generar import generar_ronda
+from portadas.motores.prompts import escena_desde_elementos
+
+llm = LLMLocal("qwen")                                  # o "phi"
+story = extraer_elementos(historia, llm, "qwen")        # el usuario confirma story["elements"]
+escena = escena_desde_elementos(story["prompt_elements"])
+plan = Planificador()
+prop = plan.proponer(ronda, base, eje, fijos=[...])     # ronda 1: los 5 valores del eje
+ronda_json = generar_ronda(boceto, base, eje, motores, configs=prop["configs"], escena=escena, ronda=ronda)
+ronda_json["planner"] = prop["planner"]
+# ... la interfaz llena "decision", "reasons" y "comment" de cada variación ...
+plan.actualizar(ronda_json)
+resumen = explicar(sesion, llm, "qwen")                 # resumen["user_text"] se muestra al usuario
+```
+
+Comandos:
+```bash
+python -m experimentos.e2_planificador                  # CPU, segundos
+python -m experimentos.e3_resumenes --llm qwen phi      # GPU; --solo-plantilla para probar sin GPU
+python -m experimentos.agente_historia --llm qwen phi   # GPU; requiere las anotaciones de Bihonda
+```
 
 ## Datos y licencias
 
