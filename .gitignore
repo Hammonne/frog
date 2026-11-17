@@ -2,18 +2,38 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.DS_Store
+
 # Datos: D1 tiene derechos de autor y no se redistribuye; el resto se regenera con los scripts
 codigo/datos/
-codigo/salidas/
-# LaTeX
+# Resultados: se publican, salvo las 2 730 portadas de E1 (1,2 GB; se regeneran con e1_automatica)
+codigo/salidas/e1/img/
+codigo/salidas/e1_prueba/*.png
+codigo/salidas/interfaz/
+
+# Material del curso (rúbrica y enunciado): no se publica
+Evaluación_*.pdf
+Evaluacion_*.pdf
+*Rúbrica*.pdf
+*Enunciado*.pdf
+Proyecto Final - Planificación.pdf
+
+# LaTeX: archivos intermedios (main.tex y main.pdf sí se suben)
 *.aux
 *.log
 *.out
 *.toc
 *.synctex.gz
-.DS_Store
-# Material del curso (de la profesora): no se publica
-Evaluación_*.pdf
-Proyecto Final - Planificación.pdf
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.lof
+*.lot
+
 # Respaldo que deja experimentos/aplicar_calibracion.py
 codigo/portadas/config.py.antes_calibracion
+
+# Copias comprimidas (pesan GB) y carpetas de empaquetado
+*.zip
+subir_a_drive/

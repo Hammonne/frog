@@ -1,0 +1,148 @@
+{
+  "round": 1,
+  "axis": "P1",
+  "engine": "A",
+  "fallback_errors": [],
+  "fixed": {
+    "P2": "pastel",
+    "P3": "4-6",
+    "P4": "alegre",
+    "P5": "media",
+    "P6": "superior"
+  },
+  "scene": "a rabbit among flowers in a garden",
+  "instruction": "",
+  "latency_round_s": 9.996983674000148,
+  "variations": [
+    {
+      "id": "R1-V1",
+      "params": {
+        "P1": "acuarela",
+        "P2": "pastel",
+        "P3": "4-6",
+        "P4": "alegre",
+        "P5": "media",
+        "P6": "superior"
+      },
+      "prompt": "soft watercolor illustration, gentle washes of color, paper texture, children's picture book cover illustration, a rabbit among flowers in a garden, pastel colors, soft light palette, cheerful happy mood, bright light, simple friendly scene, few elements, empty sky at the top, copy space at the top",
+      "negative_prompt": "text, letters, words, typography, watermark, signature, logo, scary, horror, violent, blood, gore, weapon, nsfw, nude, deformed, extra limbs, bad anatomy, lowres, blurry, jpeg artifacts",
+      "seed": 101,
+      "control_scale": 0.85,
+      "engine": "A",
+      "latency_s": 1.941,
+      "guardrails": {
+        "output": "ok",
+        "reasons": [],
+        "p_not_child_safe": 0.0019,
+        "regenerations": 0
+      },
+      "error": "",
+      "decision": null,
+      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V1.png"
+    },
+    {
+      "id": "R1-V2",
+      "params": {
+        "P1": "lapices",
+        "P2": "pastel",
+        "P3": "4-6",
+        "P4": "alegre",
+        "P5": "media",
+        "P6": "superior"
+      },
+      "prompt": "colored pencil and crayon illustration, visible strokes, children's picture book cover illustration, a rabbit among flowers in a garden, pastel colors, soft light palette, cheerful happy mood, bright light, simple friendly scene, few elements, empty sky at the top, copy space at the top",
+      "negative_prompt": "text, letters, words, typography, watermark, signature, logo, scary, horror, violent, blood, gore, weapon, nsfw, nude, deformed, extra limbs, bad anatomy, lowres, blurry, jpeg artifacts",
+      "seed": 202,
+      "control_scale": 0.85,
+      "engine": "A",
+      "latency_s": 1.941,
+      "guardrails": {
+        "output": "ok",
+        "reasons": [],
+        "p_not_child_safe": 0.0024,
+        "regenerations": 0
+      },
+      "error": "",
+      "decision": null,
+      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V2.png"
+    },
+    {
+      "id": "R1-V3",
+      "params": {
+        "P1": "collage",
+        "P2": "pastel",
+        "P3": "4-6",
+        "P4": "alegre",
+        "P5": "media",
+        "P6": "superior"
+      },
+      "prompt": "cut paper collage illustration, layered paper shapes, children's picture book cover illustration, a rabbit among flowers in a garden, pastel colors, soft light palette, cheerful happy mood, bright light, simple friendly scene, few elements, empty sky at the top, copy space at the top",
+      "negative_prompt": "text, letters, words, typography, watermark, signature, logo, scary, horror, violent, blood, gore, weapon, nsfw, nude, deformed, extra limbs, bad anatomy, lowres, blurry, jpeg artifacts",
+      "seed": 303,
+      "control_scale": 0.85,
+      "engine": "A",
+      "latency_s": 1.941,
+      "guardrails": {
+        "output": "ok",
+        "reasons": [],
+        "p_not_child_safe": 0.006,
+        "regenerations": 0
+      },
+      "error": "",
+      "decision": null,
+      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V3.png"
+    },
+    {
+      "id": "R1-V4",
+      "params": {
+        "P1": "vectorial",
+        "P2": "pastel",
+        "P3": "4-6",
+        "P4": "alegre",
+        "P5": "media",
+        "P6": "superior"
+      },
+      "prompt": "flat vector illustration, clean simple shapes, smooth colors, children's picture book cover illustration, a rabbit among flowers in a garden, pastel colors, soft light palette, cheerful happy mood, bright light, simple friendly scene, few elements, empty sky at the top, copy space at the top",
+      "negative_prompt": "text, letters, words, typography, watermark, signature, logo, scary, horror, violent, blood, gore, weapon, nsfw, nude, deformed, extra limbs, bad anatomy, lowres, blurry, jpeg artifacts",
+      "seed": 404,
+      "control_scale": 0.85,
+      "engine": "A",
+      "latency_s": 1.941,
+      "guardrails": {
+        "output": "ok",
+        "reasons": [],
+        "p_not_child_safe": 0.0048,
+        "regenerations": 0
+      },
+      "error": "",
+      "decision": null,
+      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V4.png"
+    },
+    {
+      "id": "R1-V5",
+      "params": {
+        "P1": "plastilina",
+        "P2": "pastel",
+        "P3": "4-6",
+        "P4": "alegre",
+        "P5": "media",
+        "P6": "superior"
+      },
+      "prompt": "clay 3D render, plasticine characters, soft studio light, children's picture book cover illustration, a rabbit among flowers in a garden, pastel colors, soft light palette, cheerful happy mood, bright light, simple friendly scene, few elements, empty sky at the top, copy space at the top",
+      "negative_prompt": "text, letters, words, typography, watermark, signature, logo, scary, horror, violent, blood, gore, weapon, nsfw, nude, deformed, extra limbs, bad anatomy, lowres, blurry, jpeg artifacts",
+      "seed": 505,
+      "control_scale": 0.85,
+      "engine": "A",
+      "latency_s": 1.941,
+      "guardrails": {
+        "output": "ok",
+        "reasons": [],
+        "p_not_child_safe": 0.0166,
+        "regenerations": 0
+      },
+      "error": "",
+      "decision": null,
+      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V5.png"
+    }
+  ]
+}

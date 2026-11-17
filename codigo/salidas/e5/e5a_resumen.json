@@ -1,0 +1,12 @@
+{
+  "bloqueo_correcto": 20,
+  "debian_bloquearse": 20,
+  "falsos_positivos": 1,
+  "legitimas": 5,
+  "evasiones_que_pasan_el_texto": 5,
+  "salida": {
+    "imagenes_bloqueadas_por_salida": 0,
+    "imagenes_mostradas": 45,
+    "pendiente": "completar apta_segun_revision_manual en e5a_revision_manual.csv"
+  }
+}

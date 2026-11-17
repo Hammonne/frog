@@ -1,14 +1,14 @@
-# Portadas infantiles generativas — código (etapas 1 a 3)
+# FROG — código
 
 Proyecto 2 de *Planificación y Toma de Decisiones en IA* (UTEC). Aquí está la
-implementación de la etapa 2 (datos) y de la etapa 3 (modelo generativo).
+implementación de datos, modelos generativos, agentes, planificador e interfaz.
 Los materiales de la etapa 1 (design thinking) están en `../docs/etapa1/`.
 
 ## Cómo correrlo
 
 **En Colab (recomendado, GPU T4):** la carpeta del equipo con código, datos y resultados está en
 [Google Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing). Agregarla a *Mi unidad* (clic derecho → *Organizar → Agregar acceso directo →
-Mi unidad*), abrir `codigo/notebooks/portadas_etapas_1_3.ipynb` con Google Colaboratory y ejecutar las celdas en orden.
+Mi unidad*), abrir `codigo/notebooks/app_frog.ipynb` (la aplicación) o `portadas_etapas_1_3.ipynb` (experimentos) con Google Colaboratory y ejecutar las celdas en orden. Sin Drive: `app_frog_sin_drive.ipynb` con un zip del código.
 
 **Pruebas en tu computadora (sin GPU):**
 ```bash
@@ -35,14 +35,25 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 | `portadas/motores/motor_b.py` | Motor B: SD-Turbo img2img sin control (nivel básico, gratuito) | 3 |
 | `portadas/motores/generar.py` | Ronda completa: motor con respaldo, guardrails, regeneración, registro | 3 |
 | `portadas/metricas/` | Color, bordes, CLIP, LPIPS, KID/FID | 3 |
+| `portadas/agentes/historia.py` | Agente de historia: personajes, objetos y lugar con LLM (T=0), verificador y respaldo | 5 |
+| `portadas/agentes/resumen.py` | Agente de resumen con validador determinista (IDs, categorías, motivos, plantilla de respaldo) | 5 |
+| `portadas/agentes/llm.py` | Carga de Qwen2.5-7B / Phi-3.5 en 4 bits | 5 |
+| `portadas/planificador.py` | Thompson por parámetro (solo los que varían), rondas 1–3, sesión | 5 |
+| `portadas/titulo.py` | Título determinista: fuente, zona y contraste WCAG | 5 |
+| `app/` | Interfaz Gradio: `interfaz.py` (pantallas), `flujo.py` (generar, rondas, resumen), `estilo.py` (CSS/HTML), `recursos.py`, `assets/`, `ejemplos/` (bocetos de prueba) | 4 |
 | `scripts/preparar_datos.py` | Corre toda la etapa 2 | 2 |
+| `scripts/recortar_recursos.py` | Recorta `../assets/recursos_visuales.png` en los recursos de `app/assets/` | 4 |
+| `scripts/crear_bocetos_ejemplo.py` | Genera los bocetos de prueba de `app/ejemplos/` | 4 |
+| `scripts/probar_agente_*.py` | Pruebas de los agentes con el LLM real (GPU) | 5 |
 | `scripts/demo_ronda.py` | Primer hito de la etapa 3: ronda de 5 portadas + lámina | 3 |
 | `experimentos/calibracion.py` | Barrido de fidelidad y pasos → valores para `config.FIDELIDAD` | 3 |
 | `experimentos/aplicar_calibracion.py` | Copia la propuesta de la calibración a `config.py` | 3 |
 | `experimentos/lora.py` | Experimento opcional con LoRA: revisa la ficha (licencia, SD 1.5, sin artista) y compara con la base | 3 |
 | `experimentos/e1_automatica.py` | Evaluación E1 (2 000 + 1 000 portadas), con reanudación | 3 |
 | `experimentos/tabla_resultados.py` | Tabla LaTeX de E1 (motor A frente a B) para la sección 7 | 3 |
-| `experimentos/e5_seguridad.py` | Evaluación E5 (adversariales y sesgo) | 3 |
+| `experimentos/e2_simulacion.py` | E2: Thompson frente a azar con usuarios simulados | 5 |
+| `experimentos/calibracion_b.py` | Calibración del motor B | 3 |
+| `experimentos/e5_seguridad.py` | Evaluación E5 (adversariales y sesgo) | 5 |
 
 ## Lo que usan las etapas 4 y 5
 
@@ -52,6 +63,14 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 - El agente de historia (etapa 5) entrega `{"personajes": [...], "objetos": [...], "lugar": ...}`
   en inglés; `escena_desde_elementos` lo convierte en la parte de escena del prompt.
 - Todo texto del usuario pasa por `guardrails.texto.filtrar_texto` antes de generar.
+
+## Resultados
+
+`salidas/` contiene los resultados ya generados: `calibracion/`, `e1/` (tablas y registro; las portadas `e1/img/` no se versionan), `e1_prueba/`, `e5/`, `lora/`, `eda/` y `demo*/`.
+Las sesiones de la interfaz se guardan en `salidas/interfaz/<fecha>/sesion.json` (no se versionan: llevan historias de quien probó).
+
+Lo que no cabe en GitHub (portadas de E1 y `datos/`) viaja en `frog_solo_drive_portadas_e1_y_datos.zip`, guardado
+en Drive: se descomprime dentro de la carpeta del repositorio y trae un `LEEME.txt` que dice qué es cada carpeta.
 
 ## Datos y licencias
 

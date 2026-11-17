@@ -13,7 +13,7 @@ import time
 from collections import defaultdict
 from typing import Dict, List
 
-from PIL import Image
+from PIL import Image, ImageFilter
 
 from .. import config
 from .base import MotorNoDisponible, Peticion, Resultado
@@ -24,10 +24,21 @@ def pasos_efectivos(pasos: int, strength: float) -> int:
     return max(1, int(pasos * strength))
 
 
+def preparar_inicial(lineas: Image.Image, suavizado: float = 0.0) -> Image.Image:
+    """Imagen de partida del img2img. Un trazo negro nítido sobre blanco casi no deja
+    margen para repintar con pocos pasos; un desenfoque leve le da al modelo "materia"
+    que reinterpretar sin perder la forma. `suavizado` = radio del desenfoque (0 = sin)."""
+    inicial = lineas.convert("RGB").resize((config.ANCHO, config.ALTO))
+    if suavizado > 0:
+        inicial = inicial.filter(ImageFilter.GaussianBlur(radius=suavizado))
+    return inicial
+
+
 class MotorB:
     nombre = "B"
 
-    def __init__(self, device: str = "cuda", pasos: int = config.PASOS_TURBO):
+    def __init__(self, device: str = "cuda", pasos: int = config.PASOS_TURBO,
+                 suavizado: float = config.SUAVIZADO_TURBO):
         try:
             import torch
             from diffusers import AutoPipelineForImage2Image
@@ -43,9 +54,10 @@ class MotorB:
         pipe.set_progress_bar_config(disable=True)
         self.pipe = pipe.to(device)
         self.pasos = pasos
+        self.suavizado = suavizado
 
     def generar(self, lineas: Image.Image, peticiones: List[Peticion], **_) -> List[Resultado]:
-        inicial = lineas.convert("RGB").resize((config.ANCHO, config.ALTO))
+        inicial = preparar_inicial(lineas, self.suavizado)
         grupos: Dict[float, List[Peticion]] = defaultdict(list)
         for p in peticiones:
             grupos[p.escala_control].append(p)
@@ -72,5 +84,6 @@ class MotorB:
                 resultados[p.id] = Resultado(p, img.resize((config.ANCHO, config.ALTO)), self.nombre, latencia,
                                              nsfw_sd=bool(f) if f is not None else None,
                                              extra={"modelo": config.MODELO_TURBO, "strength": strength,
-                                                    "pasos_efectivos": pasos_efectivos(self.pasos, strength)})
+                                                    "pasos_efectivos": pasos_efectivos(self.pasos, strength),
+                                                    "suavizado": self.suavizado})
         return [resultados[p.id] for p in peticiones]

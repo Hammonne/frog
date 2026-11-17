@@ -52,14 +52,14 @@ AMBIENTES = {
     "humor": "funny playful whimsical mood",
 }
 
-# P5 Fidelidad al boceto -> escala de ControlNet (motor A) y strength de img2img (motor B,
-# inverso: más fidelidad = menos ruido sobre el boceto).
+# P5 Fidelidad al boceto -> escala de ControlNet (motor A). En el motor B el strength es
+# constante (0.90): no hay punto intermedio fiable (ver PASOS_TURBO).
 FIDELIDAD = {
-    "muy_baja": {"controlnet": 0.5, "turbo": 0.90},
-    "baja": {"controlnet": 0.7, "turbo": 0.80},
-    "media": {"controlnet": 0.85, "turbo": 0.70},
-    "alta": {"controlnet": 1.0, "turbo": 0.60},
-    "muy_alta": {"controlnet": 1.2, "turbo": 0.50},
+    "muy_baja": {"controlnet": 0.60, "turbo": 0.90},
+    "baja": {"controlnet": 0.65, "turbo": 0.90},
+    "media": {"controlnet": 0.70, "turbo": 0.90},
+    "alta": {"controlnet": 0.75, "turbo": 0.90},
+    "muy_alta": {"controlnet": 0.80, "turbo": 0.90},
 }
 
 # P6 Zona del título: texto para el prompt y fracción de la altura reservada
@@ -109,9 +109,14 @@ CONTROLNETS = {
 MODELO_CLIP = "openai/clip-vit-base-patch32"
 # Motor B: SD-Turbo (Stability AI Community License; gratuito para uso académico).
 MODELO_TURBO = "stabilityai/sd-turbo"
-PASOS_TURBO = 4
+# Calibrado con experimentos/calibracion_b.py: SD-Turbo img2img no admite un punto
+# intermedio entre copiar el boceto y reemplazarlo, así que el motor B reinterpreta
+# libremente (strength 0.90, 10 pasos) y P5 (fidelidad) no aplica a este motor.
+PASOS_TURBO = 10
+# Radio del desenfoque del boceto de partida del motor B (0 = sin desenfoque).
+SUAVIZADO_TURBO = 0.0
 
-PASOS = 25
+PASOS = 20
 GUIA = 7.0
 SEMILLAS_RONDA_1 = [101, 202, 303, 404, 505]
 

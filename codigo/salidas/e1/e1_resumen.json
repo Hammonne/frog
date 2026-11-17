@@ -1,0 +1,46 @@
+{
+  "A": {
+    "n_imagenes": 2000,
+    "clipscore_medio": 0.7632860455805508,
+    "acierto_estilo_eje_estilo": 0.932,
+    "acierto_paleta_eje_paleta": 0.6966966966966966,
+    "recall_boceto_medio": 0.28294003058756934,
+    "elemento_principal_detectado": 0.9084542271135568,
+    "lpips_medio": 0.69773601945738,
+    "latencia_ronda_media_s": 7.79563644185751,
+    "latencia_ronda_p90_s": 9.644733297799576,
+    "bloqueadas": 1,
+    "frac_zona_titulo_ok": 0.9989994997498749,
+    "criterios": {
+      "estilo >= 70 %": true,
+      "paleta >= 80 %": false,
+      "elemento principal >= 80 %": true,
+      "latencia < 60 s (A)": true
+    },
+    "kid": 0.11348894238471985,
+    "kid_std": 0.008515559136867523,
+    "fid": 174.6575927734375
+  },
+  "B": {
+    "n_imagenes": 1000,
+    "clipscore_medio": 0.48802968005047126,
+    "acierto_estilo_eje_estilo": 0.20109439124487005,
+    "acierto_paleta_eje_paleta": 0.8377289377289378,
+    "recall_boceto_medio": 0.9772951336982812,
+    "elemento_principal_detectado": 0.896032831737346,
+    "lpips_medio": 0.06103593805535932,
+    "latencia_ronda_media_s": 1.602697335860048,
+    "latencia_ronda_p90_s": 3.133004204700228,
+    "bloqueadas": 269,
+    "frac_zona_titulo_ok": 1.0,
+    "criterios": {
+      "estilo >= 70 %": false,
+      "paleta >= 80 %": true,
+      "elemento principal >= 80 %": true,
+      "latencia < 60 s (A)": true
+    },
+    "kid": 0.2580257058143616,
+    "kid_std": 0.0170403104275465,
+    "fid": 300.71734619140625
+  }
+}

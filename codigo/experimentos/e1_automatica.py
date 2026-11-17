@@ -182,7 +182,7 @@ def main():
     salida = Path(args.salida)
     (salida / "img").mkdir(parents=True, exist_ok=True)
     d2 = Path(args.d2)
-    pares = cargar_pares(d2, Path(args.d4), Path(args.elementos) if args.elementos else None)[:args.pares]
+    pares = cargar_pares(d2, Path(args.d4), Path(args.elementos) if args.elementos else None)[:max(args.pares, args.pares_b)]
     for p in pares:
         p["_ruta_boceto"] = d2 / p["boceto"]["archivo"]
 
@@ -200,7 +200,7 @@ def main():
         from portadas.motores.motor_a import MotorA
         motor_a = MotorA()
         for eje in ("P1", "P2"):
-            f, r = correr(pares, motor_a, eje, salida / "img", clip, lp, revisor, hed,
+            f, r = correr(pares[:args.pares], motor_a, eje, salida / "img", clip, lp, revisor, hed,
                           progreso=salida / "progreso.jsonl")
             filas += f
             rondas += r

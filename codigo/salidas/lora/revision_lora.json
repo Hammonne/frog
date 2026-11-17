@@ -1,0 +1,9 @@
+{
+  "repo": "alvdansen/dimension-w-sd15",
+  "ok": true,
+  "motivos": [],
+  "licencia": "creativeml-openrail-m",
+  "base": "runwayml/stable-diffusion-v1-5",
+  "datos_entrenamiento_documentados": false,
+  "aviso": "La ficha no documenta los datos de entrenamiento: reportarlo como limitación."
+}

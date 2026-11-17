@@ -295,9 +295,9 @@ def test_aplicar_calibracion_reemplaza_valores():
     propuesta = {"pasos": 20, "fidelidad": {"muy_baja": 0.4, "baja": 0.55, "media": 0.7,
                                             "alta": 0.85, "muy_alta": 1.0}}
     nuevo = aplicar(texto, propuesta)
-    assert '"media": {"controlnet": 0.70, "turbo": 0.70}' in nuevo
+    assert '"media": {"controlnet": 0.70, "turbo": 0.90}' in nuevo
     assert "\nPASOS = 20" in nuevo
-    assert "PASOS_TURBO = 4" in nuevo  # no se toca
+    assert f"PASOS_TURBO = {config.PASOS_TURBO}" in nuevo  # no se toca
 
 
 def test_revision_lora():
@@ -320,3 +320,25 @@ def test_revision_lora():
               "lpips_vs_base": 0.5, "latencia_s": 2.2, "nsfw_sd": False}]
     r = resumir(filas)
     assert "lpips_vs_base" not in r["0.0"] and r["1.0"]["lpips_vs_base"] == 0.5
+
+
+def test_motor_b_preparar_inicial_suaviza_sin_cambiar_tamano():
+    import numpy as np
+    from PIL import Image
+    from portadas.motores.motor_b import preparar_inicial
+    lineas = Image.fromarray(np.where(np.eye(64, dtype=bool), 0, 255).astype("uint8"))
+    nitido = preparar_inicial(lineas, 0.0)
+    suave = preparar_inicial(lineas, 2.0)
+    assert nitido.size == suave.size == (config.ANCHO, config.ALTO)
+    assert np.asarray(suave).std() < np.asarray(nitido).std()      # menos contraste
+
+
+def test_calibracion_b_elige_la_mas_fiel_que_cumple():
+    from experimentos.calibracion_b import elegir_mejor
+    res = {
+        (0.8, 4, 0.0): {"recall": 0.9, "acierto_estilo": 0.2, "bloqueo": 0.3, "latencia_s": 1},
+        (0.9, 6, 2.0): {"recall": 0.4, "acierto_estilo": 0.8, "bloqueo": 0.0, "latencia_s": 2},
+        (0.95, 6, 2.0): {"recall": 0.35, "acierto_estilo": 0.9, "bloqueo": 0.0, "latencia_s": 2},
+    }
+    assert elegir_mejor(res) == (0.9, 6, 2.0)
+    assert elegir_mejor({k: {**v, "acierto_estilo": 0.1} for k, v in res.items()}) is None

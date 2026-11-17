@@ -1,0 +1,13 @@
+{
+  "thompson": {
+    "ronda_1": 0.353,
+    "ronda_2": 0.349,
+    "ronda_3": 0.43
+  },
+  "aleatorio": {
+    "ronda_1": 0.353,
+    "ronda_2": 0.347,
+    "ronda_3": 0.348
+  },
+  "usuarios": 500
+}

@@ -35,9 +35,9 @@ modelos abiertos de Hugging Face en Google Colab, sin APIs de pago.
 |---|---|
 | 1. Problema y diseño (design thinking) | Informe y materiales de entrevista listos; faltan las entrevistas |
 | 2. Datos | Listo: datos, análisis exploratorio, preprocesamiento y guardrails de entrada |
-| 3. Modelo generativo | Código listo y probado en CPU; falta correrlo en GPU |
-| 4. Interfaz | Por hacer |
-| 5. Agentes y evaluación | Por hacer |
+| 3. Modelo generativo | Dos motores corridos en GPU (E1 automático con CLIP) |
+| 4. Interfaz | Aplicación Gradio de cinco pantallas, probada en Colab |
+| 5. Agentes y evaluación | Agentes de historia y resumen con validador, planificador con rondas 2–3 y simulación E2 listos; faltan E5 (seguridad), anotaciones manuales y el trabajo con usuarios |
 
 ## Empezar
 
@@ -46,21 +46,25 @@ python3 -m venv .venv && .venv/bin/pip install -r codigo/requirements-local.txt
 cd codigo && ../.venv/bin/python -m pytest -q tests      # pruebas en CPU
 ```
 
-Para generar portadas se usa, desde la [carpeta de Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing), el cuaderno de Colab
-[`codigo/notebooks/portadas_etapas_1_3.ipynb`](codigo/notebooks/portadas_etapas_1_3.ipynb) con GPU.
+Para generar portadas se usa, desde la [carpeta de Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing), la aplicación con el cuaderno de Colab
+[`codigo/notebooks/app_frog.ipynb`](codigo/notebooks/app_frog.ipynb) (GPU L4 o T4); existe una variante sin Drive,
+[`app_frog_sin_drive.ipynb`](codigo/notebooks/app_frog_sin_drive.ipynb), que usa un zip. Los experimentos están en
+[`portadas_etapas_1_3.ipynb`](codigo/notebooks/portadas_etapas_1_3.ipynb).
 Instrucciones completas en [`codigo/README.md`](codigo/README.md).
 
 ## Repositorio
 
 | Ruta | Contenido |
 |---|---|
-| [`codigo/`](codigo/) | Implementación en Python (paquete `portadas`), scripts, experimentos, pruebas y cuaderno |
+| [`codigo/`](codigo/) | Implementación en Python: paquete `portadas` (motores, agentes, planificador), `app/` (interfaz Gradio), scripts, experimentos, pruebas y cuadernos |
+| [`assets/`](assets/) | Logo y hoja de recursos visuales de la que se recortan los de la interfaz |
 | [`docs/etapa1/`](docs/etapa1/) | Guía de entrevistas, consentimiento, ideación y el [mapa de empatía y lienzo de propuesta de valor](docs/etapa1/mapa_empatia_y_propuesta_de_valor.pdf) (PDF) |
-| [`main.tex`](main.tex) | Informe en LaTeX |
+| [`codigo/salidas/`](codigo/salidas/) | Resultados de los experimentos (CSV, JSON y láminas) |
+| [`main.tex`](main.tex) / [`main.pdf`](main.pdf) | Informe en LaTeX y su PDF (máximo 10 páginas) |
 
 ## Datos y licencias
 
-Los datos no están en el repositorio. El equipo los tiene en esta **[carpeta de Google Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing)**
+Los **resultados** de los experimentos (calibración, E1, E5, LoRA, EDA, demos) sí están en [`codigo/salidas/`](codigo/salidas/), salvo las 2 730 portadas de E1 (1,2 GB), que no caben en GitHub y están en Drive dentro de `frog_solo_drive_portadas_e1_y_datos.zip` (también se regeneran con `experimentos/e1_automatica.py`). Los **datos** no están en el repositorio. El equipo los tiene en esta **[carpeta de Google Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing)**
 (acceso restringido al equipo), junto con el código y los resultados, lista para correr el cuaderno en Colab.
 También se pueden volver a descargar con `python -m scripts.preparar_datos`.
 

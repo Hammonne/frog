@@ -57,7 +57,7 @@ Andrea Coa \quad Nayeli Guzman \quad Maria Surco \quad Bihonda Epiquien \quad Ji
 \end{center}
 \vspace{-2pt}
 \begin{center}\begin{minipage}{0.92\textwidth}\small
-\textbf{Resumen.} Este informe presenta el plan de un sistema que, a partir de un boceto cargado o dibujado por el usuario y de una historia breve que el usuario cuenta, genera exactamente cinco propuestas de portada para un libro infantil. Un agente de historia extrae de la narración los personajes, objetos, lugar y tono (``un conejo que ama las flores'' se convierte en un conejo entre flores) y propone valores para los parámetros, que el usuario confirma. El usuario ajusta parámetros predefinidos (estilo de ilustración, paleta, rango de edad, ambiente, fidelidad al boceto y zona del título) y elige cuál de ellos varía entre las cinco propuestas. Las portadas se generan con dos motores: Stable Diffusion~1.5 con ControlNet (nivel intermedio) y SD-Turbo preentrenado en modo img2img (nivel básico) como respaldo y punto de comparación, ambos gratuitos y ejecutados en Google Colab. Un agente tipográfico elige y acomoda la tipografía del título a partir de un catálogo de fuentes abiertas, el usuario puede cambiarla después, y un renderizador determinista la dibuja para que el título siempre sea correcto y legible. El usuario acepta o rechaza cada propuesta; un planificador basado en muestreo de Thompson usa esas decisiones para proponer la siguiente ronda (máximo tres). Las decisiones se registran en JSON y dos LLM abiertos ejecutados en local (Qwen2.5 y Phi-3.5) redactan resúmenes que un validador determinista contrasta con el registro. Se definen a priori objetivos, restricciones, alcance, métricas, guardrails éticos, plan de evaluación y cronograma.
+\textbf{Resumen.} Este informe presenta el plan de FROG (\emph{Friendly Rounds Of Generation}, rondas amigables de generación), un sistema que, a partir de un boceto cargado o dibujado por el usuario y de una historia breve que el usuario cuenta, genera exactamente cinco propuestas de portada para un libro infantil. Un agente de historia extrae de la narración los personajes, objetos, lugar y tono (``un conejo que ama las flores'' se convierte en un conejo entre flores) y propone valores para los parámetros, que el usuario confirma. El usuario ajusta parámetros predefinidos (estilo de ilustración, paleta, rango de edad, ambiente, fidelidad al boceto y zona del título) y elige cuál de ellos varía entre las cinco propuestas. Las portadas se generan con dos motores: Stable Diffusion~1.5 con ControlNet (nivel intermedio) y SD-Turbo preentrenado en modo img2img (nivel básico) como respaldo y punto de comparación, ambos gratuitos y ejecutados en Google Colab. Un agente tipográfico elige y acomoda la tipografía del título a partir de un catálogo de fuentes abiertas, el usuario puede cambiarla después, y un renderizador determinista la dibuja para que el título siempre sea correcto y legible. El usuario acepta o rechaza cada propuesta; un planificador basado en muestreo de Thompson usa esas decisiones para proponer la siguiente ronda (máximo tres). Las decisiones se registran en JSON y dos LLM abiertos ejecutados en local (Qwen2.5 y Phi-3.5) redactan resúmenes que un validador determinista contrasta con el registro. Se definen a priori objetivos, restricciones, alcance, métricas, guardrails éticos, plan de evaluación y cronograma.
 \end{minipage}\end{center}
 \vspace{4pt}
 }]
@@ -66,20 +66,18 @@ Andrea Coa \quad Nayeli Guzman \quad Maria Surco \quad Bihonda Epiquien \quad Ji
 \section{Contexto y descripción del problema}
 La portada es el primer contacto entre un libro infantil y su lector: es un \emph{paratexto} que anuncia el tono, el género y la edad a la que se dirige la obra antes de que se lea una sola página \citep{genette1997,nikolajeva2001}. En el libro álbum, además, imagen y texto se construyen juntos, por lo que la ilustración de portada condiciona cómo se leerá el título \citep{nikolajeva2001}. Que las portadas comunican información visual del contenido lo muestra también que una red convolucional puede predecir el género de un libro solo a partir de su portada \citep{iwana2016}.
 
-\textbf{Caso de uso.} Una autora independiente, un docente o un estudiante escribe un cuento infantil (autopublicación, proyecto escolar o concurso). Tiene la historia, por ejemplo ``un conejo que ama las flores y las cuida durante el invierno'', y una idea visual en forma de boceto, pero no cuenta con un ilustrador ni con conocimientos de diseño. Quiere que la portada cuente lo mismo que su historia. Necesita \emph{pocas} propuestas comparables entre sí, entender qué cambia de una a otra y quedarse con un concepto de portada que luego puede refinar o entregar a un ilustrador. Este caso de uso es un supuesto de diseño que se validará en el estudio con usuarios (Sección~\ref{sec:eval}).
+\textbf{Caso de uso.} Una autora independiente, un docente o un estudiante escribe un cuento infantil (autopublicación, proyecto escolar o concurso). Tiene la historia, por ejemplo ``un conejo que ama las flores y las cuida durante el invierno'', y una idea visual en forma de boceto, pero no cuenta con un ilustrador ni con conocimientos de diseño. Quiere que la portada cuente lo mismo que su historia. Necesita \emph{pocas} propuestas comparables entre sí, entender qué cambia de una a otra y quedarse con un concepto de portada que luego puede refinar o entregar a un ilustrador. Este caso de uso es un supuesto de diseño.
 
-\textbf{Por qué se acota a portadas infantiles.} La versión anterior del proyecto trabajaba con retratos genéricos; acotar el dominio a portadas de libros infantiles permite (i) definir parámetros con significado para el usuario (estilo, paleta, edad), (ii) usar un dataset de referencia del mismo dominio y (iii) concretar los riesgos éticos (contenido apto para niños, imitación de estilos de ilustradores y personajes protegidos).
+\textbf{Por qué se acota a portadas infantiles.} Acotar el dominio a portadas de libros infantiles permite (i) definir parámetros con significado para el usuario (estilo, paleta, edad), (ii) usar un dataset de referencia del mismo dominio y (iii) concretar los riesgos éticos (contenido apto para niños, imitación de estilos de ilustradores y personajes protegidos).
 
-\textbf{El problema como toma de decisiones.} Los modelos de difusión \citep{ho2020,rombach2022} producen muchas imágenes en segundos, pero esa abundancia traslada el trabajo de elegir al usuario. Planteamos el problema como \emph{toma de decisiones asistida e iterativa}: el sistema propone un conjunto acotado de cinco alternativas, el usuario decide sobre cada una y el sistema usa esas decisiones para planificar la ronda siguiente, en la línea de la computación evolutiva interactiva, donde la evaluación subjetiva humana guía la búsqueda \citep{takagi2001,secretan2008}, y del aprendizaje automático con humano en el ciclo \citep{mosqueira2023}. Esto plantea cinco dificultades:
+\textbf{El problema como toma de decisiones.} Los modelos de difusión \citep{ho2020,rombach2022} producen muchas imágenes en segundos, pero esa abundancia traslada el trabajo de elegir al usuario. El problema se puede plantear como \emph{toma de decisiones asistida e iterativa}: elegir entre pocas alternativas y refinar según lo elegido, en la línea de la computación evolutiva interactiva, donde la evaluación subjetiva humana guía la búsqueda \citep{takagi2001,secretan2008}, y del aprendizaje automático con humano en el ciclo \citep{mosqueira2023}. Esto plantea cinco dificultades:
 \begin{enumerate}
-\item \textbf{Control:} cada propuesta debe respetar el boceto y la historia, y cambiar solo los parámetros indicados, para que las opciones sean comparables.
+\item \textbf{Control:} las propuestas deben respetar el boceto y la historia y diferir entre sí de forma comparable.
 \item \textbf{De la historia a la imagen:} hay que traducir una narración libre en elementos visuales concretos sin inventar lo que la historia no dice, el mismo riesgo de infidelidad que en los resúmenes \citep{maynez2020}.
 \item \textbf{Texto en la imagen:} los modelos de difusión generan texto ilegible o con errores \citep{chen2023textdiffuser}, y una portada necesita un título correcto, legible y con una tipografía acorde al libro.
-\item \textbf{Trazabilidad y planificación:} las decisiones deben registrarse y usarse para que cada ronda refleje lo que el usuario aceptó y rechazó, sin cansarlo con demasiadas iteraciones \citep{takagi2001}.
-\item \textbf{Explicación fiel:} un LLM que resume puede omitir, inventar o invertir decisiones \citep{maynez2020}, por lo que el resumen debe contrastarse con el registro.
+\item \textbf{Trazabilidad y planificación:} las decisiones del usuario deben registrarse y reflejarse en cada ronda sin cansarlo con demasiadas iteraciones \citep{takagi2001}.
+\item \textbf{Explicación fiel:} un LLM que resume puede omitir, inventar o invertir decisiones \citep{maynez2020}, y su resumen debe poder verificarse.
 \end{enumerate}
-La interacción sigue pautas de interacción humano--IA \citep{amershi2019}: mostrar qué cambia cada opción, permitir corregir decisiones y explicar el comportamiento del sistema.
-
 \subsection{Definición del problema con design thinking}\label{sec:dt}
 Para que el problema parta de las personas y no de la tecnología, la etapa inicial sigue las cinco fases del design thinking: empatizar, definir, idear, prototipar y testear \citep{brown2008,dschool2010}. La Tabla~\ref{tab:dt} resume qué se hace en cada fase y qué produce.
 
@@ -98,7 +96,7 @@ Idear & Lluvia de ideas del equipo y matriz impacto--esfuerzo para elegir qué e
 \filasep
 Prototipar & Prototipo en papel de la interfaz y un cuaderno de Colab que genera una ronda con un boceto & Prototipos\\
 \filasep
-Testear & Prueba piloto con 2 usuarios (semana 3) y estudio E4 con al menos 8 (Sección~\ref{sec:eval}) & Ajustes al diseño\\
+Testear & Prueba piloto con 2 usuarios (semana 3) y estudio E4 con 10 participantes & Ajustes al diseño\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -133,28 +131,24 @@ Ganancias & Una portada que se parezca a su cuento, a partir de su dibujo, grati
 
 \textbf{Pregunta guía.} \emph{¿Cómo podríamos} ayudar a quien escribe un cuento infantil a convertir su boceto y su historia en una portada que reconozca como suya, decidiendo entre pocas opciones claras y entendiendo por qué el sistema le propone cada una?
 
-\textbf{De la fase de ideación al alcance.} De las ideas evaluadas, entraron al alcance las de mayor impacto y esfuerzo razonable: partir del boceto, usar la historia, ofrecer parámetros con nombres comprensibles, componer el título aparte y aprender de las decisiones entre rondas. Quedaron fuera, por esfuerzo alto o por salir del enunciado, generar sin boceto, procesar libros completos, diseñar contraportada y lomo, y editar regiones de la imagen con pincel. Cada decisión de diseño de la Sección~\ref{sec:arq} responde a una de estas necesidades.
-
+\textbf{De la fase de ideación al alcance.} De las ideas evaluadas, entraron al alcance las de mayor impacto y esfuerzo razonable: partir del boceto, usar la historia, ofrecer parámetros con nombres comprensibles, componer el título aparte y aprender de las decisiones entre rondas. Quedaron fuera, por esfuerzo alto o por salir del enunciado, generar sin boceto, procesar libros completos, diseñar contraportada y lomo, y editar regiones de la imagen con pincel.
 % =====================================================================
 \section{Objetivos}
 \subsection{Objetivo general}
-Diseñar, implementar y evaluar un sistema generativo interactivo que, a partir de un boceto y una historia breve proporcionados por el usuario, produzca exactamente cinco propuestas de portada para un libro infantil controladas por parámetros ajustables, registre de forma estructurada su aceptación o rechazo, use esas decisiones para planificar las rondas siguientes y genere un resumen textual verificable.
+Desarrollar un sistema generativo interactivo que proponga portadas para libros infantiles a partir de un boceto y una historia, y que incorpore las decisiones del usuario en cada ronda.
 
 \subsection{Objetivos específicos}
 \begin{enumerate}
 \item \textbf{Datos:} analizar un dataset de portadas infantiles reales para obtener rangos de referencia (color, brillo, densidad visual, zona del título) y preparar un conjunto de bocetos de prueba.
-\item \textbf{Generación:} implementar dos motores, SD~1.5 con ControlNet (nivel intermedio) y SD-Turbo en modo img2img (nivel básico), que traduzcan los mismos parámetros a cinco propuestas, y calibrar la fidelidad al boceto.
-\item \textbf{Historia:} implementar un agente que extraiga de la historia los elementos visuales y proponga parámetros, con verificación de que cada elemento aparece en el texto y confirmación del usuario.
-\item \textbf{Tipografía:} implementar un agente tipográfico que elija fuente y disposición del título dentro de límites de legibilidad, un renderizador determinista que la aplique y controles para que el usuario la cambie.
-\item \textbf{Interacción y planificación:} construir una interfaz para aceptar o rechazar cada propuesta indicando el motivo, y un planificador que actualice las preferencias y proponga la siguiente ronda.
-\item \textbf{Explicación:} integrar dos LLM que resuman las decisiones (incluidos los cambios de tipografía) y un validador determinista que contraste cada resumen con el registro.
-\item \textbf{Evaluación:} medir calidad, adherencia a los parámetros, diversidad, legibilidad, seguridad, coherencia del resumen, efecto del planificador y usabilidad.
-\item \textbf{Ética:} implementar guardrails para contenido apto para niños, protección de menores, imitación de estilos y sesgos, y reflexionar sobre su impacto.
+\item \textbf{Generación:} implementar dos motores (SD~1.5 con ControlNet, nivel intermedio, y SD-Turbo en modo img2img, nivel básico) que produzcan cinco propuestas controladas por parámetros, con un agente que extraiga los elementos de la historia y otro que componga el título.
+\item \textbf{Interacción y planificación:} construir una interfaz para aceptar o rechazar cada propuesta indicando el motivo, y un planificador que use esas decisiones en la ronda siguiente.
+\item \textbf{Explicación:} integrar dos LLM que resuman las decisiones, con un validador que contraste cada resumen con el registro.
+\item \textbf{Evaluación y ética:} medir la calidad, la seguridad, el efecto del planificador y la usabilidad, e implementar guardrails para contenido apto para niños.
 \end{enumerate}
 
 % =====================================================================
 \section{Restricciones}
-\textbf{De cómputo.} El motor local debe ejecutarse en una GPU de 16\,GB (NVIDIA T4 de Google Colab). La meta de diseño es generar una ronda de cinco propuestas en menos de 60\,s. El proyecto no tiene presupuesto: todos los modelos son abiertos y se ejecutan en Colab, sin APIs de pago. Con la versión gratuita de Colab, el tiempo de GPU por día es limitado, por lo que los experimentos largos guardan su avance y se reanudan.
+\textbf{De cómputo.} El motor local debe ejecutarse en una GPU de 16\,GB (NVIDIA T4 de Google Colab). La meta de diseño es generar una ronda de cinco propuestas en menos de 60\,s. Todos los modelos son de código abierto y se ejecutan en Colab, sin APIs externas.
 
 \textbf{Del enunciado.} Exactamente cinco variaciones por imagen de entrada; dos de los tres niveles de implementación; una interfaz gráfica que registre aceptación o rechazo; un agente LLM que indique explícitamente qué se aceptó y qué se rechazó; y un informe de máximo diez páginas.
 
@@ -164,7 +158,7 @@ Diseñar, implementar y evaluar un sistema generativo interactivo que, a partir 
 
 % =====================================================================
 \section{Alcance}
-\textbf{Incluye:} un boceto, una historia breve y un título por sesión; extracción de elementos de la historia; seis parámetros predefinidos con cinco valores cada uno, además de una instrucción libre filtrada; tipografía elegida por un agente y editable por el usuario; cinco propuestas por ronda y hasta tres rondas; dos motores de generación; composición determinista del título; registro de decisiones; resumen verificado con dos LLM; guardrails de entrada y de salida; evaluación automática sobre bocetos de prueba, una simulación del planificador y un estudio de usabilidad pequeño.
+\textbf{Incluye:} un boceto, una historia breve y un título por sesión; extracción de elementos de la historia; cinco parámetros predefinidos con cinco valores cada uno (más la zona del título como ajuste fijo), además de una instrucción libre filtrada; tipografía elegida por un agente y editable por el usuario; cinco propuestas por ronda y hasta tres rondas; dos motores de generación; composición determinista del título; registro de decisiones; resumen verificado con dos LLM; guardrails de entrada y de salida; evaluación automática sobre bocetos de prueba, una simulación del planificador y un estudio de usabilidad pequeño.
 
 \textbf{No incluye:} contraportada, lomo ni archivo de imprenta (sangrado, CMYK); ilustraciones interiores; procesar libros completos (solo una historia o sinopsis breve); generar sin boceto; entrenamiento o ajuste fino; aprendizaje de preferencias entre sesiones; uso comercial; ni garantías sobre la protección por derechos de autor de la portada resultante \citep{usco2025}. El resultado se presenta como \emph{concepto de portada}, no como arte final.
 
@@ -223,7 +217,7 @@ El usuario puede pedir otra ronda (como máximo tres), y el resumen se habilita 
 \end{figure*}
 
 \subsection{Parámetros ajustables y eje de variación}
-El agente de historia propone valores iniciales para la edad, el ambiente y la escena; el usuario los confirma o corrige, fija el resto de los seis parámetros predefinidos (Tabla~\ref{tab:param}) y elige uno como \textbf{eje de variación}: las cinco propuestas toman los cinco valores de ese parámetro y comparten el resto. Así cada propuesta difiere en un atributo conocido, lo que facilita compararlas y atribuir la decisión del usuario a ese atributo. Se ofrecen tres modos:
+El agente de historia propone valores iniciales para la edad, el ambiente y la escena; el usuario los confirma o corrige, fija el resto de los parámetros (Tabla~\ref{tab:param}) y elige uno como \textbf{eje de variación}: las cinco propuestas toman los cinco valores de ese parámetro y comparten el resto. Así cada propuesta difiere en un atributo conocido, lo que facilita compararlas y atribuir la decisión del usuario a ese atributo. Se ofrecen tres modos:
 \begin{itemize}
 \item \textbf{Paquete de exploración} (por defecto): el eje es el estilo, para ver primero cinco estilos distintos.
 \item \textbf{Individual:} el usuario elige el eje (p.\,ej., cinco paletas con un estilo ya elegido).
@@ -245,9 +239,9 @@ Edad & 0--3 (formas muy simples, alto contraste, un solo personaje); 4--6; 7--9 
 \filasep
 Ambiente & alegre; aventura; calma o para dormir; misterio suave; humor\\
 \filasep
-Fidelidad & muy baja a muy alta: escala de ControlNet 0.5--1.2 (motor A) y \textit{control strength} 0.4--0.9 (motor B)\\
+Fidelidad & muy baja a muy alta: escala de ControlNet 0.6--0.8 (motor A); no aplica al motor~B\\
 \filasep
-Zona del título & superior; inferior; superior e inferior (título y autor); centrada sobre banda; sin título\\
+Zona del título & ajuste fijo (superior por defecto; el usuario puede cambiarla, pero no se varía entre propuestas): superior; inferior; superior e inferior; centrada; sin título\\
 \filasep
 Tipografía & no la elige el usuario al inicio: la propone el agente tipográfico (fuente del catálogo, curva, onda, inclinación de letras, contorno, color) y el usuario puede cambiarla en cada tarjeta\\
 \bottomrule
@@ -257,26 +251,26 @@ Tipografía & no la elige el usuario al inicio: la propone el agente tipográfic
 La relación entre paleta y ambiente se apoya, como hipótesis de diseño, en que los niños asocian los colores brillantes con emociones positivas y los oscuros con negativas \citep{boyatzis1994}; ese estudio se hizo con 60 niños de 5 y 6 años, por lo que no se asume que el efecto se generalice y solo se usa para elegir valores por defecto. Las reglas por edad son supuestos de diseño que se contrastarán con los participantes.
 
 \subsection{Decisiones técnicas}
-\textbf{Dos motores (niveles intermedio y básico).} El enunciado pide implementar dos de los tres niveles. El \textbf{motor~A} (intermedio, principal) usa un modelo de difusión latente preentrenado \citep{rombach2022} condicionado con ControlNet \citep{zhang2023}, que fija la estructura del boceto y deja libres color, textura y estilo. El \textbf{motor~B} (básico) usa SD-Turbo, un modelo preentrenado destilado para generar en uno a cuatro pasos \citep{sauer2023}, en modo img2img: parte del mismo boceto y del mismo prompt, sin control estructural adicional. B sirve como respaldo rápido si el motor A se queda sin memoria y como línea base: al no tener ControlNet, permite medir cuánto aporta el control al respeto del boceto. El usuario puede elegir el motor en la interfaz. Se descarta el nivel avanzado (entrenar una GAN o un modelo propio) por el costo de cómputo y de datos.
+\textbf{Dos motores (niveles intermedio y básico).} El enunciado pide implementar dos de los tres niveles. El \textbf{motor~A} (intermedio, principal) usa un modelo de difusión latente preentrenado \citep{rombach2022} condicionado con ControlNet \citep{zhang2023}, que fija la estructura del boceto y deja libres color, textura y estilo. El \textbf{motor~B} (básico) usa SD-Turbo, un modelo preentrenado destilado para generar en uno a cuatro pasos \citep{sauer2023}, en modo img2img: parte del mismo boceto y del mismo prompt, sin control estructural adicional. Se considera nivel básico porque solo reutiliza un modelo preentrenado sin condicionarlo con módulos adicionales, a diferencia del motor~A. Ambos modelos se descargan de Hugging Face y se ejecutan en la GPU de la sesión de Colab; no se consume ninguna API externa. B sirve como respaldo rápido si el motor A se queda sin memoria y como línea base: al no tener ControlNet, permite medir cuánto aporta el control al respeto del boceto. El usuario puede elegir el motor en la interfaz. Se descarta el nivel avanzado (entrenar una GAN o un modelo propio) por el costo de cómputo y de datos.
 
 \textbf{Agente de historia.} El usuario cuenta su historia en un campo de texto (hasta 500 palabras). Un LLM con temperatura 0 la convierte en un JSON con personajes, objetos, lugar, momento del día, tono y edad sugerida; por ejemplo, ``un conejo que ama las flores'' da \lstinline[basicstyle=\ttfamily\footnotesize]|{"personajes":["conejo"],"objetos":["flores"],"lugar":"jardin"}|. Estos elementos forman la parte de escena del prompt y proponen la edad y el ambiente. Para no inventar lo que la historia no dice \citep{maynez2020}, un verificador comprueba que cada personaje y objeto aparezca en el texto (coincidencia de lemas o sinónimo de una lista corta) y marca los que no; la interfaz muestra la lista y el usuario la confirma o edita antes de generar. El agente no añade género, etnia ni rasgos físicos que la historia no mencione. Como un manuscrito inédito es información valiosa para su autor, la historia se procesa solo con modelos que corren en la misma sesión de Colab: el texto nunca se envía a un servicio externo.
 
 \textbf{Agente tipográfico y título fuera del modelo.} Como la difusión genera texto poco fiable \citep{chen2023textdiffuser}, el prompt negativo excluye texto y letras, y el título se añade después. El usuario no elige la fuente al inicio: un agente tipográfico la propone a partir de medidas calculadas sobre cada portada (espacio libre y colores dominantes de la zona del título), del estilo y ambiente elegidos, de la edad y de la longitud del título. Devuelve un JSON con valores de un espacio acotado: fuente de un catálogo de 4--5 familias con licencia SIL OFL (Andika, diseñada para lectores principiantes \citep{andika}, Fredoka y Baloo~2, entre otras; se verificará la licencia de cada una), tamaño, curva del arco, onda, inclinación por letra, contorno y color. Un renderizador determinista con Pillow aplica esos valores y los recorta a sus límites (p.\,ej., curva e inclinación máximas), de modo que el agente puede ``deformar'' el título de forma lúdica pero nunca escribir mal una letra. El color se ajusta para alcanzar un contraste de al menos 4.5:1 con el fondo, el criterio WCAG~2.1 para texto normal \citep{wcag21}; si no se logra, se añade una banda semitransparente. En cada tarjeta, el usuario puede cambiar fuente, curva, tamaño y color; el cambio solo vuelve a renderizar el título (no regenera la imagen) y queda registrado como retroalimentación. Si el agente falla o devuelve valores no válidos, se usa una disposición por defecto según la edad.
 
-\textbf{Planificación con muestreo de Thompson.} Para que las iteraciones reflejen las decisiones, cada valor $v$ de cada parámetro $p$ tiene una distribución $\mathrm{Beta}(\alpha_{p,v},\beta_{p,v})$, con $\alpha=\beta=1$ al inicio. Al cerrar una ronda:
+\textbf{Planificación con muestreo de Thompson.} Para que las iteraciones reflejen las decisiones, cada valor $v$ de cada parámetro $p$ tiene una distribución $\mathrm{Beta}(\alpha_{p,v},\beta_{p,v})$, con $\alpha=\beta=1$ al inicio. Sea $V$ el conjunto de parámetros que variaron entre las cinco propuestas de la ronda (un parámetro igual en las cinco no informa sobre la preferencia y no se actualiza). Al cerrar la ronda:
 \begin{equation}
 \begin{aligned}
-\text{aceptada } i &: \ \alpha_{p,v_i(p)} \mathrel{+}= 1 \quad \forall p,\\
-\text{rechazada } i &: \ \beta_{p,v_i(p)} \mathrel{+}= 1 \quad \forall p\in M_i,
+\text{aceptada } i &: \ \alpha_{p,v_i(p)} \mathrel{+}= 1 \quad \forall p\in V,\\
+\text{rechazada } i &: \ \beta_{p,v_i(p)} \mathrel{+}= 1 \quad \forall p\in M_i\cap V,
 \end{aligned}
 \end{equation}
-donde $M_i$ son los parámetros marcados como motivo del rechazo (\emph{estilo}, \emph{colores}, \emph{no apto para la edad}, \emph{ambiente}, \emph{se aleja del boceto}, \emph{espacio del título}). Si no se marca ninguno, se penaliza solo el eje de la ronda. En la ronda siguiente el usuario elige un nuevo eje; para cada una de las cinco propuestas, los demás parámetros no fijados se obtienen por muestreo de Thompson, es decir, tomando el valor con mayor muestra $\theta_{p,v}\sim\mathrm{Beta}(\alpha_{p,v},\beta_{p,v})$ \citep{russo2018,sutton2018}. Así se explota lo aceptado sin dejar de explorar. Las semillas cambian en cada ronda. El límite de tres rondas responde a la fatiga del usuario, una limitación conocida de la evaluación humana interactiva \citep{takagi2001}.
+donde $M_i$ son los parámetros marcados como motivo del rechazo (\emph{estilo}, \emph{colores}, \emph{no apto para la edad}, \emph{ambiente}, \emph{se aleja del boceto}). Si no queda ninguno (no se marcó motivo o este se refiere a un parámetro que no varió), se penaliza solo el eje de la ronda. En la ronda siguiente el usuario elige un nuevo eje; para cada una de las cinco propuestas, los demás parámetros no fijados se obtienen por muestreo de Thompson, es decir, tomando el valor con mayor muestra $\theta_{p,v}\sim\mathrm{Beta}(\alpha_{p,v},\beta_{p,v})$ \citep{russo2018,sutton2018}. Así se explota lo aceptado sin dejar de explorar. Las semillas cambian en cada ronda. El límite de tres rondas responde a la fatiga del usuario, una limitación conocida de la evaluación humana interactiva \citep{takagi2001}.
 
 % =====================================================================
 \section{Selección y preparación de datos}\label{sec:datos}
 Como los modelos son preentrenados, los datos no se usan para entrenar sino para (a) caracterizar el dominio, (b) simular entradas de usuario en la evaluación automática y (c) servir de distribución de referencia.
 
-\textbf{D1: portadas reales (referencia).} \emph{Book Cover Dataset} \citep{iwana2016}: el listado Book32 tiene 207\,572 libros de Amazon en 32 categorías, con enlace a la portada, título y autor; se usa la categoría \emph{Children's Books}, con 13\,605 libros. Se elige porque es un dataset académico de portadas con etiqueta de género. Las portadas tienen derechos de autor, por lo que se usan solo para estadísticas y como referencia del KID/FID, sin redistribuirlas ni usarlas para entrenar. Se tomó una muestra aleatoria de 2\,000 portadas; aunque los enlaces son de 2016, todas siguen disponibles tras actualizar el dominio de las imágenes.
+\textbf{D1: portadas reales (referencia).} \emph{Book Cover Dataset} \citep{iwana2016}: el listado Book32 tiene 207\,572 libros de Amazon en 32 categorías, con enlace a la portada, título y autor; se usa la categoría \emph{Children's Books}, con 13\,605 libros. Se elige porque es un dataset académico de portadas con etiqueta de género. Las portadas tienen derechos de autor, por lo que se usan solo para estadísticas y como referencia del KID, sin redistribuirlas ni usarlas para entrenar. Se tomó una muestra aleatoria de 2\,000 portadas; aunque los enlaces son de 2016, todas siguen disponibles tras actualizar el dominio de las imágenes.
 
 \textbf{D2: bocetos simulados (entrada).} \emph{Quick, Draw!} \citep{ha2018,quickdraw}: más de 50 millones de dibujos de trazos hechos en menos de 20\,s, publicados bajo CC BY 4.0. Se eligen 10 categorías propias de cuentos infantiles (gato, perro, conejo, oso, pez, pájaro, árbol, casa, sol y dragón) y 20 dibujos por categoría, $N=200$ entradas.
 
@@ -300,7 +294,7 @@ Si el usuario sube una foto en color de un dibujo, se ofrece además el modo img
 \subsection{Propiedad intelectual y licencias}\label{sec:pi}
 Cada recurso tiene dueño y condiciones de uso distintas, así que se revisó la licencia de cada uno antes de incluirlo (Tabla~\ref{tab:pi}). Se distinguen tres casos.
 
-\textbf{Datos con derechos reservados (D1).} Las portadas de Amazon son obras protegidas de sus ilustradores y editoriales; el dataset distribuye enlaces y metadatos, no una licencia sobre las imágenes. En el Perú, la Ley sobre el Derecho de Autor \citep{dl822} no tiene una cláusula general como el \emph{fair use} estadounidense, sino una lista de usos permitidos sin autorización, como la cita (art.~44). Por eso se adopta el uso más conservador: las portadas se descargan solo para calcular estadísticas y la referencia del KID/FID, no se muestran en el informe ni en la demo, no se redistribuyen y no se usan para entrenar.
+\textbf{Datos con derechos reservados (D1).} Las portadas de Amazon son obras protegidas de sus ilustradores y editoriales; el dataset distribuye enlaces y metadatos, no una licencia sobre las imágenes. En el Perú, la Ley sobre el Derecho de Autor \citep{dl822} no tiene una cláusula general como el \emph{fair use} estadounidense, sino una lista de usos permitidos sin autorización, como la cita (art.~44). Por eso se adopta el uso más conservador: las portadas se descargan solo para calcular estadísticas y la referencia del KID, no se muestran en el informe ni en la demo, no se redistribuyen y no se usan para entrenar.
 
 \textbf{Datos con licencia abierta (D2, D4, tipografías).} Quick, Draw! (CC BY 4.0) \citep{ccby4} obliga a citar la fuente. TinyStories (CDLA-Sharing-1.0) \citep{cdla} permite usar y modificar los datos, pero si se publican datos derivados deben compartirse con la misma licencia; aquí se usan sin modificar. Las tipografías OFL pueden incluirse en el software, pero no venderse por separado.
 
@@ -351,15 +345,15 @@ negativo: "text, letters, words, watermark, signature, scary, violent,
 \end{lstlisting}
 \caption{Plantilla de prompt y prompt negativo comunes a los dos motores.}\label{fig:prompt}
 \end{figure}
-\textbf{Experimento opcional con LoRA.} El enunciado sugiere explorar modelos de Hugging Face y Civitai. Se probará un adaptador LoRA \citep{hu2022} de ilustración infantil solo si su licencia permite el uso académico y no está entrenado para imitar a un artista con nombre; se comparará con el modelo base usando las métricas de la Tabla~\ref{tab:met}.
+\textbf{Experimento con LoRA.} El enunciado sugiere explorar modelos de Hugging Face y Civitai. Se probó el adaptador LoRA \citep{hu2022} \texttt{alvdansen/dimension-w-sd15}, cuya ficha indica licencia CreativeML OpenRAIL-M y base SD~1.5, sin nombrar a un artista, pero sin documentar sus datos de entrenamiento (una limitación que se reporta). Con 20 bocetos y escalas 0, 0.6 y 1.0, el CLIPScore sube de 0.72 a 0.74 y 0.76, pero el acierto de estilo baja de 95 a 75 y 45\,\%: el adaptador impone su propio estilo y pisa el parámetro que el usuario elige, así que no se incorpora al sistema.
 
-\textbf{Motor B.} \texttt{stabilityai/sd-turbo} con \texttt{AutoPipelineForImage2Image}, 4 pasos y sin guía (\texttt{guidance\_scale}~=~0, por lo que no usa el prompt negativo; los guardrails de salida compensan). La fidelidad se traduce en \texttt{strength}, de 0.9 (muy baja) a 0.5 (muy alta): más fidelidad significa menos ruido sobre el boceto. Se usa si el motor A se queda sin memoria o si el usuario lo elige; al ser mucho más rápido, se evalúa con los mismos 200 pares que el motor A.
+\textbf{Motor B.} \texttt{stabilityai/sd-turbo} con \texttt{AutoPipelineForImage2Image}, 10 pasos, \texttt{strength}~=~0.90 y sin guía (\texttt{guidance\_scale}~=~0, por lo que no usa el prompt negativo; los guardrails de salida compensan). Un barrido de \texttt{strength} (0.7--0.95) y de pasos (4--20) mostró que SD-Turbo no tiene un punto intermedio fiable: o copia el boceto o lo reemplaza. Por eso el motor B reinterpreta el dibujo con libertad (conserva la categoría, no la pose) y la fidelidad no se ajusta en este motor. Se usa si el motor A se queda sin memoria o si el usuario lo elige; al ser mucho más rápido, se evalúa con los mismos 200 pares que el motor A.
 
-\textbf{Calibración planificada.} Con 20 bocetos de D2 se hará un barrido de la escala de ControlNet $\in\{0.4,0.6,\dots,1.4\}$ y de los pasos $\in\{20,25,30\}$, midiendo la fidelidad al boceto, la adherencia al estilo y la latencia. La hipótesis es que una escala baja ignora el boceto y una alta produce portadas planas que solo calcan el trazo. Se elegirán los cinco valores de fidelidad en la zona en que ambas métricas son aceptables.
+\textbf{Calibración.} Con 20 bocetos de D2 se barrió la escala de ControlNet $\in\{0.4,0.6,\dots,1.4\}$ y los pasos $\in\{20,25,30\}$, midiendo la cobertura de los bordes del boceto (\emph{recall}) y el acierto de estilo. Con 20 pasos, el recall pasa de 0.15 (escala 0.4) a 0.25--0.26 entre 0.6 y 1.0 y vuelve a bajar a 0.19 en 1.4, mientras que el acierto de estilo se mantiene en 90--95\,\% hasta 0.8 y cae a 80--85\,\% desde 1.0. Los pasos 25 y 30 no mejoran el resultado, así que se usan 20 pasos y los cinco valores de fidelidad van de 0.60 a 0.80 en pasos de 0.05, la zona en que ambas métricas son buenas.
 
 % =====================================================================
 \section{Interfaz e interacción humano--IA}
-La interfaz se construye con \texttt{gradio.Blocks} \citep{abid2019}:
+La interacción sigue pautas de interacción humano--IA \citep{amershi2019}: mostrar qué cambia cada opción, permitir corregir decisiones y explicar el comportamiento del sistema. La interfaz se construye con \texttt{gradio.Blocks} \citep{abid2019}:
 \begin{enumerate}
 \item \textbf{Entrada:} subir una imagen o dibujar en un lienzo (\texttt{gr.Sketchpad}); contar la historia; escribir título, autor y, si se desea, una instrucción libre; declarar que el boceto es propio o que se cuenta con permiso (si lo dibujó un menor, con permiso de su tutor).
 \item \textbf{Escena:} lista editable de los elementos que el agente extrajo de la historia (los no encontrados en el texto aparecen marcados), que el usuario confirma.
@@ -395,7 +389,7 @@ El agente recibe el JSON de la sesión, no las imágenes, por lo que solo puede 
 (iv)~no añadir información ausente del registro; y
 (v)~devolver, además del texto, un bloque \lstinline[basicstyle=\ttfamily\footnotesize]|{"accepted":[...],"rejected":[...]}|.
 
-\textbf{Validador determinista.} Comprueba que los conjuntos declarados coincidan con los del registro, que cada ID aparezca en el texto en la categoría correcta y que todo valor de parámetro mencionado como preferido haya sido aceptado al menos una vez. Si hay discrepancia, se vuelve a pedir el resumen indicando el error (máximo dos reintentos) y, si persiste, se muestra un resumen por plantilla. El validador cubre IDs, categorías y parámetros, pero no la redacción interpretativa (p.\,ej., ``prefirió los colores cálidos''), que se evalúa por anotación manual.
+\textbf{Validador determinista.} Comprueba que los conjuntos declarados coincidan con los del registro, que cada ID aparezca en el texto en la categoría correcta, que los motivos y cambios de tipografía mencionados existan en el registro, que lo que se diga elegido al azar coincida con el bloque \texttt{planner} de esa ronda y que todo valor mencionado como preferido haya sido aceptado al menos una vez. Si hay discrepancia, se vuelve a pedir el resumen indicando el error (máximo dos reintentos) y, si persiste, se muestra un resumen por plantilla. El validador cubre IDs, categorías y parámetros, pero no la redacción interpretativa (p.\,ej., ``prefirió los colores cálidos''), que se evalúa por anotación manual.
 
 % =====================================================================
 \section{Métricas de éxito}
@@ -408,19 +402,15 @@ Las métricas se definen \emph{a priori} (Tabla~\ref{tab:met}). Los umbrales son
 \toprule
 \textbf{Dimensión} & \textbf{Métrica} & \textbf{Criterio propuesto} & \textbf{Para qué sirve y por qué ese criterio}\\
 \midrule
-Calidad visual & CLIPScore \citep{hessel2021} con el prompt; KID \citep{binkowski2018} y FID \citep{heusel2017} frente a D1 & Descriptivo, por motor y por estilo & Alineación imagen--texto y cercanía a portadas infantiles reales. Se reporta KID porque es menos sesgado que FID con muestras pequeñas.\\
+Calidad visual & CLIPScore \citep{hessel2021} con el prompt; KID \citep{binkowski2018} frente a D1 & Descriptivo, por motor y por estilo & Alineación imagen--texto y cercanía a portadas infantiles reales. Se usa KID porque es menos sesgado que FID con muestras pequeñas.\\
 \filasep
 Adherencia a parámetros & Estilo: clasificación \emph{zero-shot} con CLIP \citep{radford2021} entre los 5 estilos; paleta: tono, saturación y brillo dentro del rango de D1 & $\geq 70$\,\% de acierto en estilo; $\geq 80$\,\% dentro del rango de paleta & Verifica que cambiar un parámetro cambia lo que dice cambiar; sin esto, la decisión del usuario no puede atribuirse al parámetro.\\
 \filasep
 Fidelidad a la historia & Extracción: precisión y exhaustividad frente a las 30 historias anotadas de D4; imagen: detección \emph{zero-shot} con CLIP de cada personaje y objeto extraído & Precisión de extracción $\geq 90$\,\%; elemento principal detectado en $\geq 80$\,\% de las portadas & Comprueba que ``un conejo que ama las flores'' produce un conejo con flores y que el agente no inventa elementos.\\
 \filasep
-Fidelidad al boceto & F1 entre los bordes del boceto y los de la portada (HED, tolerancia 3\,px) & Se reporta frente a la escala de ControlNet; mínimo fijado en la calibración & Evita portadas que ignoran la idea del usuario o que solo calcan el trazo.\\
-\filasep
-Diversidad & LPIPS \citep{zhang2018} medio entre los 10 pares de cada ronda & Se reporta por eje & Evita cinco propuestas casi iguales; es alta en parte por construcción, así que se lee junto con la adherencia.\\
+Fidelidad al boceto (motor A) & F1 entre los bordes del boceto y los de la portada (HED, tolerancia 3\,px) & Se reporta frente a la escala de ControlNet; mínimo fijado en la calibración & Evita portadas que ignoran la idea del usuario o que solo calcan el trazo. No se exige al motor B, que reinterpreta el boceto.\\
 \filasep
 Legibilidad del título & Contraste WCAG \citep{wcag21}; tasa de error por carácter (CER) al leer el título renderizado con OCR Tesseract \citep{smith2007}; densidad de bordes en la zona del título & Contraste $\geq 4.5{:}1$ en el 100\,\% (por diseño); CER $\leq 5$\,\%; densidad $\leq$ percentil 75 de D1 & El OCR comprueba que las deformaciones del agente tipográfico siguen siendo legibles; la densidad mide si el modelo respetó el espacio pedido.\\
-\filasep
-Tipografía & Proporción de tarjetas en que el usuario cambia la fuente propuesta & Descriptivo & Una tasa alta indicaría que el agente tipográfico no elige bien la fuente.\\
 \filasep
 Seguridad & Bloqueos por guardrail; revisión manual de 30 prompts adversariales & 0 portadas no aptas mostradas al usuario & Comprueba los guardrails de la Sección~\ref{sec:etica}, no solo su existencia.\\
 \filasep
@@ -428,7 +418,7 @@ Explicabilidad & Aprobación del validador al primer intento, por LLM; fidelidad
 \filasep
 Planificación & Tasa de aceptación por ronda; aceptación de propuestas explotadas frente a exploradas; Thompson frente a aleatorio en simulación & Aceptación en ronda 2 $>$ ronda 1 en la simulación & Comprueba que las iteraciones responden a las decisiones del usuario.\\
 \filasep
-Usabilidad & SUS \citep{bangor2008,lewis2018}; tiempo por decisión & SUS $\geq 68$ \citep{sauro2011} con al menos 8 participantes & 68 es el promedio de referencia; con pocos participantes el resultado es descriptivo.\\
+Usabilidad & SUS \citep{bangor2008,lewis2018}; tiempo por decisión & SUS $\geq 68$ \citep{sauro2011} con 10 participantes & 68 es el promedio de referencia; con pocos participantes el resultado es descriptivo.\\
 \filasep
 Eficiencia & Latencia por ronda y por motor & $<60$\,s por ronda (motor A en T4) & Mide si el sistema es práctico para un uso interactivo.\\
 \bottomrule
@@ -437,9 +427,9 @@ Eficiencia & Latencia por ronda y por motor & $<60$\,s por ronda (motor A en T4)
 
 % =====================================================================
 \section{Plan de evaluación}\label{sec:eval}
-\textbf{E1. Automática.} Para los 200 pares de boceto (D2) e historia (D4), una ronda con eje estilo y otra con eje paleta con el motor A ($200\times5\times2=2\,000$ portadas) y una ronda con eje estilo con el motor B en los mismos pares (1\,000 portadas). Se calculan las métricas de calidad, adherencia, fidelidad al boceto y a la historia, diversidad, legibilidad y latencia, y se comparan los dos motores con el eje estilo. Para el agente de historia se compara su extracción con las 30 historias anotadas, usando Qwen2.5 y Phi-3.5.
+\textbf{E1. Automática.} Para los 200 pares de boceto (D2) e historia (D4), una ronda con eje estilo y otra con eje paleta con el motor A ($200\times5\times2=2\,000$ portadas) y una ronda con eje estilo con el motor B en los mismos pares (1\,000 portadas). Se calculan las métricas de calidad, adherencia, fidelidad al boceto y a la historia, legibilidad y latencia, y se comparan los dos motores con el eje estilo. Para el agente de historia se compara su extracción con las 30 historias anotadas, usando Qwen2.5 y Phi-3.5.
 
-\textbf{E2. Simulación del planificador.} Se definen 50 usuarios simulados con una preferencia oculta (p.\,ej., ``acuarela y pastel''), que aceptan una propuesta con probabilidad 0.8 si coincide en los parámetros preferidos y 0.15 en caso contrario. Se comparan muestreo de Thompson y elección aleatoria en tres rondas con la tasa de aceptación por ronda. Esto prueba la lógica del planificador sin el costo de un estudio grande; su límite es que la preferencia simulada es más estable que la de una persona.
+\textbf{E2. Simulación del planificador.} Se simulan 500 usuarios, cada uno con un valor preferido por parámetro. Un usuario acepta una propuesta con probabilidad $0.05+0.90f$, donde $f$ es la fracción de sus parámetros preferidos que coinciden, y al rechazar marca como motivo cada parámetro que no coincide con probabilidad 0.7. Se comparan muestreo de Thompson y elección aleatoria de los parámetros libres en tres rondas, con la tasa de aceptación por ronda. Esto prueba la lógica del planificador sin el costo de un estudio grande; su límite es que la preferencia simulada es más estable que la de una persona.
 
 \textbf{E3. Resúmenes.} Con decisiones simuladas (E2) y reales (E4) se mide la aprobación del validador al primer intento y la tasa de plantilla por LLM, y se anotan manualmente 30 resúmenes por LLM.
 
@@ -448,6 +438,33 @@ Eficiencia & Latencia por ronda y por motor & $<60$\,s por ronda (motor A en T4)
 \textbf{E5. Seguridad y sesgo.} (a)~30 entradas adversariales (palabras violentas o sexuales, nombres de ilustradores y personajes protegidos, fotos con rostros); (b)~20 bocetos de un personaje humano sin rasgos definidos, generados con los cinco estilos, y anotación manual del género y tono de piel percibidos para ver si el modelo introduce rasgos por defecto.
 
 Con estos tamaños de muestra los resultados se presentarán como descriptivos y se discutirán sus límites: los bocetos de Quick, Draw! son más simples que los de un autor real, y los participantes serán probablemente estudiantes universitarios, no el público final.
+
+% =====================================================================
+\section{Resultados}\label{sec:res}
+\textbf{E1: motor A frente a motor B.} La Tabla~\ref{tab:e1} resume las 3\,000 portadas generadas (2\,000 con el motor A y 1\,000 con el B). El motor~A cumple los criterios de estilo (93\,\% frente al 70\,\% exigido), de elemento principal (91\,\%) y de latencia (7.8\,s por ronda, contra los 60\,s propuestos), pero no el de paleta (70\,\% frente al 80\,\%). Su recall de bordes es bajo (28\,\%) porque la escala de ControlNet se eligió para dejar libres color y textura. El motor~B se comporta como una línea base muy distinta: casi copia el boceto (recall 98\,\%, diversidad LPIPS 0.06) y el estilo apenas cambia (acierto 20\,\%), por lo que las cinco propuestas de un eje de estilo se parecen entre sí; es 5 veces más rápido (1.6\,s), pero su KID (0.26) y su FID (301) frente a las portadas reales son peores que los del motor~A (0.11 y 175). Además, el verificador CLIP bloqueó 269 de sus 1\,000 portadas, frente a 1 de las 2\,000 del motor~A, lo que confirma que SD-Turbo, sin filtro de seguridad propio, depende de los guardrails de salida.
+
+\begin{table}[t]
+\centering\scriptsize
+\caption{E1: métricas automáticas por motor (200 pares de boceto e historia).}\label{tab:e1}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Métrica} & \textbf{Motor A} & \textbf{Motor B}\\
+\midrule
+CLIPScore & 0.76 & 0.49\\
+Acierto de estilo & 93\,\% & 20\,\%\\
+Paleta dentro del rango & 70\,\% & 84\,\%\\
+Fidelidad al boceto (recall) & 28\,\% & 98\,\%\\
+Elemento principal detectado & 91\,\% & 90\,\%\\
+Diversidad (LPIPS) & 0.70 & 0.06\\
+Latencia por ronda (s) & 7.80 & 1.60\\
+Portadas bloqueadas & 1 & 269\\
+KID & 0.11 & 0.26\\
+FID & 174.7 & 300.7\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{E2: planificador.} Con 500 usuarios simulados, la aceptación media de Thompson es 35.3, 34.9 y 43.0\,\% en las rondas 1 a 3, y la de la política aleatoria, 35.3, 34.7 y 34.8\,\%. La ventaja aparece en la ronda 3, cuando ya hay evidencia de dos rondas; en la ronda 2 no hay diferencia, porque tras una sola ronda hay apenas cinco decisiones. Antes de corregir la asignación de crédito (actualizar solo los parámetros que variaron en la ronda) la ventaja parecía mayor, pero era un artefacto: los valores que no cambiaban acumulaban evidencia en cada aceptación.
 
 % =====================================================================
 \section{Consideraciones éticas y guardrails}\label{sec:etica}
@@ -488,7 +505,7 @@ Fuga de un manuscrito inédito & Todos los modelos corren en la sesión; nada se
 \filasep
 Título ilegible o deformado & Renderizado determinista, límites de deformación, contraste WCAG y OCR.\\
 \filasep
-Memoria o tiempo de GPU insuficiente & Motor B (4 pasos); lote de 5; reanudación de los experimentos; Colab Pro de una integrante.\\
+Memoria o tiempo de GPU insuficiente & Motor B (10 pasos); lote de 5; reanudación de los experimentos; Colab Pro de una integrante.\\
 \filasep
 Fatiga del usuario & Máximo tres rondas; eje único por ronda.\\
 \filasep
@@ -534,7 +551,7 @@ El trabajo se reparte siguiendo las cinco etapas del enunciado, con una responsa
 \filasep
 3 & Rondas múltiples; agente con Qwen2.5 y Phi-3.5, validador; E1 y E5; prueba piloto con 2 usuarios & Sistema integrado\\
 \filasep
-4 & E3 y E4 con al menos 8 participantes; análisis; informe final; video de 3\,min con un participante ajeno a la carrera; ensayo de la presentación de 6\,min & Informe, código y demostración\\
+4 & E3 y E4 con 10 participantes; análisis; informe final; video de 3\,min con un participante ajeno a la carrera; ensayo de la presentación de 6\,min & Informe, código y demostración\\
 \bottomrule
 \end{tabularx}
 \end{table}

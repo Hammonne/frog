@@ -1,0 +1,40 @@
+{
+  "lora": "alvdansen/dimension-w-sd15",
+  "revision": {
+    "repo": "alvdansen/dimension-w-sd15",
+    "ok": true,
+    "motivos": [],
+    "licencia": "creativeml-openrail-m",
+    "base": "runwayml/stable-diffusion-v1-5",
+    "datos_entrenamiento_documentados": false,
+    "aviso": "La ficha no documenta los datos de entrenamiento: reportarlo como limitación."
+  },
+  "por_escala": {
+    "0.0": {
+      "acierto_estilo": 0.95,
+      "clipscore": 0.721167529001832,
+      "f1_bordes": 0.22343884034091457,
+      "latencia_s": 2.24416629619991,
+      "n": 20,
+      "nsfw": 1
+    },
+    "0.6": {
+      "acierto_estilo": 0.75,
+      "clipscore": 0.736590189859271,
+      "f1_bordes": 0.2121322299390886,
+      "lpips_vs_base": 0.45462365001440047,
+      "latencia_s": 3.0427659315498206,
+      "n": 20,
+      "nsfw": 1
+    },
+    "1.0": {
+      "acierto_estilo": 0.45,
+      "clipscore": 0.7628531195223331,
+      "f1_bordes": 0.21578860210540562,
+      "lpips_vs_base": 0.5313690587878227,
+      "latencia_s": 3.0386814108999713,
+      "n": 20,
+      "nsfw": 0
+    }
+  }
+}

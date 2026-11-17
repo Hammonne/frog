@@ -1,12 +1,6 @@
 """Pruebas de la tabla de resultados de E1 (tarea de la etapa 3).
-
-Cuando `experimentos/tabla_resultados.py` esté completo, borrar la línea `pytestmark` de abajo.
 """
-import pytest
-
 from experimentos.tabla_resultados import fila, formatear, tabla_latex
-
-pytestmark = pytest.mark.skip(reason="pendiente: completar experimentos/tabla_resultados.py")
 
 
 def test_formatear():
