@@ -149,3 +149,53 @@ SINONIMOS_CATEGORIA = {
 }
 
 SEMILLA_GLOBAL = 2026
+
+# ---------------------------------------------------------------------------
+# Etapa 5: planificador, agentes y explicación.
+MAX_RONDAS = 3  # fatiga del usuario (Takagi, 2001)
+
+# Motivos de rechazo que ofrece la interfaz -> parámetro que penalizan (ecuación 1 del informe).
+MOTIVOS_RECHAZO = {
+    "estilo": "P1",
+    "colores": "P2",
+    "no_apto_edad": "P3",
+    "ambiente": "P4",
+    "se_aleja_del_boceto": "P5",
+    "espacio_titulo": "P6",
+}
+
+# Nombres legibles (para la interfaz, el agente explicador y el validador).
+NOMBRES_PARAMETROS = {"P1": "estilo", "P2": "paleta", "P3": "edad", "P4": "ambiente",
+                      "P5": "fidelidad al boceto", "P6": "zona del título"}
+ETIQUETAS_VALORES = {
+    "P1": {"acuarela": "acuarela", "lapices": "lápices de colores", "collage": "collage de papel",
+           "vectorial": "vectorial plano", "plastilina": "plastilina 3D"},
+    "P2": {"pastel": "paleta pastel", "calida": "paleta cálida", "fria": "paleta fría",
+           "primarios": "colores primarios", "tierra": "tonos tierra"},
+    "P3": {"0-3": "0 a 3 años", "4-6": "4 a 6 años", "7-9": "7 a 9 años", "10-12": "10 a 12 años",
+           "sin": "edad sin indicar"},
+    "P4": {"alegre": "ambiente alegre", "aventura": "ambiente de aventura", "calma": "ambiente de calma",
+           "misterio": "misterio suave", "humor": "ambiente de humor"},
+    "P5": {"muy_baja": "fidelidad muy baja", "baja": "fidelidad baja", "media": "fidelidad media",
+           "alta": "fidelidad alta", "muy_alta": "fidelidad muy alta"},
+    "P6": {"superior": "título arriba", "inferior": "título abajo", "ambas": "título arriba y abajo",
+           "centrada": "título centrado", "sin": "sin título"},
+}
+
+# LLM abiertos, en la sesión de Colab, cuantizados a 4 bits y con temperatura 0.
+LLMS = {
+    "qwen": "Qwen/Qwen2.5-7B-Instruct",
+    "phi": "microsoft/Phi-3.5-mini-instruct",
+}
+MAX_TOKENS_RESUMEN = 700
+MAX_TOKENS_HISTORIA = 400
+MAX_REINTENTOS_RESUMEN = 2
+MAX_PALABRAS_HISTORIA = 500
+PRECISION_MIN_HISTORIA = 0.90  # criterio de la Tabla de métricas
+
+# E2: usuarios simulados.
+E2_USUARIOS = 50
+E2_P_ACEPTA_COINCIDE = 0.80
+E2_P_ACEPTA_NO_COINCIDE = 0.15
+E2_EJES = ("P1", "P2", "P4")  # eje de cada ronda (ronda 1 = paquete de exploración por estilo)
+
