@@ -129,3 +129,13 @@ def test_la_barra_de_accion_de_las_propuestas_va_fija_a_la_ventana():
     regla = E.CSS[E.CSS.index(".f-accion {"):]
     regla = regla[:regla.index("}")]
     assert "position: fixed" in regla and "sticky" not in regla and "bottom: 0" in regla
+
+
+def test_el_editor_de_titulo_no_usa_menus_desplegables():
+    """Las tarjetas van giradas (transform): los menús y selectores flotantes de Gradio quedaban fuera de
+    lugar y 'no abrían' (visto en Colab). El editor de cada tarjeta usa botones."""
+    gr = pytest.importorskip("gradio")
+    from app.interfaz import N, construir_interfaz
+    C = construir_interfaz().frog_componentes
+    for i in range(N):
+        assert isinstance(C[f"edf{i}"], gr.Radio) and isinstance(C[f"edk{i}"], gr.Radio)

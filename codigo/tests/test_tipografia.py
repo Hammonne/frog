@@ -127,11 +127,34 @@ def carpeta_temporal(tmp_path, monkeypatch):
     monkeypatch.setattr(flujo, "CARPETA", tmp_path / "interfaz")
 
 
+def _preparar_falso(img, zona):
+    return {"boceto": True, "zona": zona}
+
+
+def _nueva():
+    return flujo.iniciar(Image.new("L", (64, 64)), "El conejo", "A", dict(config.POR_DEFECTO),
+                         "a rabbit in a garden", preparar=_preparar_falso)
+
+
+def _generador_falso(bloquear=()):
+    """Reemplaza a generar_real: crea 5 imágenes de color y devuelve la ronda como el motor real."""
+    def f(e, configs, numero):
+        vs = []
+        for i, cfg in enumerate(configs, start=1):
+            ruta = None
+            if i not in bloquear:
+                ruta = e.carpeta / f"r{numero}_R{numero}-V{i}.png"
+                Image.new("RGB", (config.ANCHO, config.ALTO), (200, 220, 240)).save(ruta)
+            vs.append({"id": f"R{numero}-V{i}", "params": cfg, "image_path": str(ruta) if ruta else None,
+                       "decision": None, "prompt": "p", "seed": 1})
+        return {"round": numero, "engine": e.motor, "variations": vs}
+    return f
+
+
 def _ronda():
-    from tests.test_flujo import generador_falso, nueva
-    e = nueva()
+    e = _nueva()
     llm = llm_que_responde('{"fuente": "Fredoka", "tamano": 0.06, "curva": 0.1, "color": "#1B3A57"}')
-    return e, flujo.proponer_ronda(e, "P1", generador_falso(), titulador=partial(titular_con_agente, llm=llm))
+    return e, flujo.proponer_ronda(e, "P1", _generador_falso(), titulador=partial(titular_con_agente, llm=llm))
 
 
 def test_la_ronda_guarda_lo_que_propuso_el_agente():
@@ -169,8 +192,7 @@ def test_cambiar_dos_veces_la_fuente_deja_un_solo_registro():
 
 
 def test_no_se_edita_una_portada_bloqueada():
-    from tests.test_flujo import generador_falso, nueva
-    e = nueva()
-    r = flujo.proponer_ronda(e, "P1", generador_falso(bloquear=(5,)))
+    e = _nueva()
+    r = flujo.proponer_ronda(e, "P1", _generador_falso(bloquear=(5,)))
     with pytest.raises(ValueError, match="no se mostró"):
         flujo.editar_titulo(e, r["variations"][4], fuente="Andika")

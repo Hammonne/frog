@@ -41,6 +41,8 @@ MOTORES_VISTOS = [("Fiel a mi boceto", "A"), ("Más libre y rápido", "B")]
 LLM_VISTOS = [("Qwen 2.5 (recomendado)", "qwen2.5-7b"), ("Phi 3.5 (más liviano)", "phi-3.5-mini")]
 EJES = ("P1", "P2", "P3", "P4", "P5")
 FUENTES_VISTAS = [(flujo.NOMBRE_FUENTE[n], n) for n in CATALOGO]
+COLORES_VISTOS = [("Como está", ""), ("Negro", "#222222"), ("Blanco", "#FFFFFF"), ("Verde", "#2E5E3A"),
+                  ("Azul", "#1B3A57"), ("Rojo", "#C62828"), ("Morado", "#6A1B9A"), ("Naranja", "#E65100")]
 
 
 class _Modelos:
@@ -282,10 +284,14 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
                                                value=None, show_label=False, elem_classes="f-decision")
                         with gr.Accordion("Editar título", open=False, visible=False,
                                           elem_classes="f-editar") as C[f"ed{i}"]:
-                            C[f"edf{i}"] = gr.Dropdown(FUENTES_VISTAS, value="Andika", label="Letra", interactive=True)
+                            # Botones y no menús desplegables: las tarjetas van giradas (transform) y los
+                            # menús de Gradio se posicionan respecto a la ventana, así que quedaban fuera de lugar.
+                            C[f"edf{i}"] = gr.Radio(FUENTES_VISTAS, value="Andika", label="Letra",
+                                                    elem_classes="f-motivos")
                             C[f"edt{i}"] = gr.Slider(0.04, 0.10, step=0.005, value=0.06, label="Tamaño")
                             C[f"edc{i}"] = gr.Slider(-0.4, 0.4, step=0.05, value=0.0, label="Curva")
-                            C[f"edk{i}"] = gr.ColorPicker(value="#222222", label="Color")
+                            C[f"edk{i}"] = gr.Radio(COLORES_VISTOS, value="", label="Color",
+                                                    elem_classes="f-motivos")
                             C[f"eda{i}"] = gr.Button("Aplicar al título", size="sm", variant="secondary")
                         with gr.Column(visible=False) as C[f"gr{i}"]:
                             C[f"mo{i}"] = gr.CheckboxGroup(MOTIVOS_VISTOS, label="Qué no te convence",
@@ -450,7 +456,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
                 d[f"edf{i}"] = gr.update(value=estilo.get("fuente", "Andika"))
                 d[f"edt{i}"] = gr.update(value=estilo.get("tamano", 0.06))
                 d[f"edc{i}"] = gr.update(value=estilo.get("curva", 0.0))
-                d[f"edk{i}"] = gr.update(value="#%02X%02X%02X" % tuple(estilo.get("color") or (34, 34, 34)))
+                d[f"edk{i}"] = gr.update(value="")
                 d[f"gr{i}"] = gr.update(visible=False)
                 d[f"mo{i}"] = gr.update(value=[])
                 d[f"co{i}"] = gr.update(value="")

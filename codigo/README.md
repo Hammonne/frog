@@ -69,6 +69,7 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 | `experimentos/e2_simulacion.py` | E2: Thompson frente a azar con 500 usuarios simulados; guarda sesiones simuladas para E3 | 5 |
 | `experimentos/e3_resumenes.py` | E3: aprobación del validador por LLM y CSV para anotar a mano | 5 |
 | `experimentos/agente_historia.py` | Precisión del agente de historia frente a las 30 + 30 historias anotadas | 5 |
+| `experimentos/legibilidad_titulo.py` | Legibilidad del título: error por carácter (OCR con Tesseract) con el estilo por defecto, el del agente y el peor caso | 4 |
 | `experimentos/e5_seguridad.py` | Evaluación E5 (adversariales y sesgo) | 5 |
 | `notebooks/app_frog.ipynb` | Cuaderno de Colab de la aplicación (con Drive; `app_frog_sin_drive.ipynb` usa un zip) | 4 |
 | `notebooks/portadas_etapa5.ipynb` | Cuaderno de Colab de la etapa 5 (E2, E3 y agente de historia) | 5 |
