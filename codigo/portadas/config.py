@@ -28,9 +28,9 @@ ESTILOS = {
 # (metricas/color.py::adherencia_paleta).
 PALETAS = {
     "pastel": "pastel colors, soft light palette",
-    "calida": "warm color palette, oranges, yellows and reds",
+    "calida": "warm color palette, everything in oranges, yellows and reds, warm tones throughout",
     "fria": "cool color palette, blues, teals and purples",
-    "primarios": "vivid primary colors, bright saturated palette",
+    "primarios": "bold saturated primary colors, pure red, blue and yellow, high saturation, vibrant",
     "tierra": "earthy palette, ochre, brown and olive tones",
 }
 

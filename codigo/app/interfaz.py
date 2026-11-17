@@ -170,8 +170,20 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
             with gr.Row(equal_height=False):
                 with gr.Column(scale=5, elem_classes="f-amarillo f-col-boceto"):
                     gr.HTML(E.etiqueta_campo("Tu boceto"))
-                    C["boceto"] = gr.Image(type="pil", label="Boceto de tu portada", show_label=False,
-                                           sources=["upload"], height=470, elem_classes="f-lamina f-boceto f-giro1")
+                    with gr.Tabs(selected="subir") as C["pestanas"]:
+                        with gr.Tab("Subir una imagen", id="subir"):
+                            C["boceto"] = gr.Image(type="pil", label="Boceto de tu portada", show_label=False,
+                                                   sources=["upload"], height=420,
+                                                   elem_classes="f-lamina f-boceto f-giro1")
+                        with gr.Tab("Dibujar aquí", id="dibujar"):
+                            C["lienzo"] = gr.Sketchpad(type="pil", label="Dibuja tu boceto", show_label=False,
+                                                       canvas_size=(512, 768), height=420,
+                                                       brush=gr.Brush(colors=["#222222"], default_size=4,
+                                                                      color_mode="fixed"))
+                            btn_usar_dibujo = gr.Button("Usar este dibujo", variant="secondary", size="sm")
+                    C["declara"] = gr.Checkbox(
+                        label="Declaro que este boceto es mío o que tengo permiso para usarlo "
+                              "(si lo dibujó una persona menor de edad, con permiso de su tutor).")
                     gr.HTML(E.asoma("frog_hero", 250), elem_classes="f-asoma f-asoma-entrada")
                 with gr.Column(scale=7):
                     gr.HTML(E.titulo("Cuéntanos tu cuento"))
@@ -370,10 +382,20 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
         btn_param_volver.click(lambda: P(nav("elementos")), None, salidas, show_progress="hidden")
 
         # ---------------------------------------------------------------- 1 -> 2
-        def _entrada(img, tit, hist, nombre):
-            falta = ("Sube el boceto de tu portada." if img is None else
+        def _usar_dibujo(valor):
+            img = flujo.aplanar_dibujo(valor)
+            if img is None:
+                return skip(), skip()
+            return img, gr.Tabs(selected="subir")
+
+        btn_usar_dibujo.click(_usar_dibujo, C["lienzo"], [C["boceto"], C["pestanas"]], show_progress="hidden")
+
+        def _entrada(img, tit, hist, nombre, declara):
+            falta = ("Sube o dibuja el boceto de tu portada." if img is None else
                      "Escribe el título de tu libro." if not (tit or "").strip() else
-                     "Escribe tu historia." if not (hist or "").strip() else "")
+                     "Escribe tu historia." if not (hist or "").strip() else
+                     "Marca la declaración de que el boceto es tuyo o que tienes permiso para usarlo."
+                     if not declara else "")
             if falta:
                 yield error("entrada", "err_entrada", "Falta algo", falta)
                 return
@@ -399,7 +421,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
                     escena_img=E.escena(elem["momento"], MOMENTO_TEXTO.get(elem["momento"], "")),
                     err_entrada=gr.update(visible=False), err_elem=gr.update(visible=False))
 
-        btn_entrada.click(_entrada, [C["boceto"], C["titulo_tb"], C["historia"], llm_r], salidas,
+        btn_entrada.click(_entrada, [C["boceto"], C["titulo_tb"], C["historia"], llm_r, C["declara"]], salidas,
                           show_progress="hidden")
 
         def _reescena(pe, ob, lu, mo):
@@ -465,7 +487,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
             return d
 
         # ---------------------------------------------------------------- 3 -> 4 (ronda 1)
-        def _generar_primera(img, tit, mot, esc, ins, v1, v2, v3, v4, v5, v6, ej, elem, pe, ob, lu, mo):
+        def _generar_primera(img, tit, mot, esc, ins, v1, v2, v3, v4, v5, v6, ej, elem, pe, ob, lu, mo, declara):
             base = {"P1": v1, "P2": v2, "P3": v3, "P4": v4, "P5": v5, "P6": v6}
             fijados = ["P3", "P4"] if elem and elem.get("origen") == "llm" else []
             frio = mot not in MODELOS.motores
@@ -474,7 +496,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
             yield cargando(3, "Preparando tu primera ronda", "Estamos revisando tu boceto y tu historia.", aviso)
             try:
                 estado = flujo.iniciar(img, tit, mot, base, esc, ins, fijados,
-                                       elementos=_elementos(pe, ob, lu, mo, esc))
+                                       elementos=_elementos(pe, ob, lu, mo, esc), declaracion_autoria=declara)
             except Exception as e:                            # boceto o texto no válido
                 yield error("parametros", "err_param", "No pudimos empezar", html.escape(str(e)))
                 return
@@ -498,7 +520,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
         btn_param.click(_generar_primera,
                         [C["boceto"], C["titulo_tb"], motor, C["escena"], instruccion, p1, p2, C["p3"], C["p4"],
                          C["p5"], p6, C["eje"], C["elem_st"], C["personajes"], C["objetos"], C["lugar"],
-                         C["momento"]], salidas, show_progress="hidden")
+                         C["momento"], C["declara"]], salidas, show_progress="hidden")
 
         # ---------------------------------------------------------------- decisiones
         def _decision(ronda, *ops):
@@ -609,7 +631,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
         btn_fin.click(_terminar, [C["est"], llm_r], salidas, show_progress="hidden")
 
         def _nueva():
-            return P(nav("inicio"), est=None, elem_st={}, ronda_st=None, boceto=None, titulo_tb="", historia="",
+            return P(nav("inicio"), est=None, elem_st={}, ronda_st=None, boceto=None, lienzo=None, declara=False, titulo_tb="", historia="",
                      personajes="", objetos="", lugar="", momento="", escena="", galeria=[], archivo=None,
                      escena_img=E.escena(""),
                      err_entrada=gr.update(visible=False), err_param=gr.update(visible=False),

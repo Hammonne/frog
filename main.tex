@@ -431,7 +431,7 @@ Eficiencia & Latencia por ronda y por motor & $<60$\,s por ronda (motor A en T4)
 
 \textbf{E2. Simulación del planificador.} Se simulan 500 usuarios, cada uno con un valor preferido por parámetro. Un usuario acepta una propuesta con probabilidad $0.05+0.90f$, donde $f$ es la fracción de sus parámetros preferidos que coinciden, y al rechazar marca como motivo cada parámetro que no coincide con probabilidad 0.7. Se comparan muestreo de Thompson y elección aleatoria de los parámetros libres en tres rondas, con la tasa de aceptación por ronda. Esto prueba la lógica del planificador sin el costo de un estudio grande; su límite es que la preferencia simulada es más estable que la de una persona.
 
-\textbf{E3. Resúmenes.} Con decisiones simuladas (E2) y reales (E4) se mide la aprobación del validador al primer intento y la tasa de plantilla por LLM, y se anotan manualmente 30 resúmenes por LLM.
+\textbf{E3. Resúmenes.} Con decisiones simuladas (E2) y reales (E4) se mide la aprobación del validador al primer intento y la tasa de plantilla por LLM, y la fidelidad de 30 resúmenes por LLM se comprueba contra el registro de cada sesión con un script (IDs, valores, motivos y parámetros al azar), con revisión humana de los casos discrepantes.
 
 \textbf{E4. Estudio con usuarios.} Al menos 8 participantes que no estudien Ciencia de la Computación ni Ciencia de Datos (perfil cercano al caso de uso y compatible con el video exigido) completan una sesión con su propia historia breve y su propio boceto, responden el SUS y una entrevista breve sobre si las propuestas y el resumen les resultaron útiles. Se requiere consentimiento informado.
 
@@ -441,7 +441,7 @@ Con estos tamaños de muestra los resultados se presentarán como descriptivos y
 
 % =====================================================================
 \section{Resultados}\label{sec:res}
-\textbf{E1: motor A frente a motor B.} La Tabla~\ref{tab:e1} resume las 3\,000 portadas generadas (2\,000 con el motor A y 1\,000 con el B). El motor~A cumple los criterios de estilo (93\,\% frente al 70\,\% exigido), de elemento principal (91\,\%) y de latencia (7.8\,s por ronda, contra los 60\,s propuestos), pero no el de paleta (70\,\% frente al 80\,\%). Su recall de bordes es bajo (28\,\%) porque la escala de ControlNet se eligió para dejar libres color y textura. El motor~B se comporta como una línea base muy distinta: casi copia el boceto (recall 98\,\%, diversidad LPIPS 0.06) y el estilo apenas cambia (acierto 20\,\%), por lo que las cinco propuestas de un eje de estilo se parecen entre sí; es 5 veces más rápido (1.6\,s), pero su KID (0.26) y su FID (301) frente a las portadas reales son peores que los del motor~A (0.11 y 175). Además, el verificador CLIP bloqueó 269 de sus 1\,000 portadas, frente a 1 de las 2\,000 del motor~A, lo que confirma que SD-Turbo, sin filtro de seguridad propio, depende de los guardrails de salida.
+\textbf{E1: motor A frente a motor B.} La Tabla~\ref{tab:e1} resume las 3\,000 portadas generadas (2\,000 con el motor A y 1\,000 con el B); la Figura~\ref{fig:motores} muestra una ronda de cada motor. El motor~A cumple los criterios de estilo (93\,\% frente al 70\,\% exigido), de elemento principal (91\,\%) y de latencia (7.8\,s por ronda, contra los 60\,s propuestos), pero no el de paleta (70\,\% frente al 80\,\%). Su recall de bordes es bajo (28\,\%) porque la escala de ControlNet se eligió para dejar libres color y textura. El motor~B se comporta como una línea base muy distinta: casi copia el boceto (recall 98\,\%, diversidad LPIPS 0.06) y el estilo apenas cambia (acierto 20\,\%), por lo que las cinco propuestas de un eje de estilo se parecen entre sí; es 5 veces más rápido (1.6\,s), pero su KID (0.26) y su FID (301) frente a las portadas reales son peores que los del motor~A (0.11 y 175). Además, el verificador CLIP bloqueó 269 de sus 1\,000 portadas, frente a 1 de las 2\,000 del motor~A, lo que confirma que SD-Turbo, sin filtro de seguridad propio, depende de los guardrails de salida.
 
 \begin{table}[t]
 \centering\scriptsize
@@ -464,7 +464,28 @@ FID & 174.7 & 300.7\\
 \end{tabular}
 \end{table}
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.78\textwidth]{assets/lamina_motor_a.png}\\[2pt]
+\includegraphics[width=0.78\textwidth]{assets/lamina_motor_b.png}
+\caption{Una ronda con eje estilo a partir del mismo boceto: motor~A (arriba) y motor~B (abajo). El motor~A reinterpreta el dibujo en cada estilo; el motor~B casi lo copia y los cinco estilos apenas se distinguen.}\label{fig:motores}
+\end{figure*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.72\columnwidth]{assets/muestras_titulos.png}
+\caption{Títulos sobre portadas de E1: disposición por defecto (izquierda), agente tipográfico (centro) y deformaciones extremas (derecha). En ``El conejo'' el dibujo queda detrás de las letras y el OCR lo lee como texto, aunque a simple vista se lee bien.}\label{fig:titulos}
+\end{figure}
+
 \textbf{E2: planificador.} Con 500 usuarios simulados, la aceptación media de Thompson es 35.3, 34.9 y 43.0\,\% en las rondas 1 a 3, y la de la política aleatoria, 35.3, 34.7 y 34.8\,\%. La ventaja aparece en la ronda 3, cuando ya hay evidencia de dos rondas; en la ronda 2 no hay diferencia, porque tras una sola ronda hay apenas cinco decisiones. Antes de corregir la asignación de crédito (actualizar solo los parámetros que variaron en la ronda) la ventaja parecía mayor, pero era un artefacto: los valores que no cambiaban acumulaban evidencia en cada aceptación.
+
+\textbf{E3: resúmenes.} Con 30 sesiones simuladas, Qwen2.5-7B superó el validador al primer intento en el 67\,\% (10\,\% de plantilla; 1.5 intentos, 40\,s) y Phi-3.5-mini en el 13\,\% (53\,\% de plantilla; 2.5 intentos, 72\,s); se recomienda Qwen. Un script que contrasta cada resumen con el registro de la sesión halló fieles 23 de los 27 resúmenes de Qwen (85\,\%) y 7 de los 14 de Phi (50\,\%). No evalúa la parte interpretativa (``prefiere colores cálidos'') y la revisión humana de los casos discrepantes fue parcial.
+
+\textbf{Agente de historia.} Con las 30 historias en inglés y las 30 en español anotadas a mano por una persona, la precisión $\geq 90$\,\% \emph{no se cumple}. Con comparación estricta, Qwen2.5 alcanza 70\,\% en inglés y 59\,\% en español, y Phi-3.5, 66\,\% y 58\,\%; con comparación flexible (un elemento puede contener al otro, como ``big red ball'' y ``ball''), 74\,\% y 64\,\% (Qwen) y 72\,\% y 61\,\% (Phi). Los falsos positivos son en parte errores reales (``ball'' como personaje, elementos que la historia no dice) y en parte diferencias con la anotación (``mother'' frente a ``mom''). El prompt se ajustó tras una primera corrida sobre las mismas historias, por lo que no es una estimación independiente.
+
+\textbf{Legibilidad del título.} En 100 portadas de E1 leídas con Tesseract (español), el error por carácter medio es 43.4\,\% por defecto, 17.6\,\% con el agente tipográfico y 81.8\,\% con deformaciones extremas (prueba de estrés); ninguno llega al 5\,\%. La mediana es 0\,\% y el 64--66\,\% de las portadas se lee con error de 5\,\% o menos: la media la suben títulos cortos (``Dino'') o con un dibujo detrás (``El conejo''), cuyas formas el OCR lee como letras (Figura~\ref{fig:titulos}). Una persona revisó a mano las 20 portadas peor leídas por el OCR y las leyó sin esfuerzo todas; es una comprobación de un solo anotador y no sustituye la prueba con usuarios.
+
+\textbf{E5: seguridad y sesgo.} El filtro de texto bloqueó las 20 entradas que debían rechazarse y 1 de 5 legítimas (``Elsa'', un nombre con marca); las 5 evasiones con eufemismos pasaron. De las 45 portadas generadas, una persona juzgó aptas 42 y no aptas 3 (payaso tenebroso, fantasma triste, dragón con miedo a la oscuridad). CLIP con umbral 0.5 no detectó ninguna (probabilidades 0.04, 0.29 y 0.35); con 0.25 detecta 2 de 3 sin bloquear ninguna de las 42 aptas, y el umbral queda en 0.25 \pend{validar con las portadas de E1}, una calibración débil (3 casos, un boceto, motor A). En las 100 portadas de una figura sin rasgos, una sola persona anotó 79 de género ambiguo, 17 femeninas y 4 masculinas, y tono de piel visible en 20 (17 claros, 3 medios, ninguno oscuro); el estilo vectorial muestra más rasgos humanos (8 de 20).
 
 % =====================================================================
 \section{Consideraciones éticas y guardrails}\label{sec:etica}

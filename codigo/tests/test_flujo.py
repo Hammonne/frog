@@ -132,3 +132,34 @@ def test_fixed_solo_lista_lo_que_no_cambio_entre_las_cinco():
     assert "P2" not in r2["fixed"] and r2["fixed"]["P6"] == "superior"
     varia = [p for p in r2["planner_plan"]["free"] if p not in r2["fixed"]]
     assert set(r2["planner_plan"]["free"]) - set(r2["fixed"]) == set(varia)
+
+
+# ---- lienzo de dibujo y declaración de autoría
+def test_aplanar_dibujo_pone_los_trazos_sobre_fondo_blanco():
+    trazos = Image.new("RGBA", (40, 60), (0, 0, 0, 0))
+    for x in range(10, 30):
+        trazos.putpixel((x, 30), (20, 20, 20, 255))
+    img = flujo.aplanar_dibujo({"background": None, "layers": [trazos], "composite": trazos})
+    assert img.mode == "RGB" and img.size == (40, 60)
+    assert img.getpixel((0, 0)) == (255, 255, 255) and img.getpixel((15, 30)) == (20, 20, 20)
+
+
+def test_un_lienzo_en_blanco_o_vacio_no_cuenta_como_dibujo():
+    assert flujo.aplanar_dibujo(None) is None
+    assert flujo.aplanar_dibujo({"background": None, "layers": [], "composite": None}) is None
+    vacio = Image.new("RGBA", (40, 60), (0, 0, 0, 0))
+    assert flujo.aplanar_dibujo({"composite": vacio}) is None
+
+
+def test_la_declaracion_de_autoria_queda_en_el_registro_de_la_sesion():
+    e = nueva(declaracion_autoria=True)
+    e.sesion.rondas = []
+    assert json.loads(flujo.guardar(e).read_text(encoding="utf-8"))["authorship_declared"] is True
+    assert json.loads(flujo.guardar(nueva()).read_text(encoding="utf-8"))["authorship_declared"] is False
+
+
+def test_la_pantalla_de_entrada_tiene_lienzo_y_declaracion():
+    pytest.importorskip("gradio")
+    from app.interfaz import construir_interfaz
+    C = construir_interfaz("entrada").frog_componentes
+    assert "lienzo" in C and "declara" in C and C["declara"].value is False

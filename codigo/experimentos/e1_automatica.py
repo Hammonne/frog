@@ -146,6 +146,8 @@ def resumen_criterios(filas: List[Dict], rondas: List[Dict], umbral_densidad: Op
             "clipscore_medio": media("clipscore", sel),
             "acierto_estilo_eje_estilo": media("acierto_estilo", estilo),
             "acierto_paleta_eje_paleta": media("acierto_paleta", paleta),
+            "acierto_por_paleta": {v: media("acierto_paleta", [f for f in paleta if f["param_P2"] == v])
+                                   for v in sorted({f["param_P2"] for f in paleta})},
             "recall_boceto_medio": media("recall_boceto", sel),
             "elemento_principal_detectado": media("elemento_principal_detectado", sel),
             "lpips_medio": float(np.mean([x["lpips_medio"] for x in rs if x["lpips_medio"] is not None])) if rs else None,
@@ -176,6 +178,8 @@ def main():
     ap.add_argument("--pares", type=int, default=200)
     ap.add_argument("--pares-b", type=int, default=200)
     ap.add_argument("--salida", default=str(config.SALIDAS / "e1"))
+    ap.add_argument("--ejes", nargs="+", default=["P1", "P2"], choices=["P1", "P2"],
+                    help="ejes del motor A (con P2 solo se vuelve a medir la paleta)")
     ap.add_argument("--sin-kid", action="store_true")
     args = ap.parse_args()
 
@@ -202,7 +206,7 @@ def main():
     if args.pares:
         from portadas.motores.motor_a import MotorA
         motor_a = MotorA()
-        for eje in ("P1", "P2"):
+        for eje in args.ejes:
             f, r = correr(pares[:args.pares], motor_a, eje, salida / "img", clip, lp, revisor, hed,
                           progreso=salida / "progreso.jsonl")
             filas += f

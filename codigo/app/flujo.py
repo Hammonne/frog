@@ -51,6 +51,7 @@ class Estado:
     sesion: Optional[Sesion] = None
     resumen: Optional[Dict] = None
     cambios_tipografia: List[Dict] = field(default_factory=list)    # para el agente de resumen
+    declaracion_autoria: bool = False     # la persona declaró que el boceto es suyo o que tiene permiso
     creada: str = field(default_factory=lambda: time.strftime("%Y-%m-%d %H:%M:%S"))
 
 
@@ -61,6 +62,26 @@ def analizar_historia(texto: str, llm) -> Dict:
         return extraer_elementos(texto, llm)
     except HistoriaInvalida as e:
         raise ValueError(str(e))
+
+
+def aplanar_dibujo(valor) -> Optional[Image.Image]:
+    """Convierte lo que devuelve el lienzo de dibujo en una imagen RGB sobre fondo blanco.
+    Acepta el valor del editor ({"composite": ..., "background": ..., "layers": [...]}) o una imagen."""
+    if valor is None:
+        return None
+    if isinstance(valor, dict):
+        capas = [c for c in [valor.get("composite"), *(valor.get("layers") or [])] if c is not None]
+        if not capas:
+            return None
+        imagen = capas[0]
+    else:
+        imagen = valor
+    imagen = imagen.convert("RGBA")
+    fondo = Image.new("RGBA", imagen.size, (255, 255, 255, 255))
+    plano = Image.alpha_composite(fondo, imagen).convert("RGB")
+    if plano.convert("L").getextrema()[0] >= 250:        # lienzo en blanco: no hay dibujo
+        return None
+    return plano
 
 
 def partir(texto: str) -> List[str]:
@@ -76,7 +97,8 @@ def construir_escena(personajes: str, objetos: str, lugar: str, momento: str) ->
 # --------------------------------------------------------------------------- sesión
 def iniciar(boceto_img: Image.Image, titulo: str, motor: str, base: Dict[str, str], escena: str,
             instruccion: str = "", fijados: Optional[List[str]] = None, elementos: Optional[Dict] = None,
-            preparar: Optional[Callable] = None, revisar_entrada: Optional[Callable] = None) -> Estado:
+            preparar: Optional[Callable] = None, revisar_entrada: Optional[Callable] = None,
+            declaracion_autoria: bool = False) -> Estado:
     """Valida el boceto y los textos y crea la sesión. Lanza ValueError con un mensaje claro."""
     if boceto_img is None:
         raise ValueError("Sube un boceto primero.")
@@ -100,7 +122,8 @@ def iniciar(boceto_img: Image.Image, titulo: str, motor: str, base: Dict[str, st
     carpeta = CARPETA / time.strftime("%Y%m%d-%H%M%S")
     carpeta.mkdir(parents=True, exist_ok=True)
     e = Estado(carpeta=carpeta, motor=motor, titulo=(titulo or "").strip(), boceto=boceto, escena=escena.strip(),
-               instruccion=(instruccion or "").strip(), elementos=elementos or {}, base=dict(base))
+               instruccion=(instruccion or "").strip(), elementos=elementos or {}, base=dict(base),
+               declaracion_autoria=bool(declaracion_autoria))
     e.sesion = Sesion(dict(base), motor=motor, fijados=fijados or [])
     return e
 
@@ -227,7 +250,7 @@ def resumir_sesion(e: Estado, llm, modelo: str = "") -> Dict:
 def guardar(e: Estado) -> Path:
     """Escribe el registro de la sesión (sin boceto ni texto de la historia)."""
     ruta = e.carpeta / "sesion.json"
-    datos = {"created": e.creada, "engine": e.motor, "title": e.titulo, "scene": e.escena,
+    datos = {"created": e.creada, "engine": e.motor, "title": e.titulo, "authorship_declared": e.declaracion_autoria, "scene": e.escena,
              "story_elements": e.elementos, "base_params": e.base, "fixed": e.sesion.fijados,
              "rounds": e.sesion.rondas, "summary": e.resumen,
              "posterior_mean": e.sesion.planificador.estado()}
