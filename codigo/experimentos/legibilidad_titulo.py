@@ -117,8 +117,10 @@ def _extremo(i: int):
                 restringir_edad=False)
 
 
-def ejecutar(filas: List[Dict], titulos: List[str], llm, ocr, modos=("defecto", "agente", "extremo")) -> List[Dict]:
-    """Pone un título a cada portada con cada modo, lo lee y calcula el CER."""
+def ejecutar(filas: List[Dict], titulos: List[str], llm, ocr, modos=("defecto", "agente", "extremo"),
+             carpeta_fallos: Optional[Path] = None) -> List[Dict]:
+    """Pone un título a cada portada con cada modo, lo lee y calcula el CER. Si se da `carpeta_fallos`,
+    guarda ahí las portadas (modos defecto y agente) con CER mayor a 0,5 para revisarlas a mano."""
     resultados = []
     for i, f in enumerate(filas):
         titulo = titulos[i % len(titulos)]
@@ -132,11 +134,16 @@ def ejecutar(filas: List[Dict], titulos: List[str], llm, ocr, modos=("defecto", 
             else:
                 titulada, info = render_titulo(img, titulo, zona, edad, **_extremo(i))
             leido = ocr(titulada, zona)
+            nombre_img = ""
+            if carpeta_fallos is not None and modo != "extremo" and cer(titulo, leido) > 0.5:
+                carpeta_fallos.mkdir(parents=True, exist_ok=True)
+                nombre_img = f"{modo}_{f['par']}_{f['id']}.png"
+                titulada.save(carpeta_fallos / nombre_img)
             resultados.append({
                 "modo": modo, "par": f["par"], "id": f["id"], "edad": edad, "titulo": titulo,
                 "n_letras": len(titulo.replace(" ", "")), "fuente": info["estilo"]["fuente"],
-                "contraste": info["contraste"], "banda": info["banda"],
-                "origen_agente": (info.get("agente") or {}).get("origen", ""),
+                "contraste": info["contraste"], "banda": info["banda"], "bordes": info.get("bordes"),
+                "origen_agente": (info.get("agente") or {}).get("origen", ""), "imagen_revision": nombre_img,
                 "leido": " ".join(leido.split()), "cer": round(cer(titulo, leido), 4)})
     return resultados
 
@@ -209,16 +216,22 @@ def main():
         llm, modos = LLMLocal(args.llm), ("defecto", "agente", "extremo")
     print(f"[legibilidad] {len(filas)} portadas, modos {modos}, OCR en '{ocr.idioma}'")
 
-    resultados = ejecutar(filas, TITULOS, llm, ocr, modos)
+    salida = Path(args.salida)
+    resultados = ejecutar(filas, TITULOS, llm, ocr, modos, salida / "fallos")
     resumen = resumir(resultados)
     resumen["criterio"] = f"CER <= {CER_MAX:.0%} (media por modo)"
     resumen["ocr"] = {"idioma": ocr.idioma, "portadas": len(filas), "titulos_distintos": len(TITULOS)}
-    salida = Path(args.salida)
     salida.mkdir(parents=True, exist_ok=True)
     with open(salida / "legibilidad.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(resultados[0]))
         w.writeheader()
         w.writerows(resultados)
+    with open(salida / "revision_humana.csv", "w", newline="", encoding="utf-8-sig") as fh:
+        w = csv.writer(fh)
+        w.writerow(["imagen", "modo", "titulo", "fuente", "leido_por_ocr", "cer", "se_lee_a_simple_vista(si/no)", "anotador", "notas"])
+        for r in resultados:
+            if r["imagen_revision"]:
+                w.writerow([r["imagen_revision"], r["modo"], r["titulo"], r["fuente"], r["leido"], r["cer"], "", "", ""])
     (salida / "resumen.json").write_text(json.dumps(resumen, indent=2, ensure_ascii=False), encoding="utf-8")
     hoja_de_muestras(filas, TITULOS, llm, salida / "muestras.png")
     if llm is not None:

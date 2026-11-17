@@ -212,3 +212,50 @@ def test_la_plantilla_explica_al_planificador_y_pasa_el_validador():
     assert "El planificador eligió al azar" in t and "Estilo" in t
     assert validar(t, {"accepted": ["R1-V1", "R1-V2", "R1-V3", "R2-V4"],
                        "rejected": ["R1-V4", "R1-V5", "R2-V1", "R2-V2", "R2-V3", "R2-V5"]}, s) == []
+
+
+# ---- el largo permitido crece con el tamaño de la sesión (las sesiones de 3 rondas no cabían en 120 palabras)
+def test_el_limite_de_palabras_crece_con_la_sesion_y_no_baja_de_120():
+    from portadas.agentes.resumen import limite_palabras
+    corta = sesion()
+    assert limite_palabras(corta) >= 120 and hechos(corta)["limite_palabras"] == limite_palabras(corta)
+    from experimentos.e2_simulacion import jugar
+    larga = jugar("thompson", 3)[1]                                  # 3 rondas, 15 propuestas
+    assert limite_palabras(larga) > 1.4 * len(resumen_plantilla(larga).split()) - 1
+    assert limite_palabras(larga) > limite_palabras(corta)
+
+
+def test_el_resumen_por_plantilla_cabe_en_el_limite():
+    from experimentos.e2_simulacion import jugar
+    from portadas.agentes.resumen import limite_palabras
+    for semilla in range(10):
+        s = jugar("thompson", semilla)[1]
+        assert len(resumen_plantilla(s).split()) < limite_palabras(s)
+
+
+# ---- el planificador se explica copiando una frase ya escrita (Qwen se saltaba esa parte o copiaba el ejemplo)
+def test_cada_ronda_con_azar_trae_su_frase_para_copiar():
+    from experimentos.e2_simulacion import jugar
+    from portadas.agentes.resumen import frase_planificador
+    rondas = hechos(jugar("thompson", 5)[1])["rondas"]
+    assert "frase_para_copiar" not in rondas[0]["planificador"]               # la ronda 1 no tiene azar
+    for h in rondas[1:]:
+        p = h["planificador"]
+        assert p["frase_para_copiar"] == frase_planificador(p["parametros_al_azar"])
+        assert h["eje"].split("(")[1].rstrip(")") not in p["parametros_al_azar"]      # el eje nunca es al azar
+
+
+def test_el_prompt_pide_copiar_la_frase_y_su_ejemplo_usa_la_misma_forma():
+    from portadas.agentes.resumen import SISTEMA, frase_planificador
+    assert "frase_para_copiar" in SISTEMA and frase_planificador(["Paleta", "Edad"]) in SISTEMA
+
+
+def test_un_resumen_que_copia_las_frases_pasa_el_validador_a_la_primera_en_sesiones_largas():
+    from experimentos.e2_simulacion import jugar
+    from portadas.agentes.resumen import clasificar
+    for semilla in range(10):
+        s = jugar("thompson", semilla)[1]
+        acept, rech, _ = clasificar(s)
+        bloque = json.dumps({"accepted": sorted(acept), "rejected": sorted(rech)})
+        r = resumir(s, lambda sistema, mensaje: resumen_plantilla(s) + "\n" + bloque)
+        assert r["origen"] == "llm" and r["intentos"] == 1, r["errores"]

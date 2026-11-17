@@ -32,14 +32,14 @@ Recibirás un JSON con los hechos de la sesión. Reglas estrictas:
 1. Usa SOLO lo que está en el JSON. No inventes propuestas, valores, motivos ni cambios.
 2. Escribe, para cada ronda, una línea "Ronda N (eje: <eje>) - Aceptadas: <IDs con su valor>. Rechazadas: <IDs con su valor>." Usa los IDs exactamente como aparecen (por ejemplo R1-V2).
 3. Si hay motivos o comentarios de rechazo, menciónalos junto al ID. Menciona los elementos de la historia usados solo si aparecen en el JSON. Menciona un cambio de tipografía SOLO si el JSON tiene la clave "tipografia"; si no la tiene, no hables de fuentes ni de tipografía.
-4. Para explicar cómo cambió la ronda siguiente usa solo el bloque "planificador" del JSON (qué valores prefiere y qué parámetros se eligieron al azar). Di que un valor es preferido solo si fue aceptado al menos una vez.
-5. Máximo 120 palabras de texto.
+4. Para explicar qué hizo el planificador usa solo el bloque "planificador" de cada ronda. Si ese bloque trae "frase_para_copiar", cópiala TAL CUAL, palabra por palabra, al final de la línea de ESA misma ronda (cada ronda trae la suya: no las mezcles ni las muevas a otra ronda). Las rondas que no traen "frase_para_copiar" no llevan nada sobre el planificador. Di que un valor es preferido solo si fue aceptado al menos una vez.
+5. Máximo de palabras de texto: el número "limite_palabras" del JSON (no lo menciones en el texto). Aun así, nombra TODAS las propuestas con su ID.
 6. Termina con UNA línea con un objeto JSON, sin nada después, con todos los IDs de toda la sesión: {"accepted": [...], "rejected": [...]}
 7. Un rechazo con "motivos" o "comentario" debe llevarlos junto a su ID. Si hay "tipografia", di qué ID cambió y a qué fuente. En la ronda 1 no hubo azar (se mostraron los 5 valores del eje); no digas que algo se eligió al azar en esa ronda. Los parámetros elegidos al azar en cada ronda son SOLO los de "parametros_al_azar" de esa ronda; el eje de la ronda nunca es al azar.
 
 EJEMPLO de formato (con datos inventados, no los copies):
 Ronda 1 (eje: Estilo) - Aceptadas: R1-V1 (acuarela), R1-V2 (collage). Rechazadas: R1-V3 (vectorial; motivo: colores, comentario: muy fuerte).
-Ronda 2 (eje: Ambiente) - Aceptadas: R2-V1 (calma). Rechazadas: R2-V2 (humor). Por el planificador, el estilo y la edad se eligieron al azar entre los valores con más aceptación.
+Ronda 2 (eje: Ambiente) - Aceptadas: R2-V1 (calma). Rechazadas: R2-V2 (humor). El planificador eligió al azar, según lo aceptado antes: Paleta, Edad.
 {"accepted": ["R1-V1", "R1-V2", "R2-V1"], "rejected": ["R1-V3", "R2-V2"]}"""
 
 
@@ -53,8 +53,25 @@ def clasificar(sesion: Dict) -> Tuple[Set[str], Set[str], Set[str]]:
     return acept, rech, bloq
 
 
+def frase_planificador(nombres: List[str]) -> str:
+    """La frase que explica qué parámetros eligió el planificador al azar en una ronda."""
+    return "El planificador eligió al azar, según lo aceptado antes: " + ", ".join(nombres) + "."
+
+
+def limite_palabras(sesion: Dict) -> int:
+    """Largo máximo del resumen. Nombrar todas las propuestas con su valor y motivo ocupa más cuanto
+    más largas son la sesión (hasta 3 rondas y 15 propuestas): se da 1,5 veces lo que ocupa el resumen
+    por plantilla, con un mínimo de 120 palabras (las sesiones cortas quedan como antes)."""
+    return max(120, int(1.5 * len(resumen_plantilla(sesion).split())))
+
+
 def hechos(sesion: Dict) -> Dict:
-    """Resumen compacto y sin imágenes que recibe el LLM."""
+    """Resumen compacto y sin imágenes que recibe el LLM (incluye el largo máximo permitido)."""
+    return {**_hechos(sesion), "limite_palabras": limite_palabras(sesion)}
+
+
+def _hechos(sesion: Dict) -> Dict:
+    """Los hechos de la sesión, sin el límite de palabras (la plantilla se arma con esto)."""
     rondas = []
     for r in sesion["rounds"]:
         eje = r["axis"]
@@ -77,6 +94,8 @@ def hechos(sesion: Dict) -> Dict:
         p = r.get("planner") or {}
         info["planificador"] = {"metodo": p.get("method", ""), "parametros_al_azar": [NOMBRES_EJE[x] for x in p.get("free_params", [])],
                                 "valores_preferidos": p.get("favorites", {})}
+        if info["planificador"]["parametros_al_azar"]:
+            info["planificador"]["frase_para_copiar"] = frase_planificador(info["planificador"]["parametros_al_azar"])
         rondas.append(info)
     salida = {"rondas": rondas}
     if sesion.get("story"):
@@ -243,7 +262,7 @@ def _palabras_clave(textos: List[str]) -> List[str]:
 def resumen_plantilla(sesion: Dict) -> str:
     """Resumen sin LLM: solo datos del registro (respaldo cuando el LLM falla)."""
     lineas = []
-    for h in hechos(sesion)["rondas"]:
+    for h in _hechos(sesion)["rondas"]:
         acept = ", ".join(f"{a['id']} ({a['valor']})" for a in h["aceptadas"]) or "ninguna"
         rech = ", ".join(f"{a['id']} ({a['valor']})" for a in h["rechazadas"]) or "ninguna"
         linea = f"Ronda {h['ronda']} (eje: {h['eje']}) - Aceptadas: {acept}. Rechazadas: {rech}."
@@ -254,8 +273,7 @@ def resumen_plantilla(sesion: Dict) -> str:
         if h["bloqueadas"]:
             linea += " Bloqueadas por los guardrails: " + ", ".join(h["bloqueadas"]) + "."
         if h["planificador"]["parametros_al_azar"]:
-            linea += (" El planificador eligió al azar, según lo aceptado antes: "
-                      + ", ".join(h["planificador"]["parametros_al_azar"]) + ".")
+            linea += " " + frase_planificador(h["planificador"]["parametros_al_azar"])
         lineas.append(linea)
     if sesion.get("typography_changes"):
         lineas.append("Cambios de tipografía: " + "; ".join(

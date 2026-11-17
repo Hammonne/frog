@@ -37,3 +37,4 @@ codigo/portadas/config.py.antes_calibracion
 # Copias comprimidas (pesan GB) y carpetas de empaquetado
 *.zip
 subir_a_drive/
+codigo/salidas/agente_historia/detalle.csv

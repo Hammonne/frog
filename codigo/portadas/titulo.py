@@ -18,6 +18,7 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
+import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from . import config
@@ -217,6 +218,8 @@ def render_titulo(img: Image.Image, titulo: str, zona: str = "superior", edad: s
     fondo = base.crop(caja_texto).convert("RGB").resize((1, 1), Image.BOX).getpixel((0, 0))
     texto_color = estilo["color"] or max((OSCURO, CLARO), key=lambda c: contraste(c, fondo))
     ratio = contraste(texto_color, fondo)
+    gris = np.asarray(base.crop(caja_texto).convert("L"), dtype=float)
+    bordes = float(((np.abs(np.diff(gris, axis=1))[:-1, :] + np.abs(np.diff(gris, axis=0))[:, :-1]) > 60).mean())
     banda = zona == "centrada" or ratio < CONTRASTE_MIN
     if banda:
         opuesto = CLARO if _luminancia(texto_color) < 0.5 else OSCURO
@@ -254,5 +257,5 @@ def render_titulo(img: Image.Image, titulo: str, zona: str = "superior", edad: s
     estilo_aplicado = {**{k: (round(v, 3) if isinstance(v, float) else v) for k, v in estilo.items()},
                        "color": list(texto_color)}
     info.update({"fuente": estilo["fuente"], "tamano_px": tam, "color": list(texto_color),
-                 "contraste": round(ratio, 2), "banda": banda, "estilo": estilo_aplicado})
+                 "contraste": round(ratio, 2), "banda": banda, "bordes": round(bordes, 3), "estilo": estilo_aplicado})
     return base.convert("RGB"), info

@@ -43,7 +43,10 @@ Answer with ONE JSON object and nothing else. Keys:
 - "edad": suggested reader age, one of {EDADES}.
 Rules: use ONLY what the story says. Do not add gender, ethnicity, age or physical features the story does not mention. Do not invent characters, objects or places. If something is not in the story use [] or "".
 Characters: use the kind of character (rabbit, dragon, girl), never proper names ("Tomas the dragon" -> "dragon"). Keep a size or color adjective only if the story says it ("little fox").
+Never write "named X" or "called X", and never use a proper name alone: give the kind ("girl named Kat" -> "girl", "dog named Max" -> "dog"). If the story only gives a name, use boy, girl, man or woman from the pronouns (he/she, his/her), or "friend" if unclear ("Tom has a ball. He runs." -> "boy").
+Include every character that speaks or acts, even a secondary one such as a mom or a friend, before adding any other element (max 3 characters, most important first).
 Objects: only things that can be drawn (flowers, boat, cookies). Never actions, speech, jokes, feelings or ideas.
+Each thing goes in ONE list only: people and animals are characters, never objects. Places (garden, woods, sky, kitchen, hospital) go in "lugar", never in objects.
 Example story: "Un conejo que ama las flores vive en un jardin."
 Example answer: {{"personajes_es": ["conejo"], "personajes": ["rabbit"], "objetos_es": ["flores"], "objetos": ["flowers"], "lugar_es": "jardin", "lugar": "garden", "momento": "", "tono": "alegre", "edad": "4-6"}}"""
 
@@ -128,6 +131,34 @@ def _lista(valor, tope: int) -> List[str]:
     return list(dict.fromkeys(limpio))[:tope]
 
 
+# Lugares que el modelo a veces cuela como objetos: van en "lugar", no en la escena como cosas.
+LUGARES = {"sky", "view", "hospital", "woods", "forest", "meadow", "kitchen", "garden", "park", "field", "fields",
+           "sea", "beach", "river", "lake", "street", "school",
+           "cielo", "vista", "bosque", "selva", "prado", "cocina", "jardin", "jardín", "parque", "campo", "mar",
+           "playa", "rio", "río", "lago", "calle", "escuela"}
+_NOMBRADO = re.compile(r"\s+(?:named|called|llamad[oa]s?)\s+\S+.*$")
+
+
+def _sin_nombre(texto: str) -> str:
+    """'girl named kat' -> 'girl': el nombre propio no sirve para dibujar."""
+    return _NOMBRADO.sub("", texto).strip()
+
+
+def _limpiar_elementos(pers_es, pers_en, obj_es, obj_en):
+    """Quita 'named X', repetidos, lugares y personajes que el modelo puso también como objetos.
+    Las listas en español e inglés se filtran juntas para que sigan alineadas."""
+    pers = list(dict.fromkeys((_sin_nombre(e), _sin_nombre(i)) for e, i in zip(pers_es, pers_en)))
+    claves_pers = {_clave(i) for _, i in pers} | {_clave(e) for e, _ in pers}
+    objs = []
+    for e, i in zip(obj_es, obj_en):
+        e, i = _sin_nombre(e), _sin_nombre(i)
+        if e in LUGARES or i in LUGARES or _clave(i) in claves_pers or _clave(e) in claves_pers:
+            continue
+        if (e, i) not in objs:
+            objs.append((e, i))
+    return ([e for e, _ in pers], [i for _, i in pers], [e for e, _ in objs], [i for _, i in objs])
+
+
 def _momento(valor) -> str:
     m = normalizar(str(valor or "")).strip()
     m = MOMENTOS_ES.get(m, m)
@@ -146,6 +177,7 @@ def normalizar_salida(d: Dict) -> Dict:
     obj_es, obj_en = _lista(d.get("objetos_es"), MAX_OBJETOS), _lista(d.get("objetos"), MAX_OBJETOS)
     if len(pers_es) != len(pers_en) or len(obj_es) != len(obj_en):
         raise ValueError("las listas en español e inglés no coinciden")
+    pers_es, pers_en, obj_es, obj_en = _limpiar_elementos(pers_es, pers_en, obj_es, obj_en)
     tono = str(d.get("tono", "")).strip().lower()
     edad = str(d.get("edad", "")).strip()
     return {
@@ -223,9 +255,17 @@ def escena_ingles(elementos: Dict, quitar: Optional[List[str]] = None) -> str:
 
 
 # ----------------------------------------------------------- evaluación contra anotaciones
+EQUIVALENCIAS = {  # mismo significado, distinta palabra (comparación con la anotación)
+    "mother": "mom", "mommy": "mom", "mum": "mom", "mama": "mom", "madre": "mom",
+    "father": "dad", "daddy": "dad", "papa": "dad", "padre": "dad",
+    "vet": "veterinarian", "bunny": "rabbit", "puppy": "dog", "kitty": "cat",
+    "grandma": "grandmother", "grandpa": "grandfather",
+}
+
+
 def _clave(texto: str) -> str:
-    """Forma canónica para comparar con una anotación: sin tildes, sin artículos y en singular."""
-    return " ".join(_raiz(t) for t in _tokens(texto) if len(t) >= 3 and t not in PALABRAS_ES | PALABRAS_EN)
+    """Forma canónica para comparar con una anotación: sin tildes, sin artículos, en singular y con sinónimos unificados."""
+    return " ".join(EQUIVALENCIAS.get(r, r) for r in (_raiz(t) for t in _tokens(texto) if len(t) >= 3 and t not in PALABRAS_ES | PALABRAS_EN))
 
 
 def comparar_conjuntos(predichos: List[str], anotados: List[str]) -> Dict[str, int]:
@@ -235,14 +275,32 @@ def comparar_conjuntos(predichos: List[str], anotados: List[str]) -> Dict[str, i
     return {"vp": len(p & a), "fp": len(p - a), "fn": len(a - p)}
 
 
-def evaluar_extraccion(elementos: Dict, anotacion: Dict[str, str], idioma: str) -> Dict[str, int]:
+def comparar_flexible(predichos: List[str], anotados: List[str]) -> Dict[str, int]:
+    """Como `comparar_conjuntos`, pero acepta que un elemento contenga al otro ('big red ball' ~ 'ball'
+    o 'dog max' ~ 'dog'). Cada elemento anotado se empareja con uno solo predicho."""
+    def conjuntos(xs):
+        todos = [frozenset(_clave(x).split()) for x in xs if _clave(x)]
+        return list(dict.fromkeys(todos))
+    p, a = conjuntos(predichos), conjuntos(anotados)
+    usados, vp = set(), 0
+    for ta in a:
+        for i, tp in enumerate(p):
+            if i not in usados and (ta <= tp or tp <= ta):
+                usados.add(i)
+                vp += 1
+                break
+    return {"vp": vp, "fp": len(p) - vp, "fn": len(a) - vp}
+
+
+def evaluar_extraccion(elementos: Dict, anotacion: Dict[str, str], idioma: str, flexible: bool = False) -> Dict[str, int]:
     """Compara personajes y objetos con una fila anotada a mano (valores separados por ';').
     `idioma` es el de la historia anotada: 'es' usa las listas en español; 'en', las del prompt."""
     total = {"vp": 0, "fp": 0, "fn": 0}
     for campo in ("personajes", "objetos"):
         pred = elementos["es"][campo] if idioma == "es" else elementos[campo]
         anot = [x for x in (anotacion.get(campo) or "").split(";") if x.strip()]
-        for k, v in comparar_conjuntos(pred, anot).items():
+        comparar = comparar_flexible if flexible else comparar_conjuntos
+        for k, v in comparar(pred, anot).items():
             total[k] += v
     return total
 

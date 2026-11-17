@@ -124,7 +124,7 @@ SEMILLAS_RONDA_1 = [101, 202, 303, 404, 505]
 TINTA_MIN = 0.005  # < 0.5 % de píxeles con trazo: boceto vacío
 TINTA_MAX = 0.40   # > 40 %: boceto saturado
 MAX_REGENERACIONES = 2
-UMBRAL_CLIP_NO_APTO = 0.5  # se recalibra en E5
+UMBRAL_CLIP_NO_APTO = 0.25  # calibrado en E5 (45 imágenes revisadas a mano: detecta 2 de 3 no aptas sin falsos bloqueos; con 0.5 no detectaba ninguna)
 TIMEOUT_MOTOR_A_S = 90
 
 # Datos

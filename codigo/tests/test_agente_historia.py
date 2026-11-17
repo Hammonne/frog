@@ -136,3 +136,21 @@ def test_las_sesiones_simuladas_de_e2_tienen_la_forma_que_espera_el_resumen():
     assert len(tasas) == 3 and len(sesion["rounds"]) == 3
     r = resumir(sesion, lambda sistema, mensaje: "")        # un LLM que no responde: cae a la plantilla
     assert r["origen"] == "plantilla" and "Ronda 1" in r["texto"]
+
+
+# ------------------------------------------------------------------ limpieza y comparación flexible
+def test_la_salida_quita_nombres_lugares_y_repetidos():
+    from portadas.agentes.historia import normalizar_salida
+    s = normalizar_salida({"personajes_es": ["niña llamada kat", "perro"], "personajes": ["girl named kat", "dog"],
+                           "objetos_es": ["cielo", "perro", "pelota", "pelota"],
+                           "objetos": ["sky", "dog", "ball", "ball"], "lugar": "park", "tono": "alegre", "edad": "4-6"})
+    assert s["personajes"] == ["girl", "dog"] and s["es"]["personajes"] == ["niña", "perro"]
+    assert s["objetos"] == ["ball"] and s["es"]["objetos"] == ["pelota"]       # sin lugar, sin personaje, sin repetido
+
+
+def test_comparacion_flexible_acepta_que_una_expresion_contenga_a_la_otra():
+    from portadas.agentes.historia import comparar_conjuntos, comparar_flexible
+    pred, anot = ["dog max", "big red ball", "sky"], ["dog", "ball", "kite"]
+    assert comparar_conjuntos(pred, anot) == {"vp": 0, "fp": 3, "fn": 3}
+    assert comparar_flexible(pred, anot) == {"vp": 2, "fp": 1, "fn": 1}
+    assert comparar_flexible(["ball", "ball bat"], ["ball"]) == {"vp": 1, "fp": 1, "fn": 0}   # un anotado, un predicho

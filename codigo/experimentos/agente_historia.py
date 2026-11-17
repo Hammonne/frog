@@ -30,7 +30,7 @@ ANOTACIONES = {
 
 
 def leer_anotadas(ruta: Path):
-    with open(ruta, encoding="utf-8") as fh:
+    with open(ruta, encoding="utf-8-sig") as fh:
         filas = list(csv.DictReader(fh))
     return [f for f in filas if (f.get("personajes") or "").strip() or (f.get("objetos") or "").strip()]
 
@@ -52,6 +52,7 @@ def main():
         for idioma, (ruta, col) in ANOTACIONES.items():
             filas = leer_anotadas(ruta)
             total = {"vp": 0, "fp": 0, "fn": 0}
+            flexible = {"vp": 0, "fp": 0, "fn": 0}
             no_verificados, respaldo = 0, 0
             for f in filas:
                 try:
@@ -60,17 +61,23 @@ def main():
                     detalle.append({"llm": nombre, "idioma": idioma, "id": f["id"], "error": f"no válida: {err}"})
                     continue
                 c = evaluar_extraccion(e, f, idioma)
+                cf = evaluar_extraccion(e, f, idioma, flexible=True)
                 for k in total:
                     total[k] += c[k]
+                    flexible[k] += cf[k]
                 no_verificados += len(e["no_verificados"])
                 respaldo += e["origen"] == "respaldo"
+                visto = e["es"] if idioma == "es" else e          # lo que se comparó, en el idioma de la historia
                 detalle.append({"llm": nombre, "idioma": idioma, "id": f["id"], **c,
-                                "predicho": json.dumps({k: e[k] for k in ("personajes", "objetos", "lugar")},
+                                "vp_flexible": cf["vp"], "fp_flexible": cf["fp"], "fn_flexible": cf["fn"],
+                                "predicho": json.dumps({k: visto[k] for k in ("personajes", "objetos", "lugar")},
                                                        ensure_ascii=False),
                                 "anotado": f"{f.get('personajes', '')} | {f.get('objetos', '')}",
                                 "no_verificados": len(e["no_verificados"])})
             m = precision_exhaustividad(total)
+            mf = precision_exhaustividad(flexible)
             resumen[nombre][idioma] = {"n_historias": len(filas), **total, **{k: round(v, 4) for k, v in m.items()},
+                                       "flexible": {**flexible, **{k: round(v, 4) for k, v in mf.items()}},
                                        "no_verificados": no_verificados, "respaldo": respaldo,
                                        "cumple_precision": m["precision"] >= PRECISION_MIN}
             print(nombre, idioma, resumen[nombre][idioma])

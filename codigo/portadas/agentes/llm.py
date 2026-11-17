@@ -20,7 +20,7 @@ Generador = Callable[[str, str], str]
 
 class LLMLocal:
     def __init__(self, nombre: str = "qwen2.5-7b", cuantizar_4bit: Optional[bool] = None,
-                 max_tokens: int = 512):
+                 max_tokens: int = 900):
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 

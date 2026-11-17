@@ -1,0 +1,301 @@
+modo,par,id,edad,titulo,n_letras,fuente,contraste,banda,origen_agente,leido,cer
+defecto,sun_01,R1-V5,4-6,El conejo,8,Andika,7.7,False,,E conejo e,0.3333
+agente,sun_01,R1-V5,4-6,El conejo,8,Fredoka,6.48,True,agente,| W o Y,0.8889
+extremo,sun_01,R1-V5,4-6,El conejo,8,Andika,7.71,False,,Ms e,0.7778
+defecto,bird_14,R1-V2,4-6,Luna y el bosque,13,Andika,10.78,False,,Luna y el bosque,0.0
+agente,bird_14,R1-V2,4-6,Luna y el bosque,13,Fredoka,7.73,False,agente,Luna y el bosque,0.0
+extremo,bird_14,R1-V2,4-6,Luna y el bosque,13,Fredoka,10.74,False,,Luna y e bosque,0.0625
+defecto,sun_02,R1-V5,4-6,Tomás y las galletas,17,Andika,7.98,False,,Tjomás y las galletas,0.05
+agente,sun_02,R1-V5,4-6,Tomás y las galletas,17,Fredoka,9.54,False,agente,Tomás y las galletas,0.0
+extremo,sun_02,R1-V5,4-6,Tomás y las galletas,17,Baloo2,7.98,False,,Tomás Y195 93 1/eta.,0.5
+defecto,dog_07,R1-V5,4-6,La tortuga que quería volar,23,Andika,8.29,False,,La tortuga que quería volar a,0.0741
+agente,dog_07,R1-V5,4-6,La tortuga que quería volar,23,Fredoka,9.81,False,agente,La tortuga que quería vola; — Y,0.1111
+extremo,dog_07,R1-V5,4-6,La tortuga que quería volar,23,LilitaOne,8.02,False,,"L 2,10 fuga Jue queria Ugas ) Xx",0.6296
+defecto,cat_01,R1-V4,4-6,El dragón que tenía miedo del fuego,29,Andika,11.57,False,,Elldragón que tenía miedo del fuego |,0.0857
+agente,cat_01,R1-V4,4-6,El dragón que tenía miedo del fuego,29,Fredoka,13.56,False,agente,El dragón que tenía miedo del fuego,0.0
+extremo,cat_01,R1-V4,4-6,El dragón que tenía miedo del fuego,29,Andika,11.55,False,,E dYAgón Me Í ten miedo del fue e go,0.3143
+defecto,sun_13,R1-V4,4-6,Pablo y la estrella del mar,22,Andika,10.09,False,,Pablo y la estrella del mar,0.0
+agente,sun_13,R1-V4,4-6,Pablo y la estrella del mar,22,Fredoka,6.79,True,agente,| Pablo y la estrella i del mar |,0.2222
+extremo,sun_13,R1-V4,4-6,Pablo y la estrella del mar,22,Fredoka,10.44,False,,Pablo y ta estreno del mat,0.1852
+defecto,cat_09,R1-V2,4-6,Un día en el jardín,15,Andika,9.91,False,,Un día en el jardín,0.0
+agente,cat_09,R1-V2,4-6,Un día en el jardín,15,Fredoka,11.84,False,agente,Un día en el jardín,0.0
+extremo,cat_09,R1-V2,4-6,Un día en el jardín,15,Baloo2,9.9,False,,en elljardin,0.4211
+defecto,house_08,R1-V1,4-6,Los tres amigos del río,19,Andika,10.84,False,,Los tres amigos del río,0.0
+agente,house_08,R1-V1,4-6,Los tres amigos del río,19,Fredoka,6.47,True,agente,Los tres amigos del río,0.0
+extremo,house_08,R1-V1,4-6,Los tres amigos del río,19,LilitaOne,11.09,False,,L os tr es ami 3 80s del ¿9,0.4348
+defecto,bear_11,R1-V4,4-6,Mía y el barco de papel,18,Andika,10.99,False,,Mía y el barco de papel,0.0
+agente,bear_11,R1-V4,4-6,Mía y el barco de papel,18,Fredoka,16.04,True,agente,Mía y el barco de papel,0.0
+extremo,bear_11,R1-V4,4-6,Mía y el barco de papel,18,Andika,11.34,False,,ía Y el BI co ge qape/,0.2609
+defecto,bird_16,R1-V3,4-6,La noche en que el oso no pudo dormir,29,Andika,11.57,False,,La noche en que el oso no pudo dormir,0.0
+agente,bird_16,R1-V3,4-6,La noche en que el oso no pudo dormir,29,Fredoka,8.72,False,agente,La noche en que el oso no pudo dormir,0.0
+extremo,bird_16,R1-V3,4-6,La noche en que el oso no pudo dormir,29,Fredoka,11.59,False,,"L q noc Oso no he en que el pudo dormi""",0.4595
+defecto,cat_14,R1-V4,4-6,Dino,4,Andika,11.27,False,,"AS - A RRA 0 API TALA O ia dd ds RA Er E sE ACA E A O > SEA LIRA A A ON e > 20: NAS A i AA > a A! ; A , AS Ra CS y",27.75
+agente,cat_14,R1-V4,4-6,Dino,4,Fredoka,13.48,False,agente,Dino,0.0
+extremo,cat_14,R1-V4,4-6,Dino,4,Baloo2,11.86,False,,O - A RRA ES PP E o y AE. a SARRIA == ps ARIAS TATI R An TARA > Q + 70 aa des y A A AAN Qmo TEE E A EN O PS AA A AS A e e A 2% > LANDO . AS > AS Ra no y,37.25
+defecto,dog_15,R1-V3,4-6,El gato que aprendió a nadar en la laguna,33,Andika,9.75,False,,El gato:que aprendió a nadar en la laguna ',0.0732
+agente,dog_15,R1-V3,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,6.78,True,agente,El gato que aprendig a nadar en la laguna y,0.0732
+extremo,dog_15,R1-V3,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,9.75,False,,EJ gato que aprendió a nadar en layagUna |,0.122
+defecto,fish_01,R1-V5,4-6,El conejo,8,Andika,7.24,False,,El conejo,0.0
+agente,fish_01,R1-V5,4-6,El conejo,8,Fredoka,6.46,True,agente,,1.0
+extremo,fish_01,R1-V5,4-6,El conejo,8,Andika,7.42,False,,ATM,1.0
+defecto,house_12,R1-V2,4-6,Luna y el bosque,13,Andika,10.55,False,,Luna y el bosque,0.0
+agente,house_12,R1-V2,4-6,Luna y el bosque,13,Fredoka,7.56,False,agente,Luna y el bosque,0.0
+extremo,house_12,R1-V2,4-6,Luna y el bosque,13,Fredoka,10.44,False,,Luna y e1 bosque,0.0625
+defecto,rabbit_12,R1-V3,4-6,Tomás y las galletas,17,Andika,10.29,False,,Tomás y las galletas | bs,0.25
+agente,rabbit_12,R1-V3,4-6,Tomás y las galletas,17,Fredoka,6.42,True,agente,Tomás y las galletas AS,0.15
+extremo,rabbit_12,R1-V3,4-6,Tomás y las galletas,17,Baloo2,10.31,False,,1omá? y 195 galleta.,0.3
+defecto,dog_04,R1-V5,4-6,La tortuga que quería volar,23,Andika,5.97,False,,La tortuga que) quertalvolar,0.1111
+agente,dog_04,R1-V5,4-6,La tortuga que quería volar,23,Fredoka,6.28,True,agente,La tortuga que quería volar,0.0
+extremo,dog_04,R1-V5,4-6,La tortuga que quería volar,23,LilitaOne,6.69,False,,La or... vería ¿UL ga O e E) VA,0.8148
+defecto,dragon_19,R1-V4,4-6,El dragón que tenía miedo del fuego,29,Andika,10.23,False,,Elldragón que tenía miedo del fuego,0.0286
+agente,dragon_19,R1-V4,4-6,El dragón que tenía miedo del fuego,29,Fredoka,6.8,True,agente,El dragón que tenia - miedo del fuego,0.0571
+extremo,dragon_19,R1-V4,4-6,El dragón que tenía miedo del fuego,29,Andika,10.23,False,,E dragón QUe Í ten miedo del fue go,0.1714
+defecto,tree_02,R1-V3,4-6,Pablo y la estrella del mar,22,Andika,11.03,False,,Pablo y la estrella del mar,0.0
+agente,tree_02,R1-V3,4-6,Pablo y la estrella del mar,22,Fredoka,7.91,False,agente,Pablo y la estrella del mar,0.0
+extremo,tree_02,R1-V3,4-6,Pablo y la estrella del mar,22,Fredoka,11.06,False,,Pablo y 1a estrWo del mat,0.2222
+defecto,bear_19,R1-V3,4-6,Un día en el jardín,15,Andika,10.2,False,,Un día en el jardín,0.0
+agente,bear_19,R1-V3,4-6,Un día en el jardín,15,Fredoka,12.11,False,agente,Un día en el jardín,0.0
+extremo,bear_19,R1-V3,4-6,Un día en el jardín,15,Baloo2,10.13,False,,en l jardín,0.4211
+defecto,tree_08,R1-V2,4-6,Los tres amigos del río,19,Andika,9.33,False,,: A E V Los tres amigos del río N V MN y,0.7391
+agente,tree_08,R1-V2,4-6,Los tres amigos del río,19,Fredoka,11.14,False,agente,"Sn Los tres amigos, del río Ñ V AN ,",0.5652
+extremo,tree_08,R1-V2,4-6,Los tres amigos del río,19,LilitaOne,9.39,False,,Los tres Y so N P y,0.4783
+defecto,cat_02,R1-V5,4-6,Mía y el barco de papel,18,Andika,8.4,False,,Mía y el barco de * “papel,0.087
+agente,cat_02,R1-V5,4-6,Mía y el barco de papel,18,Fredoka,6.23,True,agente,Mía y el barco de papel,0.0
+extremo,cat_02,R1-V5,4-6,Mía y el barco de papel,18,Andika,8.29,False,,nía Y el B9co qe 5 /SAEe/,0.4348
+defecto,bird_03,R1-V3,4-6,La noche en que el oso no pudo dormir,29,Andika,9.82,False,,La noche en que el oso no pudo dormir,0.0
+agente,bird_03,R1-V3,4-6,La noche en que el oso no pudo dormir,29,Fredoka,11.85,False,agente,La noche en que el oso no pudo dormir,0.0
+extremo,bird_03,R1-V3,4-6,La noche en que el oso no pudo dormir,29,Fredoka,9.83,False,,"L q noc Oso no he en que el pudo dormi""",0.4595
+defecto,house_03,R1-V5,4-6,Dino,4,Andika,7.48,False,,Dino,0.0
+agente,house_03,R1-V5,4-6,Dino,4,Fredoka,6.48,True,agente,,1.0
+extremo,house_03,R1-V5,4-6,Dino,4,Baloo2,7.48,False,,Vino,0.25
+defecto,fish_07,R1-V3,4-6,El gato que aprendió a nadar en la laguna,33,Andika,10.94,False,,El gato que aprendió a nadar en la laguna,0.0
+agente,fish_07,R1-V3,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,7.84,False,agente,El gato que aprendió a nadar en la laguna,0.0
+extremo,fish_07,R1-V3,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,10.94,False,,a nadar on layaguna,0.5854
+defecto,cat_07,R1-V1,4-6,El conejo,8,Andika,12.33,False,,z El conejo,0.2222
+agente,cat_07,R1-V1,4-6,El conejo,8,Fredoka,5.26,False,agente,a El conejo,0.2222
+extremo,cat_07,R1-V1,4-6,El conejo,8,Andika,12.24,False,,ero | co €,0.7778
+defecto,rabbit_14,R1-V1,4-6,Luna y el bosque,13,Andika,12.81,False,,Luna y el bosque,0.0
+agente,rabbit_14,R1-V1,4-6,Luna y el bosque,13,Fredoka,9.19,False,agente,Luna y el bosque,0.0
+extremo,rabbit_14,R1-V1,4-6,Luna y el bosque,13,Fredoka,12.83,False,,Luna y e bosque,0.0625
+defecto,dog_08,R1-V5,4-6,Tomás y las galletas,17,Andika,8.04,False,,¿Tomás y las == galletas,0.15
+agente,dog_08,R1-V5,4-6,Tomás y las galletas,17,Fredoka,9.64,False,agente,Tieomás y las galletas,0.1
+extremo,dog_08,R1-V5,4-6,Tomás y las galletas,17,Baloo2,8.04,False,,Tomó? Y195 931/eta.,0.55
+defecto,house_15,R1-V3,4-6,La tortuga que quería volar,23,Andika,10.1,False,,La tortuga que quería volar,0.0
+agente,house_15,R1-V3,4-6,La tortuga que quería volar,23,Fredoka,6.42,True,agente,La tortuga que quería volar ol => >,0.2963
+extremo,house_15,R1-V3,4-6,La tortuga que quería volar,23,LilitaOne,10.03,False,,L vería q 10 0 'tuga que qué Yaya;,0.7407
+defecto,dog_00,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Andika,10.27,False,,"El dragón que tenía miedo del, fuego",0.0286
+agente,dog_00,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Fredoka,12.4,False,agente,El dragón que tenía miedo del fuego,0.0
+extremo,dog_00,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Andika,10.27,False,,£¡ dYAgÓN Me Í ten miedo del fue 6 go,0.3714
+defecto,bird_17,R1-V3,4-6,Pablo y la estrella del mar,22,Andika,11.51,False,,Pablo y la estrella del mar,0.0
+agente,bird_17,R1-V3,4-6,Pablo y la estrella del mar,22,Fredoka,8.26,False,agente,Pablo y la estrella del mar,0.0
+extremo,bird_17,R1-V3,4-6,Pablo y la estrella del mar,22,Fredoka,11.54,False,,Pablo y 1a estro del mat,0.2222
+defecto,cat_15,R1-V3,4-6,Un día en el jardín,15,Andika,10.45,False,,Un día en el jardín,0.0
+agente,cat_15,R1-V3,4-6,Un día en el jardín,15,Fredoka,7.51,False,agente,Un día en el jardín,0.0
+extremo,cat_15,R1-V3,4-6,Un día en el jardín,15,Baloo2,10.68,False,,en el jardín,0.3684
+defecto,bear_11,R1-V3,4-6,Los tres amigos del río,19,Andika,10.46,False,,Los tres amigos del río,0.0
+agente,bear_11,R1-V3,4-6,Los tres amigos del río,19,Fredoka,12.5,False,agente,Los tres amigos del río,0.0
+extremo,bear_11,R1-V3,4-6,Los tres amigos del río,19,LilitaOne,10.5,False,,L os tr es ami : 80s del ¿9,0.4348
+defecto,dragon_01,R1-V5,4-6,Mía y el barco de papel,18,Andika,7.94,False,,Mía y ellbarco ¡de papel,0.0435
+agente,dragon_01,R1-V5,4-6,Mía y el barco de papel,18,Fredoka,5.69,False,agente,Mía y/el barco de papel,0.0435
+extremo,dragon_01,R1-V5,4-6,Mía y el barco de papel,18,Andika,7.83,False,,Wa Y el/b9co qe Qae/,0.3913
+defecto,cat_01,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Andika,10.28,False,,La noche en que el oso no pudo | dormir,0.0541
+agente,cat_01,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Fredoka,6.41,True,agente,La noche en que el oso no pudo dormir PR,0.0811
+extremo,cat_01,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Fredoka,10.28,False,,"L q noc 9s9 no he en que e! 5 pudo dorm""",0.5135
+defecto,bird_15,R1-V4,4-6,Dino,4,Andika,9.98,False,,Dino,0.0
+agente,bird_15,R1-V4,4-6,Dino,4,Andika,12.03,False,agente,Dino,0.0
+extremo,bird_15,R1-V4,4-6,Dino,4,Baloo2,10.46,False,,Vino,0.25
+defecto,bird_19,R1-V1,4-6,El gato que aprendió a nadar en la laguna,33,Andika,11.01,False,,El gato que aprendió a nadar en la laguna,0.0
+agente,bird_19,R1-V1,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,4.74,False,agente,El gato que aprendig a nadar en la laguna,0.0244
+extremo,bird_19,R1-V1,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,11.03,False,,El gato que aprendió A nadar en lajaguva,0.0732
+defecto,bird_18,R1-V3,4-6,El conejo,8,Andika,10.06,False,,El conejo,0.0
+agente,bird_18,R1-V3,4-6,El conejo,8,Fredoka,6.39,True,agente,"YA / > / > [ $ 1 DN, A",2.2222
+extremo,bird_18,R1-V3,4-6,El conejo,8,Andika,10.08,False,,eco,0.6667
+defecto,dog_12,R1-V5,4-6,Luna y el bosque,13,Andika,7.32,False,,pe liSsque ds,0.8125
+agente,dog_12,R1-V5,4-6,Luna y el bosque,13,Fredoka,6.46,True,agente,una y el bosque,0.0625
+extremo,dog_12,R1-V5,4-6,Luna y el bosque,13,Fredoka,7.62,False,,"Luna y ES ve. A gel sq ,",0.8125
+defecto,dragon_06,R1-V2,4-6,Tomás y las galletas,17,Andika,10.85,False,,Tomás y las galletas,0.0
+agente,dragon_06,R1-V2,4-6,Tomás y las galletas,17,Fredoka,7.98,False,agente,Tomás y las galletas,0.0
+extremo,dragon_06,R1-V2,4-6,Tomás y las galletas,17,Baloo2,10.75,False,,1omá? y 195 galleta.,0.3
+defecto,house_04,R1-V4,4-6,La tortuga que quería volar,23,Andika,9.84,False,,La tortuga que quería volar,0.0
+agente,house_04,R1-V4,4-6,La tortuga que quería volar,23,Fredoka,11.76,False,agente,La tortuga que quería volar,0.0
+extremo,house_04,R1-V4,4-6,La tortuga que quería volar,23,LilitaOne,9.77,False,,L a/10 Ituga Jue quería Uaas,0.4074
+defecto,sun_07,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Andika,9.66,False,,El dragón que; tenía miedo del' fuego,0.0571
+agente,sun_07,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Fredoka,11.41,False,agente,El dragón que tenía miedo del fuego,0.0
+extremo,sun_07,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Andika,9.66,False,,E dYAgónN que ] t Se miedo del fue ds 9o,0.4
+defecto,bird_04,R1-V2,4-6,Pablo y la estrella del mar,22,Andika,10.29,False,,Pablo y la estrella del mar,0.0
+agente,bird_04,R1-V2,4-6,Pablo y la estrella del mar,22,Fredoka,7.38,False,agente,Pablo y la estrella del mar,0.0
+extremo,bird_04,R1-V2,4-6,Pablo y la estrella del mar,22,Fredoka,10.11,False,,Pablo y 1a estro del mat,0.2222
+defecto,fish_07,R1-V3,4-6,Un día en el jardín,15,Andika,10.79,False,,"""5 Y A Un día en el jardín ole a >",0.7895
+agente,fish_07,R1-V3,4-6,Un día en el jardín,15,Fredoka,8.76,False,agente,A £ A “Un día en el jardín»,0.2105
+extremo,fish_07,R1-V3,4-6,Un día en el jardín,15,Baloo2,10.85,False,,UA dia en el jardín. Ns A >,0.4737
+defecto,dragon_02,R1-V2,4-6,Los tres amigos del río,19,Andika,9.86,False,,Los tres amigos del río,0.0
+agente,dragon_02,R1-V2,4-6,Los tres amigos del río,19,Fredoka,7.07,False,agente,Los tres amigos del río,0.0
+extremo,dragon_02,R1-V2,4-6,Los tres amigos del río,19,LilitaOne,9.65,False,,L os tr es ami O gos LA ¿9,0.4783
+defecto,bird_13,R1-V4,4-6,Mía y el barco de papel,18,Andika,11.2,False,,Mía y el barco de papel,0.0
+agente,bird_13,R1-V4,4-6,Mía y el barco de papel,18,Fredoka,8.12,False,agente,Mía y el barco de papel,0.0
+extremo,bird_13,R1-V4,4-6,Mía y el barco de papel,18,Andika,11.35,False,,nía Y el B9co ge cafe!,0.3043
+defecto,house_01,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Andika,7.69,False,,La Moche en que el oso no pudo y “dormir MM >,0.2162
+agente,house_01,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Fredoka,9.17,False,agente,"La Te en que el Oso no pudo dormir, « a",0.1892
+extremo,house_01,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Fredoka,7.69,False,,Perote en que * SS no/pudo dormtá,0.3514
+defecto,dragon_17,R1-V2,4-6,Dino,4,Andika,10.83,False,,Dino,0.0
+agente,dragon_17,R1-V2,4-6,Dino,4,Fredoka,12.94,False,agente,Dino,0.0
+extremo,dragon_17,R1-V2,4-6,Dino,4,Baloo2,10.63,False,,Qino,0.25
+defecto,house_17,R1-V4,4-6,El gato que aprendió a nadar en la laguna,33,Andika,10.2,False,,"Ellgato que aprendió a nadar men, la-laguna",0.0976
+agente,house_17,R1-V4,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,12.79,False,agente,El gato que aprendió a nadar en la laguna,0.0
+extremo,house_17,R1-V4,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,10.1,False,,A nadar en layjagUna,0.561
+defecto,bear_00,R1-V1,4-6,El conejo,8,Andika,12.94,False,,El conejo,0.0
+agente,bear_00,R1-V1,4-6,El conejo,8,Fredoka,9.21,False,agente,El conejo e.,0.3333
+extremo,bear_00,R1-V1,4-6,El conejo,8,Andika,12.15,False,,S A acto,0.7778
+defecto,fish_03,R1-V5,4-6,Luna y el bosque,13,Andika,6.39,False,,si o e is A Pao me rea > a,1.3125
+agente,fish_03,R1-V5,4-6,Luna y el bosque,13,Fredoka,12.68,True,agente,Luna y el bosque,0.0
+extremo,fish_03,R1-V5,4-6,Luna y el bosque,13,Fredoka,6.61,False,,"AS A ; ¿Un Yell bosqu "" a d",0.9375
+defecto,tree_17,R1-V1,4-6,Tomás y las galletas,17,Andika,11.74,False,,Tomás y las galletas,0.0
+agente,tree_17,R1-V1,4-6,Tomás y las galletas,17,Fredoka,8.88,False,agente,Tomás y las galletas,0.0
+extremo,tree_17,R1-V1,4-6,Tomás y las galletas,17,Baloo2,11.74,False,,"1omá? Y 195 Qalleta,",0.35
+defecto,sun_04,R1-V1,4-6,La tortuga que quería volar,23,Andika,10.87,False,,La tortuga que quería volar,0.0
+agente,sun_04,R1-V1,4-6,La tortuga que quería volar,23,Fredoka,4.67,False,agente,La tortuga que quería volar,0.0
+extremo,sun_04,R1-V1,4-6,La tortuga que quería volar,23,LilitaOne,10.86,False,,L a 10 ltuga Jue quería Vayas,0.3333
+defecto,tree_19,R1-V2,4-6,El dragón que tenía miedo del fuego,29,Andika,10.89,False,,El dragón que tenía miedo del fuego,0.0
+agente,tree_19,R1-V2,4-6,El dragón que tenía miedo del fuego,29,Fredoka,4.66,False,agente,EN El dragón que tenía miedo del fuego,0.0857
+extremo,tree_19,R1-V2,4-6,El dragón que tenía miedo del fuego,29,Andika,10.89,False,,"£¡ dragón Qe ten miedo del fue $ 9,0",0.3429
+defecto,dragon_07,R1-V5,4-6,Pablo y la estrella del mar,22,Andika,6.9,False,,Pablo y la estrella delimar |,0.1111
+agente,dragon_07,R1-V5,4-6,Pablo y la estrella del mar,22,Fredoka,6.41,True,agente,Pablo y la estrella | del mar,0.0741
+extremo,dragon_07,R1-V5,4-6,Pablo y la estrella del mar,22,Fredoka,7.04,False,,Pablo yla estu del mat |,0.3333
+defecto,house_02,R1-V4,4-6,Un día en el jardín,15,Andika,9.7,False,,Un día en el jardín,0.0
+agente,house_02,R1-V4,4-6,Un día en el jardín,15,Fredoka,6.38,True,agente,Un día en el jardín,0.0
+extremo,house_02,R1-V4,4-6,Un día en el jardín,15,Baloo2,10.33,False,,en el'jardín,0.4211
+defecto,fish_12,R1-V2,4-6,Los tres amigos del río,19,Andika,10.03,False,,Los tres amigos del río,0.0
+agente,fish_12,R1-V2,4-6,Los tres amigos del río,19,Fredoka,11.98,False,agente,Los tres amigos del río,0.0
+extremo,fish_12,R1-V2,4-6,Los tres amigos del río,19,LilitaOne,9.86,False,,L ostr es ami O gos YA ¿9,0.5217
+defecto,bird_01,R1-V3,4-6,Mía y el barco de papel,18,Andika,10.97,False,,Mía y el barco de papel,0.0
+agente,bird_01,R1-V3,4-6,Mía y el barco de papel,18,Fredoka,7.88,False,agente,Mía y el barco de papel,0.0
+extremo,bird_01,R1-V3,4-6,Mía y el barco de papel,18,Andika,11.23,False,,"nía Y el B9""co ge <ape/",0.2609
+defecto,sun_00,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Andika,10.56,False,,"La noche en que el oso no pudo. _+ . >_< dormir"",",0.3243
+agente,sun_00,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Fredoka,4.57,False,agente,La noche en que el: oso no pudo dormir”,0.027
+extremo,sun_00,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Fredoka,10.57,False,,L q hoc Oso no he en que” Ea TL udo dormit? . A,0.6757
+defecto,sun_15,R1-V5,4-6,Dino,4,Andika,10.78,False,,A o Dinos»==,1.75
+agente,sun_15,R1-V5,4-6,Dino,4,Fredoka,4.55,False,agente,: a dead Re ¿E — Din UA,4.25
+extremo,sun_15,R1-V5,4-6,Dino,4,Baloo2,10.53,False,,A o gino,1.25
+defecto,dragon_03,R1-V5,4-6,El gato que aprendió a nadar en la laguna,33,Andika,8.79,False,,"El'gato que aprendió,a/nadar.. enilailaguna",0.1707
+agente,dragon_03,R1-V5,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,15.53,True,agente,El gato que aprendió a nadar en la laguna,0.0
+extremo,dragon_03,R1-V5,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,8.77,False,,E/gato que aprendió A nadar/en layaguna”,0.122
+defecto,bird_16,R1-V4,4-6,El conejo,8,Andika,10.19,False,,,1.0
+agente,bird_16,R1-V4,4-6,El conejo,8,Fredoka,7.32,False,agente,El GE,0.5556
+extremo,bird_16,R1-V4,4-6,El conejo,8,Andika,10.43,False,,PS,1.0
+defecto,bear_16,R1-V2,4-6,Luna y el bosque,13,Andika,10.85,False,,Luna y el bosque -,0.125
+agente,bear_16,R1-V2,4-6,Luna y el bosque,13,Fredoka,7.78,False,agente,Luna y el bosque,0.0
+extremo,bear_16,R1-V2,4-6,Luna y el bosque,13,Fredoka,10.67,False,,Luna y el bosqué -,0.125
+defecto,dog_05,R1-V3,4-6,Tomás y las galletas,17,Andika,11.32,False,,Tomás y las galletas,0.0
+agente,dog_05,R1-V3,4-6,Tomás y las galletas,17,Fredoka,7.82,False,agente,Tomás y las galletas,0.0
+extremo,dog_05,R1-V3,4-6,Tomás y las galletas,17,Baloo2,11.34,False,,"1omá?y195 Oalleta,",0.45
+defecto,rabbit_07,R1-V5,4-6,La tortuga que quería volar,23,Andika,7.0,False,,Latortuga que quería volar,0.037
+agente,rabbit_07,R1-V5,4-6,La tortuga que quería volar,23,Fredoka,6.4,True,agente,La tortuga que quería volar,0.0
+extremo,rabbit_07,R1-V5,4-6,La tortuga que quería volar,23,LilitaOne,7.0,False,,L q/107 tuga Jue queria Vayas,0.4074
+defecto,fish_08,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Andika,10.81,False,,El dragón que tenía miedo del fuego,0.0
+agente,fish_08,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Fredoka,7.73,False,agente,El dragón que tenía miedo del fuego,0.0
+extremo,fish_08,R1-V3,4-6,El dragón que tenía miedo del fuego,29,Andika,10.81,False,,£¡ dYAgÓN Me Í ten miedo del fue S Y9o,0.4286
+defecto,rabbit_00,R1-V3,4-6,Pablo y la estrella del mar,22,Andika,10.1,False,,Pablo y la estrella del mar,0.0
+agente,rabbit_00,R1-V3,4-6,Pablo y la estrella del mar,22,Fredoka,6.39,True,agente,Pablo y la estrella del mar,0.0
+extremo,rabbit_00,R1-V3,4-6,Pablo y la estrella del mar,22,Fredoka,10.07,False,,Pablo Y La estrena: del mat,0.1481
+defecto,dragon_19,R1-V3,4-6,Un día en el jardín,15,Andika,9.55,False,,Un día en el jardín,0.0
+agente,dragon_19,R1-V3,4-6,Un día en el jardín,15,Fredoka,11.44,False,agente,Un día en el jardín,0.0
+extremo,dragon_19,R1-V3,4-6,Un día en el jardín,15,Baloo2,9.75,False,,un dia ja en eljardin,0.2105
+defecto,dog_08,R1-V1,4-6,Los tres amigos del río,19,Andika,11.86,False,,Los tres amigos del río,0.0
+agente,dog_08,R1-V1,4-6,Los tres amigos del río,19,Fredoka,5.06,True,agente,' Los tres amigos del río,0.087
+extremo,dog_08,R1-V1,4-6,Los tres amigos del río,19,LilitaOne,11.93,False,,L os tr es ami 3 30s del ¿9,0.4348
+defecto,tree_02,R1-V5,4-6,Mía y el barco de papel,18,Andika,7.81,False,,"Mía y ellbarco de Es ¿papel ""q",0.3043
+agente,tree_02,R1-V5,4-6,Mía y el barco de papel,18,Fredoka,9.26,False,agente,Mía y el barco de uN papel 27,0.2609
+extremo,tree_02,R1-V5,4-6,Mía y el barco de papel,18,Andika,7.61,False,,"Wa Y el/B9co qe A, Y <aÍe/, A",0.7391
+defecto,rabbit_16,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Andika,12.07,False,,La noche en que el oso no pudo dormir,0.0
+agente,rabbit_16,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Fredoka,8.74,False,agente,La noche en que el oso no pudo dormir,0.0
+extremo,rabbit_16,R1-V2,4-6,La noche en que el oso no pudo dormir,29,Fredoka,12.07,False,,"L q noc 9so no he en que el pudo dorm""",0.4865
+defecto,bear_07,R1-V5,4-6,Dino,4,Andika,8.19,False,,<A Dino Ñ seis MS,3.25
+agente,bear_07,R1-V5,4-6,Dino,4,Fredoka,9.78,False,agente,Dino,0.0
+extremo,bear_07,R1-V5,4-6,Dino,4,Baloo2,7.92,False,,: j »,1.0
+defecto,bear_17,R1-V1,4-6,El gato que aprendió a nadar en la laguna,33,Andika,11.62,False,,El gato que aprendió a nadar enfllallagunma td,0.1707
+agente,bear_17,R1-V1,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,5.06,False,agente,"""El gato que aprendió a e en a”",0.3415
+extremo,bear_17,R1-V1,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,11.63,False,,: nadaren | q S e a ÉS a,0.6585
+defecto,bear_14,R1-V1,4-6,El conejo,8,Andika,12.49,False,,El conejo,0.0
+agente,bear_14,R1-V1,4-6,El conejo,8,Fredoka,5.36,False,agente,d El conejo,0.2222
+extremo,bear_14,R1-V1,4-6,El conejo,8,Andika,12.52,False,,el ceo,0.3333
+defecto,fish_04,R1-V5,4-6,Luna y el bosque,13,Andika,6.57,False,,“lúna vel bosque o y q,0.5
+agente,fish_04,R1-V5,4-6,Luna y el bosque,13,Fredoka,12.53,True,agente,Luna y el bosque,0.0
+extremo,fish_04,R1-V5,4-6,Luna y el bosque,13,Fredoka,6.48,False,,pl In Y posquE,0.5
+defecto,rabbit_10,R1-V4,4-6,Tomás y las galletas,17,Andika,10.64,False,,Tomás y las galletas,0.0
+agente,rabbit_10,R1-V4,4-6,Tomás y las galletas,17,Fredoka,6.8,True,agente,Tomás y las galletas,0.0
+extremo,rabbit_10,R1-V4,4-6,Tomás y las galletas,17,Baloo2,10.76,False,,"1om32y195 Oalleta,",0.5
+defecto,rabbit_01,R1-V1,4-6,La tortuga que quería volar,23,Andika,12.04,False,,La tortuga que quería volar,0.0
+agente,rabbit_01,R1-V1,4-6,La tortuga que quería volar,23,Fredoka,8.46,False,agente,La tortuga que quería volar,0.0
+extremo,rabbit_01,R1-V1,4-6,La tortuga que quería volar,23,LilitaOne,12.12,False,,L a 10 tuga Jue quería Vayas,0.2963
+defecto,sun_16,R1-V1,4-6,El dragón que tenía miedo del fuego,29,Andika,11.53,False,,== El dragón que tenía miedo del fuego,0.0857
+agente,sun_16,R1-V1,4-6,El dragón que tenía miedo del fuego,29,Fredoka,13.66,False,agente,“El dragón que tenía miedo del fuego,0.0
+extremo,sun_16,R1-V1,4-6,El dragón que tenía miedo del fuego,29,Andika,11.53,False,,"""E dragón Que tení ten miedo del fue Es 9o",0.3143
+defecto,cat_19,R1-V1,4-6,Pablo y la estrella del mar,22,Andika,11.91,False,,Pablo y la estrella del mar,0.0
+agente,cat_19,R1-V1,4-6,Pablo y la estrella del mar,22,Fredoka,5.12,False,agente,Pablo y la estrella del mar,0.0
+extremo,cat_19,R1-V1,4-6,Pablo y la estrella del mar,22,Fredoka,12.18,False,,Pablo y la estreno del mat,0.1481
+defecto,rabbit_07,R1-V1,4-6,Un día en el jardín,15,Andika,11.2,False,,Un día en el jardín,0.0
+agente,rabbit_07,R1-V1,4-6,Un día en el jardín,15,Fredoka,4.77,False,agente,: Un día en el jardín,0.1053
+extremo,rabbit_07,R1-V1,4-6,Un día en el jardín,15,Baloo2,11.1,False,,en el jardín,0.3684
+defecto,bird_02,R1-V3,4-6,Los tres amigos del río,19,Andika,10.31,False,,Los tres amigos del río,0.0
+agente,bird_02,R1-V3,4-6,Los tres amigos del río,19,Fredoka,7.41,False,agente,Los tres amigos del río,0.0
+extremo,bird_02,R1-V3,4-6,Los tres amigos del río,19,LilitaOne,10.43,False,,L os tr es ami : 30s del ¿9,0.4348
+defecto,sun_10,R1-V5,4-6,Mía y el barco de papel,18,Andika,8.17,False,,Mía y el barco de papel,0.0
+agente,sun_10,R1-V5,4-6,Mía y el barco de papel,18,Fredoka,6.57,True,agente,Mía y el barco de | papel,0.087
+extremo,sun_10,R1-V5,4-6,Mía y el barco de papel,18,Andika,8.25,False,,nía Y el B9co ge <aFe/,0.3043
+defecto,house_17,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Andika,7.89,False,,"La ¡noche¡en que el oso,no pudo dormir",0.0541
+agente,house_17,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Fredoka,6.52,True,agente,La noche en que el oso no pudo dormir,0.0
+extremo,house_17,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Fredoka,7.89,False,,L Qq/nOoc Oso ¡no he en que el pudo dorm!”,0.5676
+defecto,cat_13,R1-V2,4-6,Dino,4,Andika,11.12,False,,Dino,0.0
+agente,cat_13,R1-V2,4-6,Dino,4,Fredoka,7.98,False,agente,Dino,0.0
+extremo,cat_13,R1-V2,4-6,Dino,4,Baloo2,11.1,False,,Vino,0.25
+defecto,rabbit_13,R1-V2,4-6,El gato que aprendió a nadar en la laguna,33,Andika,11.14,False,,El gato que aprendió a nadar en la laguna,0.0
+agente,rabbit_13,R1-V2,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,8.05,False,agente,El gato que aprendió a nadar en la laguna,0.0
+extremo,rabbit_13,R1-V2,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,11.14,False,,a nadar en layaguna,0.561
+defecto,bird_16,R1-V3,4-6,El conejo,8,Andika,11.07,False,,E El con ej 4,0.5556
+agente,bird_16,R1-V3,4-6,El conejo,8,Fredoka,7.96,False,agente,db Elconejo,0.4444
+extremo,bird_16,R1-V3,4-6,El conejo,8,Andika,11.17,False,,A |< Sl 0,1.0
+defecto,fish_04,R1-V3,4-6,Luna y el bosque,13,Andika,9.54,False,,Euna y el bosque,0.0625
+agente,fish_04,R1-V3,4-6,Luna y el bosque,13,Fredoka,7.3,False,agente,Luna y el bosque,0.0
+extremo,fish_04,R1-V3,4-6,Luna y el bosque,13,Fredoka,10.18,False,,Luna y e bosque,0.0625
+defecto,bear_10,R1-V1,4-6,Tomás y las galletas,17,Andika,12.21,False,,Tomás y las galletas e,0.1
+agente,bear_10,R1-V1,4-6,Tomás y las galletas,17,Fredoka,5.57,False,agente,Tomás y las galletas,0.0
+extremo,bear_10,R1-V1,4-6,Tomás y las galletas,17,Baloo2,12.12,False,,po SS galletas e,0.5
+defecto,house_06,R1-V3,4-6,La tortuga que quería volar,23,Andika,11.51,False,,; Y E: f $€ ( La tortuga que | quería volar sd A,0.7407
+agente,house_06,R1-V3,4-6,La tortuga que quería volar,23,Fredoka,8.27,False,agente,í Y E: La tortuga que ( quería volar p- /,0.5185
+extremo,house_06,R1-V3,4-6,La tortuga que quería volar,23,LilitaOne,11.48,False,,4 É Y E: a jo f E ES Muga Jue quería Una” sy,0.963
+defecto,house_15,R1-V2,4-6,El dragón que tenía miedo del fuego,29,Andika,11.1,False,,El dragón que tenía miedo del fuego,0.0
+agente,house_15,R1-V2,4-6,El dragón que tenía miedo del fuego,29,Fredoka,8.09,False,agente,El dragón que tenía miedo del fuego,0.0
+extremo,house_15,R1-V2,4-6,El dragón que tenía miedo del fuego,29,Andika,11.19,False,,£¡ dYAgÓN Me Í ten miedo del fue - 9o,0.4
+defecto,cat_08,R1-V1,4-6,Pablo y la estrella del mar,22,Andika,12.52,False,,“Pablo y la estrella del mar,0.0
+agente,cat_08,R1-V1,4-6,Pablo y la estrella del mar,22,Fredoka,8.99,False,agente,Pablo y la estrella del mar,0.0
+extremo,cat_08,R1-V1,4-6,Pablo y la estrella del mar,22,Fredoka,12.73,False,,a Pablo y la estreno del mat,0.2222
+defecto,cat_05,R1-V1,4-6,Un día en el jardín,15,Andika,12.55,False,,Un día en el jardín 2 y:,0.2632
+agente,cat_05,R1-V1,4-6,Un día en el jardín,15,Fredoka,8.86,False,agente,| Un día en el jardín » y:,0.2632
+extremo,cat_05,R1-V1,4-6,Un día en el jardín,15,Baloo2,12.57,False,,Un dia en el jardín 2 y:,0.2632
+defecto,dog_18,R1-V2,4-6,Los tres amigos del río,19,Andika,11.38,False,,Los tres amigos del río,0.0
+agente,dog_18,R1-V2,4-6,Los tres amigos del río,19,Fredoka,8.1,False,agente,Los tres amigos del río,0.0
+extremo,dog_18,R1-V2,4-6,Los tres amigos del río,19,LilitaOne,11.1,False,,L os tr es ami a 30s del ¿9,0.4348
+defecto,bird_09,R1-V4,4-6,Mía y el barco de papel,18,Andika,10.9,False,,Mía y el barco de papel,0.0
+agente,bird_09,R1-V4,4-6,Mía y el barco de papel,18,Fredoka,7.89,False,agente,Mía y el barco de papel,0.0
+extremo,bird_09,R1-V4,4-6,Mía y el barco de papel,18,Andika,11.26,False,,ía Y el B9co ge cafe!,0.3043
+defecto,cat_09,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Andika,8.41,False,,La ¡noche¡en que el oso no pudo dormir,0.027
+agente,cat_09,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Fredoka,10.15,False,agente,La noche en que el oso no pudo dormir,0.0
+extremo,cat_09,R1-V5,4-6,La noche en que el oso no pudo dormir,29,Fredoka,8.41,False,,"L q ¡noc Osono he en que el pudo dormi""",0.4324
+defecto,cat_01,R1-V4,4-6,Dino,4,Andika,9.92,False,,Dino,0.0
+agente,cat_01,R1-V4,4-6,Dino,4,Andika,7.11,False,agente,Dino PS y,1.25
+extremo,cat_01,R1-V4,4-6,Dino,4,Baloo2,10.12,False,,PAS 3,1.25
+defecto,sun_09,R1-V4,4-6,El gato que aprendió a nadar en la laguna,33,Andika,10.52,False,,Eligato que aprendió a nadar en la laguna,0.0244
+agente,sun_09,R1-V4,4-6,El gato que aprendió a nadar en la laguna,33,Fredoka,4.5,False,agente,el gato que aprendió a nadar enila laguna,0.0244
+extremo,sun_09,R1-V4,4-6,El gato que aprendió a nadar en la laguna,33,LilitaOne,10.52,False,,A nadar en layagUuna,0.5854
+defecto,cat_08,R1-V4,4-6,El conejo,8,Andika,11.19,False,,El conejo,0.0
+agente,cat_08,R1-V4,4-6,El conejo,8,Fredoka,8.02,False,agente,",. dd Dar",0.8889
+extremo,cat_08,R1-V4,4-6,El conejo,8,Andika,11.2,False,,ANA,0.8889
+defecto,house_14,R1-V4,4-6,Luna y el bosque,13,Andika,9.45,False,,Luna y el bosque,0.0
+agente,house_14,R1-V4,4-6,Luna y el bosque,13,Fredoka,6.73,True,agente,Luna y el bosque,0.0
+extremo,house_14,R1-V4,4-6,Luna y el bosque,13,Fredoka,10.09,False,,Luna Ye bosque,0.125
+defecto,bird_15,R1-V5,4-6,Tomás y las galletas,17,Andika,6.98,False,,l Tomás y/las us galletas a,0.4
+agente,bird_15,R1-V5,4-6,Tomás y las galletas,17,Fredoka,6.43,True,agente,Tomás y las galletas -—— al,0.25
+extremo,bird_15,R1-V5,4-6,Tomás y las galletas,17,Baloo2,7.02,False,,Tomás y/laS galletas > Aa? a,0.45
+defecto,bird_00,R1-V3,4-6,La tortuga que quería volar,23,Andika,10.6,False,,La tortuga que quería volar,0.0
+agente,bird_00,R1-V3,4-6,La tortuga que quería volar,23,Fredoka,7.61,False,agente,La tortuga que quería volar,0.0
+extremo,bird_00,R1-V3,4-6,La tortuga que quería volar,23,LilitaOne,10.77,False,,L a 10 tuga Jue quería Vayas,0.2963
