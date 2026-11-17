@@ -109,7 +109,10 @@ def correr(pares: List[Dict], motor, eje: str, carpeta: Path, clip, lp, revisor,
             if img is not None:
                 ruta = carpeta / f"{motor.nombre}_{eje}_{h['id']}_{v['id']}.png"
                 img.save(ruta)
-                fila["imagen"] = str(ruta)
+                try:    # relativa a codigo/: la corrida se puede reanudar desde cualquier Drive
+                    fila["imagen"] = ruta.resolve().relative_to(config.RAIZ).as_posix()
+                except ValueError:
+                    fila["imagen"] = str(ruta)
                 fila.update(metricas_imagen(v, img, boceto, clip, par["elementos"], hed))
                 imgs.append(img)
             filas_img.append(fila)
@@ -223,7 +226,7 @@ def main():
     if not args.sin_kid and Path(args.d1).exists():
         reales = [Image.open(p).convert("RGB").resize((299, 299)) for p in sorted(Path(args.d1).glob("*.jpg"))[:1000]]
         for motor in resumen:
-            gen = [Image.open(f["imagen"]).convert("RGB").resize((299, 299))
+            gen = [Image.open(config.RAIZ / f["imagen"]).convert("RGB").resize((299, 299))
                    for f in filas if f["motor"] == motor and f.get("imagen")][:1000]
             if len(gen) >= 50 and len(reales) >= 50:
                 resumen[motor].update(kid_fid(reales, gen))

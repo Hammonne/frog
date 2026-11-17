@@ -4,6 +4,20 @@ Proyecto 2 de *Planificación y Toma de Decisiones en IA* (UTEC). Aquí está la
 implementación de datos, modelos generativos, agentes, planificador e interfaz.
 Los materiales de la etapa 1 (design thinking) están en `../docs/etapa1/`.
 
+## Carpeta de Drive
+
+Para correr en Colab, el equipo usa una carpeta `FROG/` con esta forma (es una copia de `codigo/` más los datos y resultados pesados, que no están en GitHub):
+
+```
+FROG/
+  LEEME.txt
+  codigo/                 <- este directorio: portadas/, app/, experimentos/, notebooks/, scripts/, tests/
+    datos/                <- D1, D2, D4, D4-es (no están en GitHub)
+    salidas/              <- resultados; salidas/e1/img/ (portadas de E1) tampoco está en GitHub
+```
+
+Los cuadernos buscan `FROG/codigo` solos (directa o como acceso directo en *Mi unidad*). Código y resultados pequeños viajan por GitHub; `datos/` y `salidas/e1/img/` solo viven en Drive.
+
 ## Cómo correrlo
 
 **En Colab (recomendado, GPU T4):** abrir `notebooks/portadas_etapas_1_3.ipynb` y ejecutar las celdas en orden.
@@ -125,7 +139,7 @@ Problemas conocidos en Colab:
   o de `portadas/datos/historias.py`. Ya no se traduce: la opción A solo corre `--solo eda --ocr`.
 - **Cambié un archivo y Colab sigue usando el viejo:** en Drive borra el archivo antes de subir el
   nuevo (si no, queda `archivo (1).py`), luego *Entorno de ejecución → Reiniciar sesión*.
-- **`No such file or directory` en `%cd`:** la carpeta no está en `Mi unidad/planif_proyecto/codigo`.
+- **`No such file or directory` en `%cd`:** la carpeta `FROG/codigo` no está en `Mi unidad` (agrega la carpeta `FROG` como acceso directo).
 
 Cuidado: los resultados se guardan en `codigo/salidas/` y `codigo/datos/` dentro de Drive.
 `datos/d1_portadas/` tiene portadas con derechos de autor: no compartir esa carpeta.

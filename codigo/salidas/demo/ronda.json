@@ -38,7 +38,7 @@
       },
       "error": "",
       "decision": null,
-      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V1.png"
+      "image_path": "salidas/demo/R1-V1.png"
     },
     {
       "id": "R1-V2",
@@ -64,7 +64,7 @@
       },
       "error": "",
       "decision": null,
-      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V2.png"
+      "image_path": "salidas/demo/R1-V2.png"
     },
     {
       "id": "R1-V3",
@@ -90,7 +90,7 @@
       },
       "error": "",
       "decision": null,
-      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V3.png"
+      "image_path": "salidas/demo/R1-V3.png"
     },
     {
       "id": "R1-V4",
@@ -116,7 +116,7 @@
       },
       "error": "",
       "decision": null,
-      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V4.png"
+      "image_path": "salidas/demo/R1-V4.png"
     },
     {
       "id": "R1-V5",
@@ -142,7 +142,7 @@
       },
       "error": "",
       "decision": null,
-      "image_path": "/content/drive/.shortcut-targets-by-id/1pNW8UKCmGhGAZTi6RsKhHWS143KV8km0/planif_proyecto/codigo/salidas/demo/R1-V5.png"
+      "image_path": "salidas/demo/R1-V5.png"
     }
   ]
 }
