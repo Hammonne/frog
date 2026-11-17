@@ -14,10 +14,13 @@ from __future__ import annotations
 
 import html
 import inspect
+from functools import partial
 from typing import Dict, List
 
 from portadas import config
 from portadas.agentes.historia import MOMENTOS
+from portadas.agentes.tipografia import titular_con_agente
+from portadas.titulo import CATALOGO
 
 from . import estilo as E
 from . import flujo
@@ -37,6 +40,7 @@ MOMENTO_TEXTO = {v: t for t, v in MOMENTOS_VISTOS if v}
 MOTORES_VISTOS = [("Fiel a mi boceto", "A"), ("Más libre y rápido", "B")]
 LLM_VISTOS = [("Qwen 2.5 (recomendado)", "qwen2.5-7b"), ("Phi 3.5 (más liviano)", "phi-3.5-mini")]
 EJES = ("P1", "P2", "P3", "P4", "P5")
+FUENTES_VISTAS = [(flujo.NOMBRE_FUENTE[n], n) for n in CATALOGO]
 
 
 class _Modelos:
@@ -64,6 +68,11 @@ class _Modelos:
             from portadas.metricas.clip_metricas import EvaluadorCLIP
             self.revisor = RevisorSalida(EvaluadorCLIP())
         return self.revisor
+
+    def llm_cargado(self):
+        """El LLM que ya está en la GPU (el del paso de la historia), o None; el agente tipográfico
+        lo usa si existe y, si no, el título sale con la disposición por defecto."""
+        return self._llm
 
     def llm(self, nombre: str):
         """Un solo LLM a la vez: al cambiar de modelo se libera la GPU del anterior."""
@@ -271,6 +280,13 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
                         C[f"pie{i}"] = gr.HTML()
                         C[f"op{i}"] = gr.Radio([("Me gusta", "Aceptar"), ("No me gusta", "Rechazar")],
                                                value=None, show_label=False, elem_classes="f-decision")
+                        with gr.Accordion("Editar título", open=False, visible=False,
+                                          elem_classes="f-editar") as C[f"ed{i}"]:
+                            C[f"edf{i}"] = gr.Dropdown(FUENTES_VISTAS, value="Andika", label="Letra", interactive=True)
+                            C[f"edt{i}"] = gr.Slider(0.04, 0.10, step=0.005, value=0.06, label="Tamaño")
+                            C[f"edc{i}"] = gr.Slider(-0.4, 0.4, step=0.05, value=0.0, label="Curva")
+                            C[f"edk{i}"] = gr.ColorPicker(value="#222222", label="Color")
+                            C[f"eda{i}"] = gr.Button("Aplicar al título", size="sm", variant="secondary")
                         with gr.Column(visible=False) as C[f"gr{i}"]:
                             C[f"mo{i}"] = gr.CheckboxGroup(MOTIVOS_VISTOS, label="Qué no te convence",
                                                            elem_classes="f-motivos")
@@ -339,7 +355,8 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
         def _generar(estado, ej):
             """Genera la ronda que toca (una vez creada la sesión)."""
             return flujo.proponer_ronda(estado, ej, lambda e, c, n: flujo.generar_real(
-                e, c, n, MODELOS.motor, MODELOS.revisor_salida))
+                e, c, n, MODELOS.motor, MODELOS.revisor_salida),
+                titulador=partial(titular_con_agente, llm=MODELOS.llm_cargado()))
 
         # ---------------------------------------------------------------- navegación simple
         btn_comenzar.click(lambda: P(nav("entrada")), None, salidas, show_progress="hidden")
@@ -428,6 +445,12 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
                 d[f"ph{i}"] = gr.update(visible=not ok)
                 d[f"pie{i}"] = E.pie_tarjeta(v["id"], eje, v["params"][eje])
                 d[f"op{i}"] = gr.update(value=None, visible=ok)
+                estilo = ((v.get("typography") or {}).get("agent") or {}).get("style") or {}
+                d[f"ed{i}"] = gr.update(visible=ok, open=False)
+                d[f"edf{i}"] = gr.update(value=estilo.get("fuente", "Andika"))
+                d[f"edt{i}"] = gr.update(value=estilo.get("tamano", 0.06))
+                d[f"edc{i}"] = gr.update(value=estilo.get("curva", 0.0))
+                d[f"edk{i}"] = gr.update(value="#%02X%02X%02X" % tuple(estilo.get("color") or (34, 34, 34)))
                 d[f"gr{i}"] = gr.update(visible=False)
                 d[f"mo{i}"] = gr.update(value=[])
                 d[f"co{i}"] = gr.update(value="")
@@ -486,6 +509,23 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
             C[f"op{i}"].change(_decision, entradas_op,
                                [C["contador"], C["btn_cerrar"], *[C[f"gr{j}"] for j in range(N)]],
                                show_progress="hidden")
+        def _editar(i):
+            def aplicar(estado, ronda, fuente, tamano, curva, color):
+                if estado is None or ronda is None:
+                    return [skip(), skip()]
+                try:
+                    ruta = flujo.editar_titulo(estado, ronda["variations"][i], fuente, tamano, curva, color)
+                except ValueError as err:
+                    gr.Warning(str(err))
+                    return [skip(), skip()]
+                flujo.guardar(estado)
+                return [gr.update(value=ruta), ronda]
+            return aplicar
+
+        for i in range(N):
+            C[f"eda{i}"].click(_editar(i), [C["est"], C["ronda_st"], C[f"edf{i}"], C[f"edt{i}"], C[f"edc{i}"],
+                                            C[f"edk{i}"]], [C[f"img{i}"], C["ronda_st"]], show_progress="hidden")
+
         todo_si.click(lambda: ["Aceptar"] * N, None, [C[f"op{i}"] for i in range(N)], show_progress="hidden")
         todo_no.click(lambda: ["Rechazar"] * N, None, [C[f"op{i}"] for i in range(N)], show_progress="hidden")
 

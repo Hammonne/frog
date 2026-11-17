@@ -25,7 +25,7 @@ NOMBRES_EJE = {"P1": "Estilo", "P2": "Paleta", "P3": "Edad", "P4": "Ambiente",
 ID_RE = re.compile(r"R\d+-V\d+")
 CUE_PREFERENCIA = ("prefi", "prefe", "favorit", "gust", "eligi")   # prefiere, prefirió, preferido...
 CUE_AZAR = ("azar", "aleator", "muestre", "sortea")
-FUENTES_CONOCIDAS = ("andika", "fredoka", "baloo", "dejavu")
+FUENTES_CONOCIDAS = ("andika", "fredoka", "baloo", "lilita", "dejavu")
 
 SISTEMA = """Eres el agente que explica a una persona, en español y con tono amable, qué decidió al elegir portadas de un libro infantil.
 Recibirás un JSON con los hechos de la sesión. Reglas estrictas:

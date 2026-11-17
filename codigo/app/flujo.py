@@ -26,7 +26,8 @@ from portadas.agentes.resumen import resumir
 from portadas.guardrails.texto import filtrar_texto
 from portadas.motores.prompts import escena_desde_elementos
 from portadas.planificador import MAX_RONDAS, Sesion, ejes_de_motivos
-from portadas.titulo import render_titulo
+from portadas.agentes.tipografia import titular_basico
+from portadas.titulo import CATALOGO, limitar, render_titulo
 
 NOMBRES_EJE = {"P1": "Estilo", "P2": "Paleta", "P3": "Edad", "P4": "Ambiente",
                "P5": "Fidelidad", "P6": "Zona del título"}
@@ -49,6 +50,7 @@ class Estado:
     base: Dict[str, str] = field(default_factory=lambda: dict(config.POR_DEFECTO))
     sesion: Optional[Sesion] = None
     resumen: Optional[Dict] = None
+    cambios_tipografia: List[Dict] = field(default_factory=list)    # para el agente de resumen
     creada: str = field(default_factory=lambda: time.strftime("%Y-%m-%d %H:%M:%S"))
 
 
@@ -107,11 +109,12 @@ def ejes_disponibles(e: Estado) -> List[str]:
     return e.sesion.ejes_disponibles() if e.sesion and not e.sesion.terminada() else []
 
 
-def proponer_ronda(e: Estado, eje: str, generar_fn: Callable, titulador=render_titulo) -> Dict:
+def proponer_ronda(e: Estado, eje: str, generar_fn: Callable, titulador=titular_basico) -> Dict:
     """Genera la ronda siguiente con el eje elegido y le pone el título a cada portada.
 
     `generar_fn(estado, configs, numero) -> ronda` devuelve la ronda con imágenes ya guardadas
-    (image_path); en producción es `generar_real`."""
+    (image_path); en producción es `generar_real`. `titulador(img, titulo, zona, edad, params)` dibuja
+    el título (con el agente tipográfico en producción) y devuelve (imagen, info)."""
     plan = e.sesion.configs_ronda(eje)
     ronda = generar_fn(e, plan["configs"], plan["round"])
     ronda["axis"] = eje
@@ -125,11 +128,45 @@ def proponer_ronda(e: Estado, eje: str, generar_fn: Callable, titulador=render_t
         v.setdefault("title_layout", None)
         v["titled_path"] = None
         if v.get("image_path"):
-            img, info = titulador(Image.open(v["image_path"]), e.titulo, v["params"]["P6"], v["params"]["P3"])
+            img, info = titulador(Image.open(v["image_path"]), e.titulo, v["params"]["P6"], v["params"]["P3"],
+                                  v["params"])
             ruta = Path(v["image_path"]).with_name(f"{v['id']}_titulo.png")
             img.save(ruta)
             v["titled_path"], v["title_layout"] = str(ruta), info
+            v["typography"] = {"agent": {"origin": (info.get("agente") or {}).get("origen", "respaldo"),
+                                         "style": info.get("estilo")}, "user_edit": None}
     return ronda
+
+
+# ---------------------------------------------------------------------- editar el título
+NOMBRE_FUENTE = {"Andika": "Andika", "Fredoka": "Fredoka", "Baloo2": "Baloo 2", "LilitaOne": "Lilita One"}
+
+
+def editar_titulo(e: Estado, v: Dict, fuente: Optional[str] = None, tamano: Optional[float] = None,
+                  curva: Optional[float] = None, color: Optional[str] = None) -> str:
+    """La persona cambia fuente, tamaño, curva o color del título de UNA portada. Solo se vuelve a
+    dibujar el título (la imagen no se regenera). Queda en `v["typography"]["user_edit"]` y, si
+    cambió la fuente, en `e.cambios_tipografia` para que el resumen lo mencione. Devuelve la ruta
+    de la portada con el nuevo título."""
+    if not v.get("image_path"):
+        raise ValueError("Esa portada no se mostró.")
+    estilo = dict((v.get("typography") or {}).get("agent", {}).get("style") or {})
+    antes = dict(estilo)
+    for clave, valor in (("fuente", fuente), ("tamano", tamano), ("curva", curva), ("color", color)):
+        if valor not in (None, ""):
+            estilo[clave] = valor
+    estilo = limitar(estilo, v["params"]["P3"], restringir_edad=False)      # lo elige la persona
+    img, info = render_titulo(Image.open(v["image_path"]), e.titulo, v["params"]["P6"], v["params"]["P3"],
+                              restringir_edad=False, **estilo)
+    ruta = Path(v["image_path"]).with_name(f"{v['id']}_titulo.png")
+    img.save(ruta)
+    v["titled_path"], v["title_layout"] = str(ruta), info
+    cambios = {k: info["estilo"][k] for k in ("fuente", "tamano", "curva", "color") if info["estilo"][k] != antes.get(k)}
+    v["typography"]["user_edit"] = {**(v["typography"].get("user_edit") or {}), **cambios}
+    if "fuente" in cambios:
+        e.cambios_tipografia = [c for c in e.cambios_tipografia if c["id"] != v["id"]]
+        e.cambios_tipografia.append({"id": v["id"], "cambio": f"fuente: {NOMBRE_FUENTE[cambios['fuente']]}"})
+    return str(ruta)
 
 
 def generar_real(e: Estado, configs: List[Dict], numero: int, motores, revisor) -> Dict:
@@ -174,7 +211,7 @@ def cerrar_ronda(e: Estado, ronda: Dict, opciones, comentarios, motivos) -> Dict
 
 # ----------------------------------------------------------------------------- resumen
 def sesion_para_resumen(e: Estado) -> Dict:
-    return {"rounds": e.sesion.rondas, "story": e.elementos, "typography_changes": []}
+    return {"rounds": e.sesion.rondas, "story": e.elementos, "typography_changes": list(e.cambios_tipografia)}
 
 
 def resumir_sesion(e: Estado, llm, modelo: str = "") -> Dict:

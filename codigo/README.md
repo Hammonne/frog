@@ -51,7 +51,9 @@ cd codigo && ../.venv/bin/python -m pytest -q tests
 | `portadas/agentes/resumen.py` | Agente de resumen con validador determinista (IDs, categorías, motivos, plantilla de respaldo) | 5 |
 | `portadas/agentes/llm.py` | Carga de Qwen2.5-7B / Phi-3.5 en 4 bits | 5 |
 | `portadas/planificador.py` | Thompson por parámetro (solo los que varían), rondas 1–3, sesión | 5 |
-| `portadas/titulo.py` | Título determinista: fuente, zona y contraste WCAG | 5 |
+| `portadas/titulo.py` | Renderizador determinista del título: catálogo de fuentes, curva, onda, inclinación, contorno, límites y contraste WCAG | 4 |
+| `portadas/agentes/tipografia.py` | Agente tipográfico: medidas de la zona del título → estilo propuesto por el LLM, recortado a los límites; respaldo por edad | 4 |
+| `fuentes/` | Andika, Fredoka, Baloo 2 y Lilita One (SIL OFL, con sus licencias) | 4 |
 | `app/` | Interfaz Gradio: `interfaz.py` (pantallas), `flujo.py` (generar, rondas, resumen), `estilo.py` (CSS/HTML), `recursos.py`, `assets/`, `ejemplos/` (bocetos de prueba) | 4 |
 | `scripts/preparar_datos.py` | Corre toda la etapa 2 | 2 |
 | `scripts/recortar_recursos.py` | Recorta `../assets/recursos_visuales.png` en los recursos de `app/assets/` | 4 |

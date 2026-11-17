@@ -465,6 +465,12 @@ footer { display: none !important; }
 .f-decision label.selected:has(input[value="Aceptar"]) span { color: #fff; }
 .f-decision label.selected:has(input[value="Rechazar"]) { background: var(--rojo) !important; }
 .f-decision label.selected:has(input[value="Rechazar"]) span { color: #fff; }
+.f-editar { border: 2px solid var(--tinta) !important; border-radius: 0 !important; background: transparent !important;
+  box-shadow: none !important; }
+.f-editar > button, .f-editar .label-wrap { font-size: 12.5px !important; font-weight: 800 !important; letter-spacing: .06em;
+  text-transform: uppercase; padding: 8px 10px !important; color: var(--tinta) !important; }
+.f-editar label span, .f-editar .block-info { font-size: 12px !important; }
+.f-editar input[type=number] { max-width: 64px !important; }
 .f-motivos .wrap { display: flex !important; flex-wrap: wrap; gap: 6px !important; }
 .f-motivos label { border: 2px solid var(--tinta) !important; border-radius: 999px !important; padding: 4px 11px !important;
   background: var(--papel) !important; cursor: pointer; }
