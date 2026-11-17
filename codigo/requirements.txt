@@ -17,4 +17,5 @@ torchmetrics[image]  # KID / FID (incluye torch-fidelity)
 mediapipe            # detección de rostros (si falla, se usa Haar de OpenCV)
 easyocr              # posición del título en D1 (opcional, --ocr)
 sentencepiece        # traducción de historias (MarianMT, opcional)
+bitsandbytes         # LLM en 4 bits (agentes de la etapa 5)
 pytest
