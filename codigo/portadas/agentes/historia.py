@@ -30,7 +30,7 @@ MOMENTOS_ES = {"amanecer": "sunrise", "alba": "sunrise", "manana": "morning", "m
                "tarde": "afternoon", "atardecer": "sunset", "anochecer": "evening",
                "noche": "night", "madrugada": "night"}
 
-SISTEMA = f"""You extract visual elements from a children's story (written in Spanish) to illustrate a picture-book cover.
+SISTEMA = f"""You extract visual elements from a children's story (written in Spanish or English) to illustrate a picture-book cover.
 Answer with ONE JSON object and nothing else. Keys:
 - "personajes_es": list of main characters, in Spanish, exactly as the story names them (max {MAX_PERSONAJES}).
 - "personajes": the same characters in English, same order.
@@ -54,6 +54,17 @@ SINONIMOS: Dict[str, List[str]] = {
     "pez": ["pececito", "peces"], "dragon": ["dragoncito"], "casa": ["hogar", "cabana"],
     "bosque": ["selva", "arboleda"], "flores": ["flor"], "arbol": ["arboles"], "mar": ["oceano"],
 }
+
+
+PALABRAS_ES = {"el", "la", "los", "las", "un", "una", "que", "de", "en", "y", "con", "su", "se", "por", "del", "al", "era", "vez"}
+PALABRAS_EN = {"the", "a", "an", "and", "of", "in", "to", "was", "his", "her", "with", "that", "on", "is", "he", "she", "they"}
+
+
+def detectar_idioma(texto: str) -> str:
+    """'es' o 'en' según qué lista de palabras funcionales domina (por defecto, 'es')."""
+    palabras = _tokens(texto)
+    es, en = sum(w in PALABRAS_ES for w in palabras), sum(w in PALABRAS_EN for w in palabras)
+    return "en" if en > es else "es"
 
 
 class HistoriaInvalida(ValueError):
@@ -88,7 +99,9 @@ def aparece_en_texto(termino: str, texto: str) -> bool:
 
 
 def verificar(elementos_es: Dict, texto: str) -> List[str]:
-    """Devuelve los personajes y objetos (en español) que NO se encuentran en el texto."""
+    """Devuelve los personajes y objetos que NO se encuentran en el texto. Los elementos deben
+    estar en el idioma del texto (español por defecto; para un texto en inglés, los de `personajes`
+    y `objetos`)."""
     dudosos = []
     for clave in ("personajes", "objetos"):
         for t in elementos_es.get(clave, []):
@@ -189,7 +202,10 @@ def extraer_elementos(texto: str, llm: Callable[[str, str], str], reintentos: in
                           elementos["es"]["objetos"] + [elementos["es"]["lugar"]])
         if not filtrar_texto(salida).ok:
             return _elementos_vacios("respaldo", intento)
-        elementos["no_verificados"] = verificar(elementos["es"], texto)
+        idioma = detectar_idioma(texto)
+        en_su_idioma = elementos["es"] if idioma == "es" else elementos
+        elementos["no_verificados"] = verificar(en_su_idioma, texto)
+        elementos["idioma"] = idioma
         elementos["intentos"], elementos["origen"] = intento, "llm"
         return elementos
     return _elementos_vacios("respaldo", reintentos + 1)
@@ -204,3 +220,36 @@ def escena_ingles(elementos: Dict, quitar: Optional[List[str]] = None) -> str:
     filtrados["personajes"] = [p for p in elementos["personajes"] if p not in quitar]
     filtrados["objetos"] = [o for o in elementos["objetos"] if o not in quitar]
     return escena_desde_elementos(filtrados)
+
+
+# ----------------------------------------------------------- evaluación contra anotaciones
+def _clave(texto: str) -> str:
+    """Forma canónica para comparar con una anotación: sin tildes, sin artículos y en singular."""
+    return " ".join(_raiz(t) for t in _tokens(texto) if len(t) >= 3 and t not in PALABRAS_ES | PALABRAS_EN)
+
+
+def comparar_conjuntos(predichos: List[str], anotados: List[str]) -> Dict[str, int]:
+    """Verdaderos positivos, falsos positivos y falsos negativos entre dos listas de elementos."""
+    p = {_clave(x) for x in predichos if _clave(x)}
+    a = {_clave(x) for x in anotados if _clave(x)}
+    return {"vp": len(p & a), "fp": len(p - a), "fn": len(a - p)}
+
+
+def evaluar_extraccion(elementos: Dict, anotacion: Dict[str, str], idioma: str) -> Dict[str, int]:
+    """Compara personajes y objetos con una fila anotada a mano (valores separados por ';').
+    `idioma` es el de la historia anotada: 'es' usa las listas en español; 'en', las del prompt."""
+    total = {"vp": 0, "fp": 0, "fn": 0}
+    for campo in ("personajes", "objetos"):
+        pred = elementos["es"][campo] if idioma == "es" else elementos[campo]
+        anot = [x for x in (anotacion.get(campo) or "").split(";") if x.strip()]
+        for k, v in comparar_conjuntos(pred, anot).items():
+            total[k] += v
+    return total
+
+
+def precision_exhaustividad(conteo: Dict[str, int]) -> Dict[str, float]:
+    vp, fp, fn = conteo["vp"], conteo["fp"], conteo["fn"]
+    precision = vp / (vp + fp) if vp + fp else 0.0
+    exhaustividad = vp / (vp + fn) if vp + fn else 0.0
+    f1 = 2 * precision * exhaustividad / (precision + exhaustividad) if precision + exhaustividad else 0.0
+    return {"precision": precision, "exhaustividad": exhaustividad, "f1": f1}

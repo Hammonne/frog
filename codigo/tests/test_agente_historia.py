@@ -100,3 +100,39 @@ def test_verificador_plurales_diminutivos_y_sinonimos():
     assert aparece_en_texto("pájaro", "Un pajarito canta")
     assert not aparece_en_texto("oso", "Un conejo y una zorra")
     assert verificar({"personajes": ["conejo"], "objetos": ["luna"]}, "El conejo duerme") == ["luna"]
+
+
+# ---- historias en inglés y evaluación contra anotaciones manuales
+def test_detectar_idioma():
+    from portadas.agentes.historia import detectar_idioma
+    assert detectar_idioma("Había una vez un gato que vivía en la casa") == "es"
+    assert detectar_idioma("Once upon a time there was a cat in the house") == "en"
+
+
+def test_un_texto_en_ingles_se_verifica_con_los_elementos_en_ingles():
+    import json
+    respuesta = json.dumps({"personajes_es": ["conejo", "zorro"], "personajes": ["rabbit", "fox"],
+                            "objetos_es": ["pelota"], "objetos": ["ball"], "lugar_es": "jardin",
+                            "lugar": "garden", "momento": "", "tono": "alegre", "edad": "4-6"})
+    e = extraer_elementos("The rabbits played with a ball in the garden.", lambda s, m: respuesta)
+    assert e["idioma"] == "en" and e["no_verificados"] == ["fox"]
+
+
+def test_evaluacion_contra_anotacion():
+    from portadas.agentes.historia import evaluar_extraccion, precision_exhaustividad
+    e = {"personajes": ["dog", "cat"], "objetos": ["ball"],
+         "es": {"personajes": ["perro", "gato"], "objetos": ["pelota"], "lugar": ""}}
+    c = evaluar_extraccion(e, {"personajes": "dogs; bird", "objetos": "ball"}, "en")
+    assert c == {"vp": 2, "fp": 1, "fn": 1}
+    m = precision_exhaustividad(c)
+    assert abs(m["precision"] - 2 / 3) < 1e-9 and abs(m["exhaustividad"] - 2 / 3) < 1e-9
+    assert evaluar_extraccion(e, {"personajes": "Perros;gato", "objetos": ""}, "es") == {"vp": 2, "fp": 1, "fn": 0}
+
+
+def test_las_sesiones_simuladas_de_e2_tienen_la_forma_que_espera_el_resumen():
+    from experimentos.e2_simulacion import jugar
+    from portadas.agentes.resumen import resumir
+    tasas, sesion = jugar("thompson", 7)
+    assert len(tasas) == 3 and len(sesion["rounds"]) == 3
+    r = resumir(sesion, lambda sistema, mensaje: "")        # un LLM que no responde: cae a la plantilla
+    assert r["origen"] == "plantilla" and "Ronda 1" in r["texto"]

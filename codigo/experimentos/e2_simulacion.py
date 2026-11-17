@@ -44,8 +44,13 @@ def _ronda_aleatoria(rng: random.Random, sesion: Sesion, eje: str) -> Dict:
             "round": sesion.numero}
 
 
-def simular_usuario(politica: str, semilla: int) -> List[float]:
-    """Tasa de aceptación en cada ronda para un usuario simulado."""
+ELEMENTOS_EJEMPLO = {"personajes": ["rabbit"], "objetos": ["flowers"], "lugar": "garden", "momento": "",
+                     "es": {"personajes": ["conejo"], "objetos": ["flores"], "lugar": "jardin"}}
+
+
+def jugar(politica: str, semilla: int):
+    """Una sesión simulada completa. Devuelve (tasas de aceptación por ronda, sesión con la forma
+    que recibe el agente de resumen: {"rounds", "story", "typography_changes"})."""
     rng = random.Random(semilla)
     pref = {p: rng.choice(list(config.PARAMETROS[p])) for p in EJES_VARIABLES}
     pref["P6"] = config.POR_DEFECTO["P6"]           # ajuste fijo, no se aprende
@@ -63,13 +68,21 @@ def simular_usuario(politica: str, semilla: int) -> List[float]:
             variaciones.append({"id": f"R{sesion.numero}-V{i}", "params": cfg, **_decidir(rng, cfg, pref)})
         sesion.cerrar_ronda({"round": sesion.numero, "axis": eje, "variations": variaciones})
         tasas.append(sum(v["decision"] == "accepted" for v in variaciones) / len(variaciones))
-    return tasas
+    return tasas, {"session_id": f"sim-{politica}-{semilla}", "rounds": sesion.rondas,
+                   "story": ELEMENTOS_EJEMPLO, "typography_changes": []}
+
+
+def simular_usuario(politica: str, semilla: int) -> List[float]:
+    """Tasa de aceptación en cada ronda para un usuario simulado."""
+    return jugar(politica, semilla)[0]
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--usuarios", type=int, default=500)
     ap.add_argument("--salida", default=str(config.SALIDAS / "e2"))
+    ap.add_argument("--sesiones", type=int, default=30,
+                    help="cuántas sesiones simuladas guardar para E3 (sesiones_simuladas.jsonl)")
     args = ap.parse_args()
 
     resumen = {}
@@ -81,6 +94,9 @@ def main():
     carpeta = Path(args.salida)
     carpeta.mkdir(parents=True, exist_ok=True)
     (carpeta / "resumen.json").write_text(json.dumps(resumen, indent=2), encoding="utf-8")
+    with open(carpeta / "sesiones_simuladas.jsonl", "w", encoding="utf-8") as fh:
+        for u in range(args.sesiones):
+            fh.write(json.dumps(jugar("thompson", config.SEMILLA_GLOBAL + u)[1], ensure_ascii=False) + chr(10))
     print(json.dumps(resumen, indent=2))
 
 

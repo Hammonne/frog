@@ -1,4 +1,4 @@
-"""E3: evaluación de los resúmenes del agente explicador (sección 11, etapa 5, Nayeli).
+"""E3: evaluación de los resúmenes del agente de explicación.
 
 Para cada LLM (Qwen2.5-7B y Phi-3.5-mini) resume N sesiones y mide:
 - aprobación del validador al primer intento;
@@ -7,24 +7,26 @@ Para cada LLM (Qwen2.5-7B y Phi-3.5-mini) resume N sesiones y mide:
 Deja además un CSV para la anotación manual de fidelidad (columna `fiel_segun_revision_manual`,
 a mano, sin IA: es la parte interpretativa que el validador no cubre).
 
-Entrada: sesiones simuladas de E2 (salidas/e2/sesiones_simuladas.jsonl) y, cuando existan,
-sesiones reales de E4 (--sesiones otra_ruta.jsonl).
+Entrada: sesiones simuladas de E2 (salidas/e2/sesiones_simuladas.jsonl; se generan con
+`python -m experimentos.e2_simulacion`) y, cuando existan, sesiones reales de E4 (--sesiones ruta.jsonl).
 
 Uso (Colab con GPU; en una T4 se carga un LLM a la vez):
-    python -m experimentos.e3_resumenes --llm qwen phi --n 30
-    python -m experimentos.e3_resumenes --solo-plantilla      # sin GPU: prueba el flujo
+    python -m experimentos.e3_resumenes --llm qwen2.5-7b phi-3.5-mini --n 30
+    python -m experimentos.e3_resumenes --sin-gpu      # prueba el flujo sin LLM (todo cae a plantilla)
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import json
+import time
 from pathlib import Path
 
 import numpy as np
 
 from portadas import config
-from portadas.agente.explicador import explicar
+from portadas.agentes.llm import MODELOS
+from portadas.agentes.resumen import resumir
 
 
 def cargar(ruta: Path, n: int):
@@ -35,10 +37,10 @@ def cargar(ruta: Path, n: int):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sesiones", default=str(config.SALIDAS / "e2" / "sesiones_simuladas.jsonl"))
-    ap.add_argument("--llm", nargs="+", default=list(config.LLMS))
+    ap.add_argument("--llm", nargs="+", default=list(MODELOS))
     ap.add_argument("--n", type=int, default=30)
     ap.add_argument("--salida", default=str(config.SALIDAS / "e3"))
-    ap.add_argument("--solo-plantilla", action="store_true", help="no carga LLM (prueba en CPU)")
+    ap.add_argument("--sin-gpu", action="store_true", help="no carga LLM (prueba del flujo en CPU)")
     args = ap.parse_args()
 
     salida = Path(args.salida)
@@ -47,32 +49,34 @@ def main():
     print(f"[E3] {len(sesiones)} sesiones")
 
     filas, resumen = [], {}
-    for nombre in (["plantilla"] if args.solo_plantilla else args.llm):
-        llm = None
-        if not args.solo_plantilla:
-            from portadas.agente.llm import LLMLocal
-            llm = LLMLocal(nombre)
+    for nombre in (["sin-llm"] if args.sin_gpu else args.llm):
+        if args.sin_gpu:
+            llm, liberar = (lambda sistema, mensaje: ""), (lambda: None)
+        else:
+            from portadas.agentes.llm import LLMLocal
+            modelo = LLMLocal(nombre)
+            llm, liberar = modelo, modelo.liberar
         res = []
         for i, s in enumerate(sesiones):
-            r = explicar(s, llm, nombre_llm=nombre)
+            t0 = time.time()
+            r = resumir(s, llm)
+            r["latencia_s"] = round(time.time() - t0, 2)
             res.append(r)
-            filas.append({"llm": nombre, "sesion": s.get("session_id", i), "validado": r["validated"],
-                          "primer_intento": r["validated"] and r["attempts"] == 1 and not r["template"],
-                          "plantilla": r["template"], "intentos": r["attempts"], "latencia_s": r["latency_s"],
-                          "errores": json.dumps(r["errors"], ensure_ascii=False), "resumen": r["user_text"],
+            plantilla = r["origen"] == "plantilla"
+            filas.append({"llm": nombre, "sesion": s.get("session_id", i), "validado": not plantilla,
+                          "primer_intento": not plantilla and r["intentos"] == 1, "plantilla": plantilla,
+                          "intentos": r["intentos"], "latencia_s": r["latencia_s"],
+                          "errores": json.dumps(r["errores"], ensure_ascii=False), "resumen": r["texto"],
                           "fiel_segun_revision_manual": "", "anotador": "", "notas": ""})
-            print(f"[E3] {nombre} {i + 1}/{len(sesiones)} validado={r['validated']} plantilla={r['template']}")
+            print(f"[E3] {nombre} {i + 1}/{len(sesiones)} origen={r['origen']} intentos={r['intentos']}")
         resumen[nombre] = {
             "n": len(res),
-            "aprobacion_primer_intento": float(np.mean([r["validated"] and r["attempts"] == 1 and not r["template"]
-                                                         for r in res])),
-            "tasa_plantilla": float(np.mean([r["template"] for r in res])),
-            "intentos_medios": float(np.mean([r["attempts"] for r in res])),
-            "latencia_media_s": float(np.mean([r["latency_s"] for r in res])),
-            "todos_los_mostrados_validados": bool(all(r["validated"] for r in res)),
+            "aprobacion_primer_intento": float(np.mean([r["origen"] == "llm" and r["intentos"] == 1 for r in res])),
+            "tasa_plantilla": float(np.mean([r["origen"] == "plantilla" for r in res])),
+            "intentos_medios": float(np.mean([r["intentos"] for r in res])),
+            "latencia_media_s": float(np.mean([r["latencia_s"] for r in res])),
         }
-        if llm is not None:
-            llm.liberar()
+        liberar()
 
     (salida / "e3_resumen.json").write_text(json.dumps(resumen, indent=2, ensure_ascii=False), encoding="utf-8")
     with open(salida / "e3_resumenes.csv", "w", newline="", encoding="utf-8") as fh:
