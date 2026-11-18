@@ -1,0 +1,6 @@
+# Vercel solo publica la presentación (index.html, img/ y fuentes/).
+*.py
+*.md
+*.pdf
+*.pptx
+__pycache__/

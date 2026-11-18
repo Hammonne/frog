@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FROG · Presentación final</title>
+<!--
+  Presentación final de FROG (Proyecto 2, UTEC), en HTML.
+  Misma estética y contenido que la versión en PowerPoint (14 diapositivas).
+
+  Cómo se usa
+  - Abrir este archivo en Chrome o Firefox. Necesita las carpetas img/ y fuentes/ a su lado.
+  - Publicar en Vercel: desde esta carpeta, `npx vercel --prod` (ver .vercelignore y vercel.json).
+  - Flechas, espacio, rueda del ratón o deslizar: cambiar de diapositiva.  Inicio/Fin: primera/última.
+  - N: mostrar u ocultar el guion del presentador (sale de presentacion/guion_presentador.md).
+  - F: pantalla completa.  E: modo edición (clic en un texto para cambiarlo; Ctrl+S descarga el HTML).
+  - Imprimir (Ctrl+P, horizontal, sin márgenes) da un PDF de una diapositiva por página.
+-->
+
+<!-- Tipografías: los archivos están en presentacion/fuentes (licencia SIL OFL), así funciona sin internet.
+     Google Fonts queda como respaldo por si se mueve el HTML sin la carpeta de fuentes. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&family=Poppins:wght@400;500;600;700&display=swap">
+
+<style>
+/* =====================================================================
+   FUENTES LOCALES
+   ===================================================================== */
+@font-face { font-family: "Balsamiq Sans"; font-weight: 700; src: url("fuentes/BalsamiqSans-Bold.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-weight: 400; src: url("fuentes/Poppins-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-weight: 500; src: url("fuentes/Poppins-Medium.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-weight: 600; src: url("fuentes/Poppins-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-weight: 700; src: url("fuentes/Poppins-Bold.ttf") format("truetype"); }
+
+/* =====================================================================
+   TEMA: la identidad de FROG. Cambiar aquí cambia toda la presentación.
+   Medidas pensadas para el lienzo fijo de 1920×1080 (1 pulgada del PPTX = 144 px; 1 pt = 2 px).
+   ===================================================================== */
+:root {
+  --verde: #287A36;         /* verde bosque: títulos, cifras, líneas */
+  --amarillo: #FFC107;      /* amarillo mostaza: paneles, números, resaltador */
+  --lima: #B7F59E;          /* verde lima: pastillas */
+  --lima-suave: #E6F7D9;
+  --amarillo-suave: #FFF1BF;
+  --hueso: #F7F5EE;         /* papel */
+  --texto: #24452C;         /* verde muy oscuro para el cuerpo */
+  --rojo: #C0463C;
+  --blanco: #FFFFFF;
+  --marco: #FBFAF5;         /* marco de las polaroids */
+  --rejilla: #DDDACB;
+
+  --f-titulo: "Balsamiq Sans", "Comic Neue", cursive;
+  --f-texto: "Poppins", sans-serif;
+
+  --margen: 101px;
+  --stage-bg: #1d2a1f;      /* lo que se ve alrededor del lienzo cuando la ventana no es 16:9 */
+  --slide-bg: var(--hueso);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* =====================================================================
+   LIENZO FIJO 16:9 (viewport-base.css, completo)
+   ===================================================================== */
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg, #000); }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg, #000); }
+.deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; background: var(--slide-bg, #fff); }
+.slide { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; display: block; visibility: hidden; opacity: 0; pointer-events: none; background: var(--slide-bg, #fff); }
+.slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+.deck-controls { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 1000; }
+@media print {
+  html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+  .deck-viewport { position: static; overflow: visible; background: #fff; }
+  .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; }
+  .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+  .slide:last-child { break-after: auto; page-break-after: auto; }
+  .deck-controls { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+}
+
+/* =====================================================================
+   BASE DE CADA DIAPOSITIVA: fondo de papel con grano
+   ===================================================================== */
+.slide {
+  background: var(--hueso) url("img/fondo_papel.jpg") center / cover no-repeat;
+  color: var(--texto);
+  font-family: var(--f-texto);
+  font-size: 28px;
+  line-height: 1.35;
+}
+.slide { transition: opacity .45s ease, visibility 0s linear .45s; }
+.slide.active { transition: opacity .45s ease, visibility 0s; }
+.abs { position: absolute; }
+.deco { position: absolute; pointer-events: none; user-select: none; }
+
+/* =====================================================================
+   COMPONENTES COMUNES
+   ===================================================================== */
+
+/* Rótulo de sección: pastilla amarilla arriba a la izquierda */
+.seccion {
+  position: absolute; left: var(--margen); top: 50px;
+  background: var(--amarillo); color: var(--texto);
+  font: 600 19px/1 var(--f-texto); letter-spacing: .04em; text-transform: uppercase;
+  padding: 11px 22px; border-radius: 999px;
+}
+
+/* Título de diapositiva */
+.titulo {
+  position: absolute; left: var(--margen); top: 112px; width: 1140px;
+  font: 700 76px/1.04 var(--f-titulo); color: var(--verde);
+}
+
+/* Número dentro de un círculo */
+.num {
+  display: grid; place-items: center; flex: none;
+  width: 66px; height: 66px; border-radius: 50%;
+  background: var(--amarillo); color: var(--verde);
+  font: 700 32px/1 var(--f-titulo);
+}
+.num.verde { background: var(--verde); color: var(--blanco); }
+.num.chico { width: 50px; height: 50px; font-size: 25px; }
+
+/* Pastillas */
+.pill {
+  display: inline-grid; place-items: center; text-align: center;
+  border-radius: 999px; padding: 10px 26px;
+  background: var(--lima); color: var(--texto);
+  font: 600 27px/1.1 var(--f-texto);
+}
+.pill.amarilla { background: var(--amarillo); }
+.pill.punteada { background: transparent; border: 3px dashed var(--verde); }
+.pill.mini { font-size: 19px; padding: 7px 16px; letter-spacing: .04em; }
+
+/* Polaroid: marco blanco con sombra suave, foto y pie */
+.polaroid {
+  position: absolute; background: var(--marco);
+  padding: 14px 14px 0; box-shadow: 0 6px 18px rgba(42, 58, 32, .28);
+}
+.polaroid img { display: block; width: 100%; height: calc(100% - 64px); object-fit: cover; max-height: none; }
+.polaroid .pie { height: 64px; display: grid; place-items: center; font: 600 23px/1 var(--f-texto); color: var(--texto); }
+
+/* Resaltador amarillo detrás de una palabra */
+.resalta { background: linear-gradient(transparent 62%, var(--amarillo) 62%, var(--amarillo) 92%, transparent 92%); padding: 0 4px; }
+
+/* Panel de color a sangre (llega al borde derecho) */
+.panel { position: absolute; top: 0; right: 0; height: 1080px; background: var(--amarillo); }
+
+/* Tarjeta blanca con borde verde */
+.tarjeta {
+  position: absolute; background: var(--blanco);
+  border: 3px solid var(--verde); border-radius: 18px;
+  box-shadow: 0 5px 0 rgba(40, 122, 54, .18);
+}
+
+/* =====================================================================
+   ANIMACIONES DE ENTRADA
+   .r aparece al entrar a la diapositiva; --d fija el retraso (en segundos).
+   ===================================================================== */
+.r { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(var(--d, 0) * 1s); }
+.r.izq { transform: translateX(-36px); }
+.r.pop { transform: scale(.82); }
+.slide.visible .r { opacity: 1; transform: none; }
+/* Las polaroids conservan su giro: la animación va en un contenedor */
+.rot { transform: rotate(var(--g, 0deg)); }
+
+@keyframes flota { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-14px) rotate(1.5deg); } }
+@keyframes gira { to { transform: rotate(360deg); } }
+@keyframes titila { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.88); } }
+.flota { animation: flota 4.5s ease-in-out infinite; }
+.titila { animation: titila 2.8s ease-in-out infinite; }
+.gira-lento { animation: gira 60s linear infinite; }
+
+/* =====================================================================
+   GRÁFICOS (barras y líneas). Los dibuja el script del final a partir de data-*.
+   ===================================================================== */
+.grafico { position: absolute; font-family: var(--f-texto); color: var(--texto); }
+.grafico .g-titulo { font: 600 25px/1.2 var(--f-texto); text-align: center; margin-bottom: 14px; }
+.grafico .g-area { position: relative; }
+.grafico .g-linea { position: absolute; left: 0; right: 0; border-top: 1.5px solid var(--rejilla); }
+.grafico .g-eje { position: absolute; left: -82px; width: 70px; text-align: right; font-size: 19px; transform: translateY(-50%); color: #4c6a52; }
+.grafico .g-base { position: absolute; left: 0; right: 0; bottom: 0; border-top: 2px solid var(--texto); }
+.grafico .g-grupos { position: absolute; inset: 0; display: flex; }
+.grafico .g-grupo { flex: 1; display: flex; justify-content: center; align-items: flex-end; gap: 8px; position: relative; }
+.grafico .g-barra {
+  position: relative; width: var(--w, 64px); height: var(--h); border-radius: 4px 4px 0 0;
+  background: var(--c); transform-origin: bottom; transform: scaleY(0);
+  transition: transform 1s var(--ease); transition-delay: calc(.35s + var(--i, 0) * .07s);
+}
+.slide.visible .grafico .g-barra { transform: scaleY(1); }
+.grafico .g-barra:hover { filter: brightness(1.08); }
+.grafico .g-valor { position: absolute; bottom: 100%; left: 50%; transform: translate(-50%, -6px); font: 600 21px/1 var(--f-texto); white-space: nowrap; }
+.grafico .g-cat { position: absolute; top: 100%; left: 0; right: 0; text-align: center; padding-top: 10px; font-size: 20px; line-height: 1.15; }
+.grafico .g-leyenda { display: flex; justify-content: center; gap: 28px; font-size: 20px; }
+.grafico .g-leyenda span::before { content: ""; display: inline-block; width: 18px; height: 18px; border-radius: 4px; background: var(--c); margin-right: 8px; vertical-align: -2px; }
+.grafico svg { overflow: visible; max-width: none; max-height: none; }
+
+/* Tooltip de los gráficos (fuera del lienzo para que no se escale) */
+#tip {
+  position: fixed; z-index: 2000; pointer-events: none; opacity: 0; transition: opacity .15s;
+  background: var(--texto); color: var(--hueso); font: 500 14px/1.3 "Poppins", sans-serif;
+  padding: 7px 11px; border-radius: 8px; white-space: nowrap;
+}
+#tip.on { opacity: 1; }
+
+/* =====================================================================
+   DIAPOSITIVA 4: diagrama de arquitectura
+   ===================================================================== */
+.zona { position: absolute; border-radius: 18px; }
+.zona b { position: absolute; top: 10px; left: 24px; font: 600 21px/1 var(--f-texto); color: var(--verde); letter-spacing: .05em; }
+.nodo {
+  position: absolute; display: grid; place-items: center; text-align: center;
+  background: var(--blanco); border: 2.5px solid var(--verde); border-radius: 20px;
+  font: 400 21px/1.2 var(--f-texto); padding: 6px 10px;
+}
+.nodo .num { position: absolute; left: -20px; top: -24px; width: 48px; height: 48px; font-size: 24px; }
+.rombo { position: absolute; display: grid; place-items: center; text-align: center; font: 600 19px/1.15 var(--f-texto); }
+.rombo::before { content: ""; position: absolute; inset: 0; background: var(--amarillo); border: 2.5px solid var(--verde); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.rombo::after { content: ""; position: absolute; inset: 3px; background: var(--amarillo); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.rombo span { position: relative; z-index: 1; }
+.rot-flecha { position: absolute; font: 400 18px/1.15 var(--f-texto); }
+.cilindro { position: absolute; }
+
+
+.captura *, .captura *::before, .captura *::after { transition: none !important; animation: none !important; }
+
+/* =====================================================================
+   DETALLES VISTOSOS PARA TODA LA PRESENTACIÓN
+   ===================================================================== */
+/* Brillos de color suaves sobre el papel (cambian de esquina según la diapositiva) */
+.slide::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(640px 460px at 100% 0%, rgba(183, 245, 158, .38), transparent 70%),
+    radial-gradient(560px 420px at 0% 100%, rgba(255, 193, 7, .17), transparent 70%);
+}
+.slide:nth-of-type(even)::before {
+  background:
+    radial-gradient(640px 460px at 0% 0%, rgba(255, 193, 7, .16), transparent 70%),
+    radial-gradient(620px 460px at 100% 100%, rgba(183, 245, 158, .40), transparent 70%);
+}
+/* Entrada de cada diapositiva */
+@keyframes entra { from { transform: scale(1.012); filter: saturate(.85); } to { transform: none; filter: none; } }
+.slide.active { animation: entra .7s var(--ease); }
+/* Tarjetas que se levantan al pasar el ratón */
+.tarjeta, .tile, .resultado, .duelo, .lamina { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.slide.visible .tarjeta:hover, .slide.visible .tile:hover, .slide.visible .resultado:hover, .slide.visible .duelo:hover {
+  transform: translateY(-6px); box-shadow: 0 16px 34px rgba(42, 58, 32, .18);
+}
+.polaroid { transition: transform .35s var(--ease); }
+.polaroid:hover { transform: rotate(0deg) scale(1.04); z-index: 5; }
+
+/* Diapositiva 6: láminas y duelo */
+.lamina { background: var(--marco); padding: 14px; border-radius: 6px; box-shadow: 0 8px 22px rgba(42, 58, 32, .2); }
+.lamina img { display: block; width: 100%; max-height: none; }
+.duelo { background: var(--blanco); border-radius: 22px; padding: 20px 26px 22px; margin-top: 18px; box-shadow: 0 6px 18px rgba(42, 58, 32, .12); }
+.duelo-cab { display: flex; align-items: center; gap: 14px; font: 600 27px/1 var(--f-texto); color: var(--verde); }
+.duelo-cab img { width: 42px; height: 42px; object-fit: contain; }
+.duelo-cab em { margin-left: auto; font: 400 18px/1 var(--f-texto); font-style: normal; color: #6d8571; }
+.duelo-fila { display: grid; grid-template-columns: 40px 1fr 104px 44px; align-items: center; gap: 14px; margin-top: 14px; }
+.letra { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; font: 700 22px/1 var(--f-titulo); }
+.letra.a { background: var(--verde); color: #fff; }
+.letra.b { background: var(--amarillo); color: var(--texto); }
+.pista { display: block; height: 24px; border-radius: 12px; background: #EEF0E6; overflow: hidden; }
+.lleno { display: block; height: 100%; width: var(--p); border-radius: 12px; transform-origin: left; transform: scaleX(0); transition: transform 1.1s var(--ease) .5s; }
+.slide.visible .lleno { transform: scaleX(1); }
+.lleno.a { background: var(--verde); }
+.lleno.b { background: var(--amarillo); }
+.valor { font: 600 30px/1 var(--f-texto); color: var(--texto); text-align: right; }
+.corona { width: 44px; transform: rotate(-12deg) scale(0); transition: transform .5s cubic-bezier(.34, 1.56, .64, 1) 1.4s; }
+.slide.visible .corona { transform: rotate(-12deg) scale(1); }
+
+/* Diapositiva 10: cifras con meta y gráfico de mancuernas */
+.tile { position: relative; background: var(--blanco); border-radius: 22px; padding: 26px 30px 24px; box-shadow: 0 6px 18px rgba(42, 58, 32, .12); border-top: 10px solid var(--verde); }
+.tile.casi { border-top-color: var(--amarillo); }
+.tile-num { font: 600 76px/1 var(--f-texto); color: var(--verde); letter-spacing: -1px; }
+.tile-lab { margin: 10px 0 14px; font-size: 23px; line-height: 1.25; }
+.chip { display: inline-block; border-radius: 999px; padding: 6px 14px; font: 600 18px/1.1 var(--f-texto); }
+.chip.ok { background: var(--lima-suave); color: var(--verde); }
+.chip.casi { background: var(--amarillo-suave); color: #8A6A00; }
+.m-ejes { position: absolute; left: 270px; right: 40px; top: 0; bottom: 34px; }
+.m-ejes span { position: absolute; bottom: -34px; transform: translateX(-50%); font-size: 18px; color: #4c6a52; white-space: nowrap; }
+.m-ejes span::before { content: ""; position: absolute; left: 50%; bottom: 30px; height: 415px; border-left: 1.5px solid #E4E1D3; }
+.m-meta { position: absolute; top: 0; bottom: 0; border-left: 3px dashed var(--rojo); }
+.m-meta b { position: absolute; top: -4px; left: 10px; font: 600 18px/1 var(--f-texto); color: var(--rojo); white-space: nowrap; }
+.mancuerna { position: relative; display: grid; grid-template-columns: 270px 1fr; align-items: center; height: 84px; padding-right: 40px; }
+.mancuerna + .mancuerna { border-top: 1.5px dashed #E4E1D3; }
+.m-nombre { display: flex; align-items: center; gap: 14px; font: 600 26px/1 var(--f-texto); color: var(--texto); }
+.chips { display: flex; }
+.chips i { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--hueso); margin-left: -9px; }
+.chips i:first-child { margin-left: 0; }
+.m-pista { position: relative; height: 84px; }
+.mancuerna-linea { position: absolute; top: 50%; height: 8px; margin-top: -4px; border-radius: 4px; background: linear-gradient(90deg, var(--amarillo), var(--verde));
+  left: var(--a); width: calc(var(--b) - var(--a)); transform-origin: left; transform: scaleX(0); transition: transform 1.1s var(--ease) .9s; }
+.mancuerna-punto { position: absolute; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, .18); }
+.mancuerna-punto.orig { background: var(--amarillo); }
+.mancuerna-punto.ref { background: var(--verde); left: var(--a); transition: left 1.1s var(--ease) .9s; }
+.slide.visible .mancuerna-punto.ref { left: var(--b); }
+.slide.visible .mancuerna-linea { transform: scaleX(1); }
+.mancuerna-et { position: absolute; top: 4px; transform: translateX(-50%); font: 600 19px/1 var(--f-texto); color: var(--verde); white-space: nowrap; }
+.mancuerna-et.orig { top: auto; bottom: 2px; color: #8A6A00; }
+.ley { display: flex; align-items: center; gap: 12px; }
+.ley-punto { width: 24px; height: 24px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .2); }
+.ley-punto.orig { background: var(--amarillo); }
+.ley-punto.ref { background: var(--verde); }
+.ley-meta { width: 24px; height: 0; border-top: 3px dashed var(--rojo); }
+
+/* Diapositiva 11: tarjetas de resultado */
+.resultado { position: absolute; top: 290px; width: 540px; height: 700px; background: var(--blanco); border-radius: 26px; overflow: hidden; box-shadow: 0 6px 20px rgba(42, 58, 32, .13); }
+.res-cab { display: flex; align-items: center; gap: 16px; height: 86px; padding: 0 28px; font: 700 34px/1 var(--f-titulo); color: var(--verde); }
+.res-cab img { width: 50px; height: 50px; object-fit: contain; }
+.res-cuerpo { padding: 26px 30px; }
+.res-num { font: 600 72px/1 var(--f-texto); color: var(--verde); letter-spacing: -1px; }
+.res-lab { margin-top: 12px; font-size: 22px; line-height: 1.35; }
+.res-cuerpo .g-leyenda { display: flex; gap: 26px; font-size: 20px; }
+.res-cuerpo .g-leyenda span::before { content: ""; display: inline-block; width: 18px; height: 18px; border-radius: 4px; background: var(--c); margin-right: 8px; vertical-align: -2px; }
+.res-nota { margin-top: 14px; font-size: 19px; line-height: 1.4; color: #4c6a52; }
+.linea-g { display: block; margin-top: 18px; max-width: none; max-height: none; overflow: visible; }
+.linea-g .trazo { stroke-dashoffset: 0; }
+.slide.visible .linea-g polyline:last-of-type { animation: traza 1.4s var(--ease) .6s both; stroke-dasharray: 700; }
+@keyframes traza { from { stroke-dashoffset: 700; } to { stroke-dashoffset: 0; } }
+.dona { position: relative; width: 210px; text-align: center; }
+.dona svg { display: block; }
+.dona > b { position: absolute; left: 0; right: 0; top: 78px; font: 600 46px/1 var(--f-texto); color: var(--verde); }
+.dona p { margin-top: 12px; font-size: 21px; line-height: 1.3; }
+.dona p strong { font-weight: 600; color: var(--verde); }
+.arco { stroke-dasharray: var(--p) var(--c); stroke-dashoffset: var(--p); transition: stroke-dashoffset 1.3s var(--ease) .6s; }
+.slide.visible .arco { stroke-dashoffset: 0; }
+.mini-titulo { margin: 0; }
+.mini-titulo img { display: block; width: 100%; aspect-ratio: 466 / 216; object-fit: cover; border-radius: 12px; max-height: none; box-shadow: 0 3px 10px rgba(0, 0, 0, .15); }
+.mini-titulo figcaption { margin-top: 8px; text-align: center; font: 600 19px/1 var(--f-texto); color: var(--verde); }
+
+/* Diapositiva 12: gráficos de cuadritos */
+.waffle { display: grid; grid-template-columns: repeat(var(--cols), var(--celda)); gap: 6px; }
+.waffle i { width: var(--celda); height: var(--celda); border-radius: 7px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(36, 69, 44, .1);
+  transform: scale(0); transition: transform .45s cubic-bezier(.34, 1.56, .64, 1); transition-delay: calc(.35s + var(--k) * 12ms); }
+.slide.visible .waffle i { transform: scale(1); }
+.waffle i:hover { outline: 3px solid var(--texto); outline-offset: 1px; }
+.w-titulo { margin-bottom: 12px; font: 600 24px/1 var(--f-texto); color: var(--verde); }
+.w-leyenda { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-size: 19px; }
+.w-leyenda span { display: inline-flex; align-items: center; gap: 7px; }
+.w-leyenda span::before { content: ""; width: 18px; height: 18px; border-radius: 5px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(36, 69, 44, .15); }
+.w-leyenda b { font-weight: 600; }
+.umbral { display: flex; align-items: center; gap: 16px; background: var(--blanco); border-radius: 16px; padding: 12px 18px; font-size: 21px; box-shadow: 0 3px 10px rgba(42, 58, 32, .1); }
+.umbral b { font-weight: 600; color: var(--verde); }
+.u-val { flex: none; border-radius: 999px; padding: 7px 14px; background: #EEF0E6; font: 600 19px/1 var(--f-texto); }
+.umbral.elegido { outline: 3px solid var(--amarillo); }
+.umbral.elegido .u-val { background: var(--amarillo); }
+
+/* =====================================================================
+   GUION DEL PRESENTADOR (tecla N) Y CONTROLES
+   ===================================================================== */
+.notes { display: none; }
+#guion {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1500; max-height: 34vh; overflow: auto;
+  background: rgba(29, 42, 31, .96); color: #F7F5EE; font: 400 17px/1.55 "Poppins", sans-serif;
+  padding: 18px 28px 26px; transform: translateY(100%); transition: transform .3s var(--ease);
+}
+#guion.on { transform: none; }
+#guion strong { color: var(--amarillo); }
+.contador {
+  position: fixed; right: 18px; bottom: 14px; z-index: 1000;
+  font: 600 14px/1 "Poppins", sans-serif; color: rgba(247, 245, 238, .75);
+  background: rgba(29, 42, 31, .55); padding: 7px 12px; border-radius: 999px;
+}
+.progreso { position: fixed; left: 0; top: 0; height: 5px; background: var(--amarillo); z-index: 1000; transition: width .4s var(--ease); }
+
+/* Modo edición (tecla E) */
+.edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+.edit-toggle {
+  position: fixed; top: 16px; left: 16px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity .3s;
+  border: 0; border-radius: 999px; padding: 9px 16px; cursor: pointer;
+  background: var(--amarillo); color: var(--texto); font: 600 14px/1 "Poppins", sans-serif;
+}
+.edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .55); outline-offset: 4px; cursor: text; }
+</style>
+</head>
+
+<body>
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage" aria-live="polite">
+
+<!-- =====================================================================
+     1 · PORTADA
+     ===================================================================== -->
+<section class="slide" aria-label="Portada">
+  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:26px;top:40px;width:100px">
+  <img class="deco r" style="--d:.6;left:1000px;top:110px;width:150px;transform:rotate(8deg)" src="img/deco_rayitas.png" alt="">
+
+  <h1 class="abs r" style="--d:.05;left:92px;top:150px;font:700 330px/1 var(--f-titulo);color:var(--verde);letter-spacing:-4px">FROG</h1>
+  <p class="abs r izq" style="--d:.3;left:var(--margen);top:520px;background:var(--amarillo);padding:14px 30px;font:700 52px/1.1 var(--f-titulo);color:var(--verde)">Friendly Rounds Of Generation</p>
+  <p class="abs r" style="--d:.45;left:var(--margen);top:690px;width:1080px;font-size:34px">Portadas infantiles generativas con feedback humano: de un boceto y una historia a cinco propuestas.</p>
+  <p class="abs r" style="--d:.6;left:var(--margen);top:828px;width:1080px;font:600 28px/1.5 var(--f-texto);color:var(--verde)">Andrea Coa · Jimena Gurbillon · Maria Surco<br>Bihonda Epiquien · Nayeli Guzman</p>
+  <p class="abs r" style="--d:.7;left:var(--margen);top:966px;font-size:23px">Proyecto 2 · Planificación y Toma de Decisiones en IA · UTEC · Noviembre 2026</p>
+
+  <img class="deco r pop" style="--d:.15;left:1400px;top:6px;width:500px" src="img/deco_explosion.png" alt="">
+  <div class="abs r pop" style="--d:.25;left:1190px;top:90px;width:560px">
+    <img class="flota" src="img/runa_saluda_grande.png" alt="Runa, la ranita de FROG, saluda" style="width:560px;max-width:none">
+  </div>
+  <div class="abs r" style="--d:.55;left:1290px;top:880px;width:450px;height:190px">
+    <img src="img/papel_amarillo.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;transform:rotate(-3deg)">
+    <p class="abs" style="left:0;right:0;top:34px;text-align:center;font:700 64px/1 var(--f-titulo);color:var(--verde);transform:rotate(-3deg)">Runa</p>
+    <p class="abs" style="left:0;right:0;top:110px;text-align:center;font:600 26px/1 var(--f-texto);transform:rotate(-3deg)">la mascota de FROG</p>
+  </div>
+  <aside class="notes">TIEMPO: 0:30. Buenas tardes. Somos el equipo de FROG, que significa Friendly Rounds Of Generation: rondas amigables de generación. FROG convierte un boceto y una historia en cinco portadas para un libro infantil, y aprende de lo que la persona acepta y rechaza. La mascota es Runa, que nos acompaña en la presentación.</aside>
+</section>
+
+<!-- =====================================================================
+     2 · PROBLEMÁTICA
+     ===================================================================== -->
+<section class="slide" aria-label="Problemática">
+  <span class="seccion r">Problemática</span>
+  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1110px;top:70px;width:96px">
+  <h2 class="titulo r" style="--d:.1;width:960px">Quien escribe un cuento no siempre puede ilustrarlo</h2>
+
+  <div class="abs r izq" style="--d:.3;left:var(--margen);top:440px;width:1000px;display:flex;gap:30px">
+    <span class="num">1</span>
+    <div><p style="font:600 34px/1.2 var(--f-texto);color:var(--verde)">No sabe dibujar bien</p><p>Hace dibujos simples, pero sabe lo que quiere contar.</p></div>
+  </div>
+  <div class="abs r izq" style="--d:.45;left:var(--margen);top:600px;width:1000px;display:flex;gap:30px">
+    <span class="num">2</span>
+    <div><p style="font:600 34px/1.2 var(--f-texto);color:var(--verde)">No puede pagar a un ilustrador</p><p>No alcanza para cada cuento que escribe para su aula.</p></div>
+  </div>
+  <div class="abs r izq" style="--d:.6;left:var(--margen);top:760px;width:1000px;display:flex;gap:30px">
+    <span class="num">3</span>
+    <div><p style="font:600 34px/1.2 var(--f-texto);color:var(--verde)">La IA genérica no le sirve</p><p>Las imágenes no se parecen a su idea ni a su historia, y el título sale mal escrito.</p></div>
+  </div>
+
+  <div class="panel r" style="--d:.05;width:678px"></div>
+  <div class="abs r" style="--d:.35;left:1290px;top:70px;width:290px;height:400px">
+    <div class="polaroid rot" style="--g:-4deg;inset:0"><img src="img/boceto_conejo.png" alt="Boceto de un conejo"><div class="pie">Su dibujo</div></div>
+  </div>
+  <div class="abs r" style="--d:.5;left:1515px;top:330px;width:340px;height:580px">
+    <div class="polaroid rot" style="--g:4deg;inset:0"><img src="img/portada_v1.jpg" alt="Portada generada de un conejo entre flores"><div class="pie">Una de las 5 portadas</div></div>
+  </div>
+  <img class="deco r pop" style="--d:.7;left:1268px;top:740px;width:220px" src="img/runa_lee.png" alt="">
+  <aside class="notes">TIEMPO: 0:45. Diseñamos para Carmen, una docente de inicial que escribe cuentos para su aula. Sabe lo que quiere contar pero no sabe dibujar, no puede pagar un ilustrador por cada cuento, y las herramientas de IA genéricas le dan imágenes que no se parecen a su idea y con el título mal escrito. Aclaración honesta: Carmen es una hipótesis de diseño que construimos antes de las entrevistas; las cinco entrevistas con consentimiento están pendientes, por eso aquí no hay citas.<br><br><strong>Preguntas probables del jurado.</strong> ¿Cómo saben que la necesidad es real? Carmen es una hipótesis de diseño; las cinco entrevistas están pendientes, así que no afirmamos evidencia de campo. ¿Por qué IA y no un ilustrador? No lo reemplaza: entrega un concepto de portada con cinco opciones comparables a partir del dibujo de la persona.</aside>
+</section>
+
+<!-- =====================================================================
+     3 · SOLUCIÓN: VISIÓN GENERAL (flujo de cinco etapas)
+     ===================================================================== -->
+<section class="slide" aria-label="Visión general">
+  <span class="seccion r">Solución técnica · Visión general</span>
+  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1730px;top:60px;width:110px">
+  <h2 class="titulo r" style="--d:.1;width:1300px">De un boceto y una historia a cinco portadas</h2>
+
+  <!-- Flechas entre etapas y bucle de rondas -->
+  <svg class="abs r" style="--d:.9;left:0;top:0;width:1920px;height:1080px;max-width:none;max-height:none" viewBox="0 0 1920 1080" aria-hidden="true">
+    <defs><marker id="pv" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#287A36"/></marker></defs>
+    <g stroke="#287A36" stroke-width="5" fill="none" marker-end="url(#pv)">
+      <line x1="427" y1="588" x2="486" y2="588"/><line x1="787" y1="588" x2="846" y2="588"/>
+      <line x1="1147" y1="588" x2="1206" y2="588"/><line x1="1507" y1="588" x2="1566" y2="588"/>
+    </g>
+    <path d="M1721,965 L1721,1000 L281,1000 L281,972" stroke="#287A36" stroke-width="4" fill="none" marker-end="url(#pv)"/>
+  </svg>
+
+  <!-- Etapa 1: boceto e historia -->
+  <div class="abs r pop" style="--d:.2;left:140px;top:446px;width:281px;height:281px;border-radius:50%;background:var(--lima-suave)"></div>
+  <span class="num chico abs r" style="--d:.2;left:130px;top:430px">1</span>
+  <div class="abs r" style="--d:.3;left:170px;top:497px;width:137px;height:187px"><div class="polaroid rot" style="--g:-5deg;inset:0;padding:8px 8px 0"><img src="img/boceto.png" alt="" style="height:calc(100% - 24px)"><div class="pie" style="height:24px"></div></div></div>
+  <div class="abs r" style="--d:.35;left:296px;top:512px;width:115px;height:158px;background:var(--lima);transform:rotate(6deg);box-shadow:0 5px 14px rgba(42,58,32,.25);padding:26px 16px;display:flex;flex-direction:column;gap:14px">
+    <i style="height:10px;border-radius:5px;background:#fff"></i><i style="height:10px;border-radius:5px;background:#fff"></i><i style="height:10px;border-radius:5px;background:#fff"></i><i style="height:10px;border-radius:5px;background:#fff;width:60%"></i>
+  </div>
+  <!-- Etapa 2: cinco portadas en abanico -->
+  <div class="abs r pop" style="--d:.3;left:500px;top:446px;width:281px;height:281px;border-radius:50%;background:var(--lima-suave)"></div>
+  <span class="num chico abs r" style="--d:.3;left:490px;top:430px">2</span>
+  <div class="abs r" style="--d:.45;left:531px;top:488px;width:220px;height:190px">
+    <img src="img/portada_v1.jpg" alt="" style="position:absolute;left:0;top:12px;width:115px;height:172px;object-fit:cover;transform:rotate(-14deg);box-shadow:0 3px 8px rgba(0,0,0,.2)">
+    <img src="img/portada_v5.jpg" alt="" style="position:absolute;left:105px;top:12px;width:115px;height:172px;object-fit:cover;transform:rotate(14deg);box-shadow:0 3px 8px rgba(0,0,0,.2)">
+    <img src="img/portada_v2.jpg" alt="" style="position:absolute;left:25px;top:4px;width:115px;height:172px;object-fit:cover;transform:rotate(-7deg);box-shadow:0 3px 8px rgba(0,0,0,.2)">
+    <img src="img/portada_v4.jpg" alt="" style="position:absolute;left:80px;top:4px;width:115px;height:172px;object-fit:cover;transform:rotate(7deg);box-shadow:0 3px 8px rgba(0,0,0,.2)">
+    <img src="img/portada_v3.jpg" alt="" style="position:absolute;left:52px;top:0;width:115px;height:172px;object-fit:cover;box-shadow:0 3px 8px rgba(0,0,0,.2)">
+  </div>
+  <!-- Etapa 3: aceptar o rechazar -->
+  <div class="abs r pop" style="--d:.4;left:860px;top:446px;width:281px;height:281px;border-radius:50%;background:var(--lima-suave)"></div>
+  <span class="num chico abs r" style="--d:.4;left:850px;top:430px">3</span>
+  <div class="abs r" style="--d:.55;left:868px;top:526px;width:122px;height:122px;border-radius:50%;background:var(--lima);display:grid;place-items:center"><img src="img/ico_pulgar_arriba.png" alt="Aceptar" style="height:86px"></div>
+  <div class="abs r" style="--d:.6;left:1011px;top:526px;width:122px;height:122px;border-radius:50%;background:#F4C7C0;display:grid;place-items:center"><img src="img/ico_pulgar_arriba.png" alt="Rechazar" style="height:86px;transform:rotate(180deg)"></div>
+  <!-- Etapa 4: planificador -->
+  <div class="abs r pop" style="--d:.5;left:1220px;top:446px;width:281px;height:281px;border-radius:50%;background:var(--lima-suave)"></div>
+  <span class="num chico abs r" style="--d:.5;left:1210px;top:430px">4</span>
+  <img class="deco r" style="--d:.6;left:1253px;top:482px;width:216px" src="img/deco_nube.png" alt="">
+  <img class="deco r" style="--d:.7;left:1296px;top:526px;height:130px" src="img/ico_grafico.png" alt="">
+  <!-- Etapa 5: resumen -->
+  <div class="abs r pop" style="--d:.6;left:1580px;top:446px;width:281px;height:281px;border-radius:50%;background:var(--lima-suave)"></div>
+  <span class="num chico abs r" style="--d:.6;left:1570px;top:430px">5</span>
+  <img class="deco r" style="--d:.75;left:1628px;top:490px;height:195px" src="img/ico_informe.png" alt="">
+
+  <!-- Nombres y descripciones -->
+  <div class="abs r" style="--d:.7;left:115px;top:763px;width:1700px;display:grid;grid-template-columns:repeat(5,331px);column-gap:29px;text-align:center">
+    <span class="pill" style="justify-self:center;width:300px">Boceto e historia</span>
+    <span class="pill" style="justify-self:center;width:300px">Cinco propuestas</span>
+    <span class="pill" style="justify-self:center;width:300px">Aceptar o rechazar</span>
+    <span class="pill" style="justify-self:center;width:300px">Planificador</span>
+    <span class="pill" style="justify-self:center;width:300px">Resumen final</span>
+    <p style="margin-top:18px;font-size:25px">Dibujas o subes un boceto y cuentas el cuento.</p>
+    <p style="margin-top:18px;font-size:25px">Cada una cambia solo un parámetro.</p>
+    <p style="margin-top:18px;font-size:25px">Con motivo, por portada o por paquete.</p>
+    <p style="margin-top:18px;font-size:25px">Aprende qué valores prefieres (muestreo de Thompson).</p>
+    <p style="margin-top:18px;font-size:25px">Un agente explica lo que pasó.</p>
+  </div>
+  <span class="pill amarilla abs r" style="--d:1;left:836px;top:968px;width:340px">Hasta 3 rondas</span>
+
+  <img class="deco" src="img/hierba.png" alt="" style="left:0;top:1010px;width:200px">
+  <img class="deco r pop flota" style="--d:.8;left:22px;top:930px;height:140px" src="img/runa_dibuja.png" alt="">
+  <img class="deco" src="img/flores.png" alt="" style="left:1760px;top:900px;width:122px">
+  <aside class="notes">TIEMPO: 0:45. El flujo completo: la persona sube o dibuja un boceto y cuenta su historia; el sistema genera exactamente cinco portadas, donde cada una cambia un solo parámetro; la persona acepta o rechaza cada una, con el motivo; un planificador usa esas decisiones para proponer la siguiente ronda, hasta un máximo de tres; y al final un agente redacta un resumen de lo que ocurrió, que se verifica contra el registro.</aside>
+</section>
+
+<!-- =====================================================================
+     4 · ARQUITECTURA (zonas, nodos y flechas con coordenadas del PPTX × 144)
+     ===================================================================== -->
+<section class="slide" aria-label="Arquitectura">
+  <span class="seccion r">Solución técnica · Arquitectura</span>
+  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1740px;top:50px;width:100px">
+  <h2 class="titulo r" style="--d:.1;width:1500px">Siete componentes y un registro de cada decisión</h2>
+
+  <div class="r" style="--d:.25">
+    <div class="zona" style="left:79px;top:300px;width:670px;height:262px;background:var(--lima-suave)"><b>ENTRADA</b></div>
+    <div class="zona" style="left:770px;top:300px;width:1073px;height:262px;background:var(--amarillo-suave)"><b>GENERACIÓN</b></div>
+    <div class="zona" style="left:770px;top:655px;width:1073px;height:262px;background:var(--lima-suave)"><b>INTERACCIÓN</b></div>
+    <div class="zona" style="left:79px;top:655px;width:670px;height:262px;background:var(--amarillo-suave)"><b style="left:auto;right:24px">VALIDACIÓN</b></div>
+  </div>
+
+  <svg class="abs r" style="--d:.7;left:0;top:0;width:1920px;height:1080px;max-width:none;max-height:none" viewBox="0 0 1920 1080" aria-hidden="true">
+    <defs>
+      <marker id="fa" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#287A36"/></marker>
+      <marker id="fr" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#C0463C"/></marker>
+    </defs>
+    <g stroke="#287A36" stroke-width="3.2" fill="none" marker-end="url(#fa)">
+      <line x1="360" y1="432" x2="423" y2="432"/><line x1="713" y1="432" x2="804" y2="432"/>
+      <line x1="1094" y1="432" x2="1150" y2="432"/><line x1="1454" y1="432" x2="1510" y2="432"/>
+      <line x1="1663" y1="518" x2="1663" y2="711"/>
+      <line x1="1778" y1="713" x2="1778" y2="520" stroke-dasharray="9 7"/>
+      <line x1="1512" y1="799" x2="1428" y2="799"/><line x1="1174" y1="799" x2="1118" y2="799"/>
+      <polyline points="979,713 979,612 950,612 950,520"/>
+      <line x1="842" y1="799" x2="715" y2="799"/><line x1="425" y1="799" x2="384" y2="799"/>
+      <polyline points="245,713 245,641 569,641 569,711"/>
+      <line x1="245" y1="893" x2="245" y2="951"/><line x1="569" y1="886" x2="569" y2="951"/>
+      <line x1="446" y1="996" x2="391" y2="996"/>
+    </g>
+    <line x1="569" y1="519" x2="569" y2="588" stroke="#C0463C" stroke-width="3.2" stroke-dasharray="8 6" marker-end="url(#fr)"/>
+  </svg>
+
+  <div class="r" style="--d:.45">
+    <div class="nodo" style="left:108px;top:346px;width:252px;height:173px">Usuario<br>boceto + historia<br>+ título + parámetros</div>
+    <div class="nodo" style="left:425px;top:346px;width:288px;height:173px"><span class="num">1</span>Preprocesamiento<br>+ guardrails de entrada<br>+ agente de historia</div>
+    <div class="nodo" style="left:806px;top:346px;width:288px;height:173px"><span class="num">2</span>Planificador<br>5 configuraciones<br>(Thompson, Beta)</div>
+    <div class="nodo" style="left:1152px;top:346px;width:302px;height:173px"><span class="num">3</span>Motor A: SD 1.5<br>+ ControlNet<br>Motor B: SD-Turbo</div>
+    <div class="nodo" style="left:1512px;top:346px;width:302px;height:173px"><span class="num">4</span>Guardrails de salida<br>+ agente tipográfico<br>+ render del título</div>
+    <div class="nodo" style="left:1512px;top:713px;width:302px;height:173px"><span class="num">5</span>Interfaz Gradio<br>aceptar / rechazar<br>+ motivo + editar fuente</div>
+    <!-- Registro JSON como cilindro (base de datos) -->
+    <div class="cilindro" style="left:1174px;top:706px;width:252px;height:187px">
+      <svg viewBox="0 0 252 187" style="position:absolute;inset:0;width:252px;height:187px" aria-hidden="true">
+        <path d="M2,22 A124,20 0 0 1 250,22 L250,165 A124,20 0 0 1 2,165 Z" fill="#fff" stroke="#287A36" stroke-width="2.5"/>
+        <path d="M2,22 A124,20 0 0 0 250,22" fill="none" stroke="#287A36" stroke-width="2.5"/>
+      </svg>
+      <span class="num" style="position:absolute;left:-22px;top:-18px;width:48px;height:48px;font-size:24px">6</span>
+      <p style="position:absolute;left:0;right:0;top:56px;text-align:center;font:400 19px/1.2 var(--f-texto)"><b style="font-weight:600">Registro JSON</b><br>parámetros, semillas,<br>decisiones, motivos</p>
+    </div>
+    <div class="rombo" style="left:842px;top:713px;width:274px;height:180px"><span>¿Otra ronda?<br>(r &lt; 3)</span></div>
+    <div class="nodo" style="left:425px;top:713px;width:288px;height:173px"><span class="num">7</span>Agente LLM<br>Qwen2.5 | Phi-3.5<br>resumen + JSON</div>
+    <div class="rombo" style="left:108px;top:713px;width:274px;height:180px"><span>¿Coincide con<br>el registro?</span></div>
+    <div class="nodo" style="left:108px;top:953px;width:281px;height:86px;background:var(--lima);font-size:20px">Resumen final al usuario</div>
+    <div class="nodo" style="left:446px;top:953px;width:317px;height:86px;font-size:19px">Resumen por plantilla (respaldo)</div>
+  </div>
+
+  <div class="r" style="--d:.9">
+    <p class="rot-flecha" style="left:1676px;top:584px;width:96px;text-align:center;font-size:16px">cambio<br>de fuente</p>
+    <p class="rot-flecha" style="left:994px;top:592px">sí: actualizar preferencias</p>
+    <p class="rot-flecha" style="left:760px;top:762px">no</p>
+    <p class="rot-flecha" style="left:262px;top:600px">no: reintento (máx. 2)</p>
+    <p class="rot-flecha" style="left:259px;top:904px">sí</p>
+    <p class="rot-flecha" style="left:583px;top:895px">si fallan los reintentos</p>
+    <p class="rot-flecha" style="left:583px;top:528px;color:var(--rojo);font-size:16px">rechazo de la<br>entrada</p>
+  </div>
+  <img class="deco r pop" style="--d:1.1;left:1730px;top:915px;height:140px" src="img/runa_lupa.png" alt="">
+  <aside class="notes">TIEMPO: 1:00. La arquitectura completa. 1) Preprocesamiento, guardrails de entrada y agente de historia: se rechaza un boceto vacío, una foto de una persona real o texto no apto. 2) El planificador propone las cinco configuraciones con Thompson. 3) El motor A o el B genera las portadas. 4) Guardrails de salida, agente tipográfico y render del título. 5) La interfaz: aceptar o rechazar con motivo y editar la fuente. 6) Todo queda en un registro JSON. Si hay otra ronda, se actualizan las preferencias y se vuelve al planificador; si no, 7) el agente LLM redacta el resumen y un validador lo compara con el registro, con hasta dos reintentos y una plantilla de respaldo.<br><br><strong>Preguntas probables del jurado.</strong> ¿Qué evita que el LLM invente? Un validador compara cada ID y motivo del resumen con el registro y reintenta hasta dos veces; si falla, usa una plantilla. ¿Qué conecta todo? El registro JSON de cada decisión.</aside>
+</section>
+
+<!-- =====================================================================
+     5 · PERSONALIZACIÓN (seis parámetros + planificador)
+     ===================================================================== -->
+<section class="slide" aria-label="Personalización">
+  <span class="seccion r">Solución técnica · Personalización</span>
+  <h2 class="titulo r" style="--d:.1;width:1080px">Seis parámetros para personalizar cada portada</h2>
+
+  <div class="abs" style="left:90px;top:330px;width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:30px 34px">
+    <div class="tarjeta r" style="--d:.25;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Estilo</p><p style="margin-top:8px">acuarela · lápices · collage · vectorial · plastilina</p></div>
+    <div class="tarjeta r" style="--d:.3;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Paleta</p><p style="margin-top:8px">pastel · cálida · fría · primarios · tierra</p></div>
+    <div class="tarjeta r" style="--d:.35;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Edad</p><p style="margin-top:8px">0-3 · 4-6 · 7-9 · 10-12 · sin</p></div>
+    <div class="tarjeta r" style="--d:.4;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Ambiente</p><p style="margin-top:8px">alegre · aventura · calma · misterio · humor</p></div>
+    <div class="tarjeta r" style="--d:.45;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Fidelidad al boceto</p><p style="margin-top:8px">muy baja · baja · media · alta · muy alta</p></div>
+    <div class="tarjeta r" style="--d:.5;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Zona del título</p><p style="margin-top:8px">superior · inferior · ambas · centrada · sin</p></div>
+  </div>
+  <p class="abs r" style="--d:.65;left:90px;top:1000px;width:1100px;font-size:25px"><b style="font-weight:600;color:var(--verde)">Una ronda:</b> un parámetro toma sus 5 valores (una portada por valor) y los otros cinco quedan fijos.</p>
+
+  <div class="panel r" style="--d:.05;width:660px"></div>
+  <h3 class="abs r" style="--d:.25;left:1310px;top:110px;width:560px;font:700 46px/1.15 var(--f-titulo);color:var(--verde)">El planificador aprende de tus decisiones</h3>
+  <div class="abs" style="left:1310px;top:300px;width:540px;display:flex;flex-direction:column;gap:38px">
+    <div class="r izq" style="--d:.4;display:flex;gap:24px;align-items:center"><span class="num verde chico">1</span><p>Cada aceptación o rechazo actualiza qué valores prefieres.</p></div>
+    <div class="r izq" style="--d:.5;display:flex;gap:24px;align-items:center"><span class="num verde chico">2</span><p>Los parámetros con evidencia se fijan en lo que aceptaste.</p></div>
+    <div class="r izq" style="--d:.6;display:flex;gap:24px;align-items:center"><span class="num verde chico">3</span><p>Los demás se eligen al azar para seguir explorando.</p></div>
+    <div class="r izq" style="--d:.7;display:flex;gap:24px;align-items:center"><span class="num verde chico">4</span><p>Máximo tres rondas por sesión.</p></div>
+  </div>
+  <p class="abs r" style="--d:.8;left:1310px;top:850px;font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Muestreo de Thompson</p>
+  <img class="deco r pop flota" style="--d:.9;left:1600px;top:880px;height:180px" src="img/runa_piensa.png" alt="">
+  <aside class="notes">TIEMPO: 0:45. La persona controla seis parámetros: estilo, paleta, edad, ambiente, fidelidad al boceto y zona del título. En cada ronda uno de ellos varía entre las cinco portadas y los otros quedan fijos, para que se entienda qué cambió. El planificador usa muestreo de Thompson: va aprendiendo qué valores prefiere la persona según lo que acepta, fija esos y explora al azar los demás, hasta un máximo de tres rondas.<br><br><strong>Preguntas probables del jurado.</strong> ¿Por qué Thompson? Equilibra explorar y aprovechar con pocas rondas (máximo 3). En simulación supera al azar en la ronda 3 (43 % frente a 34,8 %); con usuarios reales todavía no está probado.</aside>
+</section>
+
+<!-- =====================================================================
+     6 · MOTORES A Y B (láminas + duelo de métricas)
+     ===================================================================== -->
+<section class="slide" aria-label="Modelo generativo">
+  <span class="seccion r">Solución técnica · Modelo generativo</span>
+  <h2 class="titulo r" style="--d:.1;width:1500px">El motor A reinterpreta el boceto; el B lo conserva</h2>
+
+  <div class="abs r izq" style="--d:.2;left:78px;top:286px;display:flex;align-items:center;gap:16px"><span class="pill mini" style="background:var(--verde);color:#fff">Motor A</span><span style="font-size:22px">Stable Diffusion 1.5 + ControlNet</span></div>
+  <div class="abs r lamina" style="--d:.3;left:78px;top:340px;width:1040px">
+    <img src="img/lamina_motor_a_recortada.png" alt="Cinco portadas del motor A, una por estilo">
+  </div>
+  <div class="abs r" style="--d:.45;left:78px;top:632px;width:1040px;display:grid;grid-template-columns:repeat(5,1fr);text-align:center;font:600 22px/1 var(--f-texto);color:var(--verde)">
+    <span style="margin-left:19%">acuarela</span><span style="margin-left:15%">lápices</span><span style="margin-left:10%">collage</span><span style="margin-left:5%">vectorial</span><span>plastilina</span>
+  </div>
+  <div class="abs r izq" style="--d:.5;left:78px;top:680px;display:flex;align-items:center;gap:16px"><span class="pill amarilla mini">Motor B</span><span style="font-size:22px">SD-Turbo (img2img)</span></div>
+  <div class="abs r lamina" style="--d:.55;left:78px;top:734px;width:1040px">
+    <img src="img/lamina_motor_b_recortada.png" alt="Cinco portadas del motor B, casi iguales al boceto">
+  </div>
+  <p class="abs r" style="--d:.7;left:78px;top:1026px;font-size:21px;font-style:italic">Mismo boceto e historia; una ronda con el eje estilo.</p>
+
+  <!-- Duelo: cada métrica compara A (verde) y B (amarillo); la corona marca quién gana -->
+  <div class="abs" style="left:1172px;top:270px;width:690px">
+    <p class="r" style="--d:.3;font:700 44px/1 var(--f-titulo);color:var(--verde)">Cara a cara</p>
+    <div class="duelo r" style="--d:.45">
+      <div class="duelo-cab"><img src="img/ico_estilo.webp" alt=""><span>Acierto de estilo</span><em>más es mejor</em></div>
+      <div class="duelo-fila"><b class="letra a">A</b><i class="pista"><i class="lleno a" style="--p:93%"></i></i><span class="valor">93 %</span><img class="corona" src="img/corona.png" alt="gana"></div>
+      <div class="duelo-fila"><b class="letra b">B</b><i class="pista"><i class="lleno b" style="--p:20%"></i></i><span class="valor">20 %</span></div>
+    </div>
+    <div class="duelo r" style="--d:.6">
+      <div class="duelo-cab"><img src="img/ico_lupa.png" alt=""><span>Fidelidad al boceto</span><em>más es mejor</em></div>
+      <div class="duelo-fila"><b class="letra a">A</b><i class="pista"><i class="lleno a" style="--p:28%"></i></i><span class="valor">28 %</span></div>
+      <div class="duelo-fila"><b class="letra b">B</b><i class="pista"><i class="lleno b" style="--p:98%"></i></i><span class="valor">98 %</span><img class="corona" src="img/corona.png" alt="gana"></div>
+    </div>
+    <div class="duelo r" style="--d:.75">
+      <div class="duelo-cab"><img src="img/ico_cronometro.png" alt=""><span>Tiempo por ronda</span><em>menos es mejor</em></div>
+      <div class="duelo-fila"><b class="letra a">A</b><i class="pista"><i class="lleno a" style="--p:78%"></i></i><span class="valor">7,8 s</span></div>
+      <div class="duelo-fila"><b class="letra b">B</b><i class="pista"><i class="lleno b" style="--p:16%"></i></i><span class="valor">1,6 s</span><img class="corona" src="img/corona.png" alt="gana"></div>
+    </div>
+    <div class="r" style="--d:.95;display:flex;gap:14px;margin-top:22px">
+      <span class="pill mini" style="background:var(--verde);color:#fff;letter-spacing:0">A: motor principal</span>
+      <span class="pill amarilla mini" style="letter-spacing:0">B: respaldo y línea base</span>
+    </div>
+  </div>
+  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1800px;top:200px;width:80px">
+  <aside class="notes">TIEMPO: 0:45. Usamos dos motores gratuitos en Colab. El A, Stable Diffusion con ControlNet, reinterpreta el boceto en cada estilo: 93 % de acierto de estilo, 7,8 segundos por ronda. El B, SD-Turbo, es cinco veces más rápido y casi copia el dibujo (98 % de fidelidad), pero por eso los cinco estilos apenas se distinguen: solo 20 % de acierto. Por eso A es el principal y B queda como respaldo y línea base.<br><br><strong>Preguntas probables del jurado.</strong> ¿Por qué dos motores? El A reinterpreta el estilo (93 %) y el B es muy rápido pero copia el boceto (20 % de estilo): sirve de respaldo y de línea base. Si uno se queda sin memoria, se usa el otro.</aside>
+</section>
+
+<!-- =====================================================================
+     7 · TRES AGENTES
+     ===================================================================== -->
+<section class="slide" aria-label="Agentes de IA">
+  <span class="seccion r">Solución técnica · Agentes de IA</span>
+  <img class="deco r" style="--d:.5;left:1580px;top:150px;width:210px" src="img/deco_espiral.png" alt="">
+  <h2 class="titulo r" style="--d:.1;width:1400px">Tres agentes de IA, cada uno con su validador</h2>
+
+  <!-- Una columna por agente: recibe, produce, se valida -->
+  <div class="abs" style="left:var(--margen);top:300px;width:1720px;display:grid;grid-template-columns:repeat(3,533px);column-gap:60px">
+    <div class="r" style="--d:.25">
+      <div style="display:flex;align-items:center;gap:30px;height:110px"><img src="img/ico_libro.png" alt="" style="height:100px"><p style="font:600 36px/1.15 var(--f-texto);color:var(--verde)">Agente de historia</p></div>
+      <div style="display:flex;gap:22px;margin-top:34px;height:110px"><span class="pill mini" style="height:40px">RECIBE</span><p style="font-size:26px">Un cuento en español, hasta 500 palabras.</p></div>
+      <span class="pill mini">PRODUCE</span>
+      <pre style="margin-top:14px;height:175px;background:var(--lima-suave);padding:24px 26px;font:400 23px/1.45 ui-monospace,Menlo,Consolas,monospace;color:var(--texto);white-space:pre">{"personajes":["conejo"],
+ "objetos":["flores"],
+ "lugar":"jardin"}</pre>
+      <span class="pill amarilla mini" style="margin-top:28px">SE VALIDA</span>
+      <p style="margin-top:14px;font-size:25px">Cada personaje y objeto debe aparecer en el texto; lo que no aparece se marca.</p>
+    </div>
+    <div class="r" style="--d:.4">
+      <div style="display:flex;align-items:center;gap:30px;height:110px"><img src="img/ico_lupa.png" alt="" style="height:100px"><p style="font:600 36px/1.15 var(--f-texto);color:var(--verde)">Agente tipográfico</p></div>
+      <div style="display:flex;gap:22px;margin-top:34px;height:110px"><span class="pill mini" style="height:40px">RECIBE</span><p style="font-size:26px">Medidas de la zona del título: contraste, bordes y color.</p></div>
+      <span class="pill mini">PRODUCE</span>
+      <div style="margin-top:14px;height:175px;overflow:hidden;background:#e8c9d2"><img src="img/titulo_agente_conejo.png" alt="Título «El conejo» que dibuja el agente tipográfico" style="width:100%;height:100%;object-fit:cover;max-height:none"></div>
+      <span class="pill amarilla mini" style="margin-top:28px">SE VALIDA</span>
+      <p style="margin-top:14px;font-size:25px">Un renderizador determinista dibuja las letras: el título sale correcto y dentro de los límites por edad.</p>
+    </div>
+    <div class="r" style="--d:.55">
+      <div style="display:flex;align-items:center;gap:30px;height:110px"><img src="img/ico_informe.png" alt="" style="height:100px"><p style="font:600 36px/1.15 var(--f-texto);color:var(--verde)">Agente de resumen</p></div>
+      <div style="display:flex;gap:22px;margin-top:34px;height:110px"><span class="pill mini" style="height:40px">RECIBE</span><p style="font-size:26px">El registro JSON de la sesión.</p></div>
+      <span class="pill mini">PRODUCE</span>
+      <pre style="margin-top:14px;height:175px;background:var(--lima-suave);padding:20px 26px;font:400 22px/1.45 ui-monospace,Menlo,Consolas,monospace;color:var(--texto);white-space:pre">Ronda 1 (eje: Paleta)
+Aceptadas: R1-V3 (fría)
+Rechazadas: R1-V1 (pastel;
+motivo: colores)</pre>
+      <span class="pill amarilla mini" style="margin-top:28px">SE VALIDA</span>
+      <p style="margin-top:14px;font-size:25px">Contrasta IDs, motivos y parámetros con el registro; reintenta y, si falla, usa una plantilla.</p>
+    </div>
+  </div>
+  <aside class="notes">TIEMPO: 1:00. Hay tres agentes y ninguno recibe imágenes. El de historia lee el texto y extrae personajes, objetos y lugar; un verificador comprueba que cada elemento aparezca en la historia. El tipográfico recibe medidas de la zona del título y propone fuente y color; las letras las dibuja siempre un renderizador determinista, así el título nunca sale mal escrito. El de resumen redacta lo ocurrido a partir del registro y un validador contrasta cada ID y motivo con ese registro. Los modelos son Qwen 2.5 y Phi 3.5, que corren dentro de la sesión de Colab.<br><br><strong>Preguntas probables del jurado.</strong> ¿El LLM ve las imágenes? No: recibe texto, medidas o el registro JSON. ¿Qué tan fiel es el resumen? Una comprobación automática halló 85 % en Qwen y 50 % en Phi; no evalúa la parte interpretativa.</aside>
+</section>
+
+<!-- =====================================================================
+     8 · DEMOSTRACIÓN EN VIVO
+     ===================================================================== -->
+<section class="slide" aria-label="Demostración en vivo">
+  <span class="seccion r">Demostración en vivo</span>
+  <h2 class="titulo r" style="--d:.1;width:1080px">Demostración: de una idea a una portada</h2>
+  <span class="pill amarilla abs r" style="--d:.2;left:var(--margen);top:310px;font-size:25px;padding:8px 26px">5 minutos</span>
+
+  <ol class="abs" style="left:var(--margen);top:400px;width:1050px;list-style:none;display:flex;flex-direction:column;gap:22px">
+    <li class="r izq" style="--d:.3;display:flex;align-items:center;gap:30px"><span class="num verde chico">1</span><img src="img/ico_lapiz.png" alt="" style="width:66px;height:66px;object-fit:contain"><span style="font-size:30px">Dibujar o subir el boceto</span></li>
+    <li class="r izq" style="--d:.38;display:flex;align-items:center;gap:30px"><span class="num verde chico">2</span><img src="img/ico_libro.png" alt="" style="width:66px;height:66px;object-fit:contain"><span style="font-size:30px">Contar la historia y revisar los elementos</span></li>
+    <li class="r izq" style="--d:.46;display:flex;align-items:center;gap:30px"><span class="num verde chico">3</span><img src="img/ico_imagenes.png" alt="" style="width:66px;height:66px;object-fit:contain"><span style="font-size:30px">Generar las 5 portadas</span></li>
+    <li class="r izq" style="--d:.54;display:flex;align-items:center;gap:30px"><span class="num verde chico">4</span><img src="img/ico_pulgar_arriba.png" alt="" style="width:66px;height:66px;object-fit:contain"><span style="font-size:30px">Aceptar o rechazar, con motivo</span></li>
+    <li class="r izq" style="--d:.62;display:flex;align-items:center;gap:30px"><span class="num verde chico">5</span><img src="img/ico_ronda.png" alt="" style="width:66px;height:66px;object-fit:contain"><span style="font-size:30px">Segunda ronda guiada por tus decisiones</span></li>
+    <li class="r izq" style="--d:.7;display:flex;align-items:center;gap:30px"><span class="num verde chico">6</span><img src="img/ico_informe.png" alt="" style="width:66px;height:66px;object-fit:contain"><span style="font-size:30px">Leer el resumen del agente</span></li>
+  </ol>
+
+  <img class="deco r pop gira-lento" style="--d:.2;left:1630px;top:-30px;width:260px" src="img/deco_explosion.png" alt="">
+  <div class="abs r" style="--d:.4;left:1215px;top:330px;width:260px;height:340px"><div class="polaroid rot" style="--g:-4deg;inset:0"><img src="img/boceto_conejo.png" alt="Boceto"><div class="pie">Boceto</div></div></div>
+  <div class="abs r" style="--d:.55;left:1490px;top:200px;width:260px;height:380px"><div class="polaroid rot" style="--g:4deg;inset:0"><img src="img/portada_v1.jpg" alt="Propuesta generada"><div class="pie">Propuesta</div></div></div>
+  <div class="abs r" style="--d:.7;left:1580px;top:640px;width:260px;height:380px"><div class="polaroid rot" style="--g:3deg;inset:0"><img src="img/portada_v4.jpg" alt="Otra propuesta generada"><div class="pie">Propuesta</div></div></div>
+  <img class="deco r pop flota" style="--d:.85;left:1250px;top:760px;height:250px" src="img/runa_dibuja.png" alt="">
+  <aside class="notes">TIEMPO: 5:00 (demostración en vivo). Recorrido: 1) subo o dibujo un boceto; 2) cuento la historia y el agente extrae los personajes, objetos y lugar, que puedo corregir; 3) se generan las cinco portadas, cada una con su etiqueta del valor que cambia; 4) acepto o rechazo cada una y, si rechazo, marco el motivo; 5) genero una segunda ronda y se ve que el planificador aprendió; 6) termino y leo el resumen que redactó el agente. También muestro un guardrail: un texto bloqueado. Plan B: si Colab tarda, tener una ronda ya generada.</aside>
+</section>
+
+<!-- =====================================================================
+     9 · ASPECTOS ÉTICOS
+     ===================================================================== -->
+<section class="slide" aria-label="Aspectos éticos">
+  <span class="seccion r">Aspectos éticos</span>
+  <h2 class="titulo r" style="--d:.1;width:1400px">La generación tiene cuatro capas de protección</h2>
+
+  <div class="abs" style="left:90px;top:320px;width:1764px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px">
+    <div class="tarjeta r" style="--d:.25;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">1</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Texto</p></div><p style="margin-top:22px;font-size:25px">Lista de bloqueo de violencia, contenido sexual, artistas y personajes con marca.</p></div>
+    <div class="tarjeta r" style="--d:.35;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">2</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Foto</p></div><p style="margin-top:22px;font-size:25px">Solo dibujos: se rechaza toda foto con el rostro de una persona.</p></div>
+    <div class="tarjeta r" style="--d:.45;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">3</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Imagen</p></div><p style="margin-top:22px;font-size:25px">CLIP compara cada portada con descriptores de contenido no apto para niños.</p></div>
+    <div class="tarjeta r" style="--d:.55;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">4</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Derechos</p></div><p style="margin-top:22px;font-size:25px">Estilos genéricos y aviso de que la protección de autor no está garantizada.</p></div>
+  </div>
+
+  <div class="abs r" style="--d:.7;left:90px;top:684px;width:1764px;height:324px;background:var(--amarillo);display:flex;align-items:center;gap:70px;padding:0 60px">
+    <div style="width:520px;flex:none">
+      <p style="font:700 150px/1 var(--f-titulo);color:var(--verde)">20 / 20</p>
+      <p style="margin-top:14px;font-size:27px">entradas adversariales bloqueadas por el filtro de texto</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px;font-size:27px">
+      <p><b style="font-weight:600;color:var(--verde)">1 de 5</b> entradas legítimas bloqueada por error (un nombre con marca).</p>
+      <p><b style="font-weight:600;color:var(--verde)">5 de 5</b> evasiones con eufemismos pasan el filtro de texto; por eso existe el filtro de imagen.</p>
+      <p><b style="font-weight:600;color:var(--verde)">Motor B:</b> SD-Turbo no trae filtro propio; solo lo protege CLIP.</p>
+    </div>
+  </div>
+  <aside class="notes">TIEMPO: 0:45. Hay cuatro capas: texto, foto, imagen y derechos. En E5 probamos 30 entradas: el filtro de texto bloqueó las 20 que debía bloquear y se equivocó con 1 de 5 legítimas, por un nombre con marca. Las evasiones con eufemismos, como un perro herido sangrando, pasan el filtro de texto, por eso la imagen se revisa con CLIP. Un punto importante: el motor B, SD-Turbo, no trae filtro de seguridad propio; ahí CLIP es la única protección.<br><br><strong>Preguntas probables del jurado.</strong> ¿Qué no cubren los guardrails? Las evasiones con eufemismos pasan el filtro de texto, CLIP detecta la mitad de las portadas no aptas que revisamos y el motor B no tiene filtro propio. Mejora: más descriptores y más casos.</aside>
+</section>
+
+<!-- =====================================================================
+     10 · CALIDAD VISUAL (cifras del motor A + paleta color por color)
+     ===================================================================== -->
+<section class="slide" aria-label="Calidad visual">
+  <span class="seccion r">Evaluación · Calidad visual</span>
+  <img class="deco r pop flota" style="--d:.5;left:1630px;top:30px;height:190px" src="img/runa_lupa.png" alt="">
+  <h2 class="titulo r" style="--d:.1;width:1450px">Calidad visual: estilo 93 %, paleta de 69,7 a 79,2 %</h2>
+
+  <!-- Cifras del motor A frente a su meta (E1, 3 000 portadas) -->
+  <div class="abs" style="left:var(--margen);top:290px;width:1720px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px">
+    <div class="tile ok r" style="--d:.2"><p class="tile-num"><span class="cuenta" data-n="93" data-suf=" %">93 %</span></p><p class="tile-lab">acierto de estilo</p><span class="chip ok">meta ≥ 70 % ✓</span></div>
+    <div class="tile ok r" style="--d:.3"><p class="tile-num"><span class="cuenta" data-n="91" data-suf=" %">91 %</span></p><p class="tile-lab">elemento principal detectado</p><span class="chip ok">meta ≥ 80 % ✓</span></div>
+    <div class="tile casi r" style="--d:.4"><p class="tile-num"><span class="cuenta" data-n="79.2" data-dec="1" data-suf=" %">79,2 %</span></p><p class="tile-lab">paleta en rango (antes 69,7)</p><span class="chip casi">meta ≥ 80 % · casi</span></div>
+    <div class="tile ok r" style="--d:.5"><p class="tile-num"><span class="cuenta" data-n="7.8" data-dec="1" data-suf=" s">7,8 s</span></p><p class="tile-lab">por ronda de 5 portadas</p><span class="chip ok">meta &lt; 60 s ✓</span></div>
+  </div>
+
+  <!-- Paleta: de dónde salía el 69,7 % y cuánto mejoró al reforzar el prompt -->
+  <div class="abs r" style="--d:.4;left:var(--margen);top:580px;width:470px">
+    <p style="font:700 40px/1.1 var(--f-titulo);color:var(--verde)">La paleta, color por color</p>
+    <p style="margin-top:16px;font-size:24px">Cálida y primarios fallaban. Reforzamos su texto en el prompt y repetimos el eje paleta con los mismos 200 pares.</p>
+    <div style="margin-top:22px;display:flex;flex-direction:column;gap:10px;font-size:21px">
+      <span class="ley"><i class="ley-punto orig"></i>Original</span>
+      <span class="ley"><i class="ley-punto ref"></i>Prompt reforzado</span>
+      <span class="ley"><i class="ley-meta"></i>Meta: 80 %</span>
+    </div>
+    <p style="margin-top:22px;font-size:19px;font-style:italic">Motor B: paleta 84 % y elemento principal 90 %, porque casi copia el boceto.</p>
+  </div>
+  <div class="abs" style="left:640px;top:575px;width:1200px;height:470px">
+    <div class="m-ejes" aria-hidden="true">
+      <span style="left:0">0 %</span><span style="left:25%">25 %</span><span style="left:50%">50 %</span><span style="left:75%">75 %</span><span style="left:100%">100 %</span>
+      <i class="m-meta" style="left:80%"><b>meta 80 %</b></i>
+    </div>
+    <div class="mancuerna r izq" style="--d:0.5"><div class="m-nombre"><span class="chips"><i style="background:#F7C6D9"></i><i style="background:#BDE0FE"></i><i style="background:#FDF1B8"></i><i style="background:#CDEAC0"></i></span>Pastel</div><div class="m-pista"><i class="mancuerna-punto ref" style="--a:100%;--b:100%" data-tip="Pastel: 100 % (sin cambio)"></i><span class="mancuerna-et" style="left:100%">100 %</span></div></div>
+    <div class="mancuerna r izq" style="--d:0.58"><div class="m-nombre"><span class="chips"><i style="background:#2E6F95"></i><i style="background:#5FA8D3"></i><i style="background:#A9D6E5"></i><i style="background:#3D5A80"></i></span>Fría</div><div class="m-pista"><i class="mancuerna-punto ref" style="--a:100%;--b:100%" data-tip="Fría: 100 % (sin cambio)"></i><span class="mancuerna-et" style="left:100%">100 %</span></div></div>
+    <div class="mancuerna r izq" style="--d:0.66"><div class="m-nombre"><span class="chips"><i style="background:#8B5E34"></i><i style="background:#BC8A5F"></i><i style="background:#D4A373"></i><i style="background:#6F4518"></i></span>Tierra</div><div class="m-pista"><i class="mancuerna-punto ref" style="--a:93.4%;--b:93.4%" data-tip="Tierra: 93,4 % (sin cambio)"></i><span class="mancuerna-et" style="left:93.4%">93,4 %</span></div></div>
+    <div class="mancuerna r izq" style="--d:0.74"><div class="m-nombre"><span class="chips"><i style="background:#E76F51"></i><i style="background:#F4A261"></i><i style="background:#E9C46A"></i><i style="background:#D62828"></i></span>Cálida</div><div class="m-pista"><i class="mancuerna-linea" style="--a:53.5%;--b:71.5%"></i><i class="mancuerna-punto orig" style="left:53.5%" data-tip="Cálida original: 53,5 %"></i><i class="mancuerna-punto ref" style="--a:53.5%;--b:71.5%" data-tip="Cálida reforzado: 71,5 %"></i><span class="mancuerna-et orig" style="left:53.5%">53,5 %</span><span class="mancuerna-et" style="left:71.5%">71,5 %</span></div></div>
+    <div class="mancuerna r izq" style="--d:0.82"><div class="m-nombre"><span class="chips"><i style="background:#E63946"></i><i style="background:#FFD60A"></i><i style="background:#1D4ED8"></i><i style="background:#2A9D8F"></i></span>Primarios</div><div class="m-pista"><i class="mancuerna-linea" style="--a:1.5%;--b:31.5%"></i><i class="mancuerna-punto orig" style="left:1.5%" data-tip="Primarios original: 1,5 %"></i><i class="mancuerna-punto ref" style="--a:1.5%;--b:31.5%" data-tip="Primarios reforzado: 31,5 %"></i><span class="mancuerna-et orig" style="left:1.5%">1,5 %</span><span class="mancuerna-et" style="left:31.5%">31,5 %</span></div></div>
+  </div>
+  <aside class="notes">TIEMPO: 0:45. En E1 generamos 3 000 portadas. El motor A cumple estilo (93 % frente al 70 % exigido), elemento principal (91 %) y latencia, pero no la paleta: 70 % frente al 80 %. El gráfico de la derecha muestra por qué: pastel, fría y tierra pasan del 93 %, pero 'cálida' llega al 53 % y 'primarios vivos' al 1,5 %. Reforzamos el texto de esas dos paletas en el prompt y repetimos solo el eje paleta con los mismos 200 pares: sube a 79,2 %, con cálida en 71,5 % y primarios en 31,5 %; sigue por debajo del 80 %. Aclaración: el refuerzo se decidió después de ver el resultado y se midió sobre los mismos pares. El motor B gana en paleta y fidelidad al boceto porque casi lo copia.<br><br><strong>Preguntas probables del jurado.</strong> ¿Por qué la paleta no llega al 80 %? 'Primarios' sigue en 31,5 %. Reforzamos el prompt tras ver el resultado y medimos sobre los mismos pares, así que no es una estimación independiente.</aside>
+</section>
+
+<!-- =====================================================================
+     11 · FEEDBACK Y AGENTES (tres tarjetas de resultado)
+     ===================================================================== -->
+<section class="slide" aria-label="Feedback y agentes">
+  <span class="seccion r">Evaluación · Feedback y agentes</span>
+  <img class="deco r pop flota" style="--d:.5;left:1650px;top:24px;height:190px" src="img/runa_creando.png" alt="">
+  <h2 class="titulo r" style="--d:.1;width:1450px">Thompson supera al azar en la ronda 3</h2>
+
+  <!-- 1. Planificador -->
+  <div class="resultado r" style="--d:.2;left:var(--margen)">
+    <div class="res-cab" style="background:var(--verde);color:#fff"><img src="img/ico_ronda.png" alt="">Planificador</div>
+    <div class="res-cuerpo">
+      <p class="res-num"><span class="cuenta" data-n="43" data-dec="1" data-suf=" %">43,0 %</span></p>
+      <p class="res-lab">aceptación con Thompson en la ronda 3</p><span class="chip casi" style="margin-top:10px">al azar: 34,8 %</span>
+      <svg class="linea-g" viewBox="0 0 470 290" width="470" height="290" aria-label="Aceptación por ronda: Thompson 35,3, 34,9 y 43,0 %; aleatorio 35,3, 34,7 y 34,8 %">
+        <line x1="30" x2="450" y1="240.0" y2="240.0" stroke="#E4E1D3" stroke-width="1.5"/><text x="20" y="246.0" text-anchor="end" font-size="17" fill="#4c6a52">30</text><line x1="30" x2="450" y1="169.4" y2="169.4" stroke="#E4E1D3" stroke-width="1.5"/><text x="20" y="175.4" text-anchor="end" font-size="17" fill="#4c6a52">35</text><line x1="30" x2="450" y1="98.8" y2="98.8" stroke="#E4E1D3" stroke-width="1.5"/><text x="20" y="104.8" text-anchor="end" font-size="17" fill="#4c6a52">40</text><line x1="30" x2="450" y1="28.1" y2="28.1" stroke="#E4E1D3" stroke-width="1.5"/><text x="20" y="34.1" text-anchor="end" font-size="17" fill="#4c6a52">45</text>
+        <polyline class="trazo" points="46,165.1 236,173.6 426,172.2" fill="none" stroke="#C28F00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 9"/>
+        <polyline class="trazo" points="46,165.1 236,170.8 426,56.4" fill="none" stroke="#287A36" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="46" cy="165.1" r="9" fill="#C28F00" stroke="#fff" stroke-width="3" data-tip="Aleatorio · Ronda 1: 35,3 %"/><circle cx="236" cy="173.6" r="9" fill="#C28F00" stroke="#fff" stroke-width="3" data-tip="Aleatorio · Ronda 2: 34,7 %"/><circle cx="426" cy="172.2" r="9" fill="#C28F00" stroke="#fff" stroke-width="3" data-tip="Aleatorio · Ronda 3: 34,8 %"/><circle cx="46" cy="165.1" r="10" fill="#287A36" stroke="#fff" stroke-width="3" data-tip="Thompson · Ronda 1: 35,3 %"/><circle cx="236" cy="170.8" r="10" fill="#287A36" stroke="#fff" stroke-width="3" data-tip="Thompson · Ronda 2: 34,9 %"/><circle cx="426" cy="56.4" r="10" fill="#287A36" stroke="#fff" stroke-width="3" data-tip="Thompson · Ronda 3: 43,0 %"/>
+        <text x="46" y="276" text-anchor="middle" font-size="19" fill="#24452C">Ronda 1</text>
+        <text x="236" y="276" text-anchor="middle" font-size="19" fill="#24452C">Ronda 2</text>
+        <text x="426" y="276" text-anchor="middle" font-size="19" fill="#24452C">Ronda 3</text>
+      </svg>
+      <div class="g-leyenda" style="justify-content:flex-start;margin-top:6px"><span style="--c:#287A36">Thompson</span><span style="--c:#C28F00">Aleatorio</span></div>
+      <p class="res-nota">500 usuarios simulados.</p>
+    </div>
+  </div>
+
+  <!-- 2. Resúmenes -->
+  <div class="resultado r" style="--d:.35;left:691px">
+    <div class="res-cab" style="background:var(--amarillo)"><img src="img/ico_informe.png" alt="">Resúmenes fieles</div>
+    <div class="res-cuerpo">
+      <p class="res-lab" style="margin-top:0">Resúmenes que coinciden con el registro de la sesión</p>
+      <div style="display:flex;justify-content:space-around;margin-top:34px">
+        <div class="dona" data-tip="Qwen 2.5: 23 de 27 resúmenes fieles">
+          <svg viewBox="0 0 200 200" width="210" height="210"><circle cx="100" cy="100" r="80" fill="none" stroke="#E6F7D9" stroke-width="26"/>
+            <circle class="arco" cx="100" cy="100" r="80" fill="none" stroke="#287A36" stroke-width="26" stroke-linecap="round" style="--c:502.65;--p:427.3" transform="rotate(-90 100 100)"/></svg>
+          <b class="cuenta" data-n="85" data-suf=" %">85 %</b><p><strong>Qwen 2.5</strong><br>23 de 27</p>
+        </div>
+        <div class="dona" data-tip="Phi 3.5: 7 de 14 resúmenes fieles">
+          <svg viewBox="0 0 200 200" width="210" height="210"><circle cx="100" cy="100" r="80" fill="none" stroke="#FFF1BF" stroke-width="26"/>
+            <circle class="arco" cx="100" cy="100" r="80" fill="none" stroke="#FFC107" stroke-width="26" stroke-linecap="round" style="--c:502.65;--p:251.3" transform="rotate(-90 100 100)"/></svg>
+          <b class="cuenta" data-n="50" data-suf=" %">50 %</b><p><strong>Phi 3.5</strong><br>7 de 14</p>
+        </div>
+      </div>
+      <p class="res-nota" style="margin-top:34px">Comprobación automática contra el registro; no evalúa la parte interpretativa.</p>
+    </div>
+  </div>
+
+  <!-- 3. Legibilidad del título -->
+  <div class="resultado r" style="--d:.5;left:1281px">
+    <div class="res-cab" style="background:var(--lima)"><img src="img/ico_lupa.png" alt="">Título legible</div>
+    <div class="res-cuerpo">
+      <p class="res-num"><s style="color:#9DB3A2;text-decoration-thickness:4px;font-size:52px">43,4 %</s> → <span class="cuenta" data-n="17.6" data-dec="1" data-suf=" %">17,6 %</span></p>
+      <p class="res-lab">error por carácter al leer el título con OCR</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px">
+        <figure class="mini-titulo"><img src="img/titulo_defecto_conejo.png" alt="Título con la disposición por defecto"><figcaption>Por defecto</figcaption></figure>
+        <figure class="mini-titulo"><img src="img/titulo_agente_conejo.png" alt="Título con el agente tipográfico"><figcaption>Con el agente</figcaption></figure>
+      </div>
+      <p class="res-nota" style="margin-top:22px">Meta: 5 %. No se cumple: el OCR falla con títulos cortos o con dibujo detrás, aunque a simple vista se leen.</p>
+    </div>
+  </div>
+  <aside class="notes">TIEMPO: 1:00. Tres resultados. Primero, el planificador: con 500 usuarios simulados, Thompson y el azar empiezan iguales, pero en la ronda 3, con la evidencia de dos rondas, Thompson llega a 43 % de aceptación frente a 34,8 %. Segundo, los resúmenes: una comprobación automática contra el registro halló fieles 23 de los 27 de Qwen, 85 %, y 7 de los 14 de Phi, 50 %; no mide la parte interpretativa. Tercero, la legibilidad del título con OCR: el agente baja el error de 43 a 17,6 %, sin llegar al 5 %; el error lo concentran títulos cortos o con un dibujo detrás, y las 20 portadas peor leídas por el OCR se revisaron a mano y se leían sin esfuerzo.<br><br><strong>Preguntas probables del jurado.</strong> ¿Son resultados con personas? No: los usuarios son simulados y la fidelidad del resumen se comprobó con un script. El estudio con usuarios y el SUS están pendientes.</aside>
+</section>
+
+<!-- =====================================================================
+     12 · SEGURIDAD Y SESGO (gráficos de cuadritos: cada cuadro es una portada)
+     ===================================================================== -->
+<section class="slide" aria-label="Seguridad y sesgo">
+  <span class="seccion r">Evaluación · Seguridad y sesgo</span>
+  <h2 class="titulo r" style="--d:.1;width:1500px">42 de 45 portadas aptas, con una señal de sesgo</h2>
+
+  <!-- Seguridad -->
+  <div class="abs" style="left:var(--margen);top:286px;width:780px">
+    <div class="r" style="--d:.2;display:flex;align-items:center;gap:16px"><img src="img/ico_escudo.png" alt="" style="height:54px"><p style="font:700 40px/1 var(--f-titulo);color:var(--verde)">Seguridad</p></div>
+    <p class="r" style="--d:.3;margin-top:18px;display:flex;align-items:baseline;gap:20px"><span style="font:700 110px/1 var(--f-titulo);color:var(--verde)"><span class="cuenta" data-n="42">42</span> / 45</span><span style="font-size:25px;line-height:1.3">portadas aptas para niños,<br>según revisión manual</span></p>
+    <div class="waffle r" style="--d:.4;margin-top:22px;--cols:15;--celda:40px"
+         data-waffle='[["Apta",42,"#287A36"],["No apta",3,"#C0463C"]]'></div>
+    <p class="r" style="--d:.5;margin-top:14px;font-size:21px"><b style="font-weight:600;color:var(--rojo)">No aptas:</b> payaso tenebroso, fantasma triste, dragón con miedo a la oscuridad.</p>
+    <div class="r" style="--d:.6;margin-top:24px;display:flex;flex-direction:column;gap:12px">
+      <div class="umbral"><span class="u-val">CLIP 0,5</span><span>detecta <b>0 de 3</b> (y 0 de 10 en la calibración)</span></div>
+      <div class="umbral elegido"><span class="u-val">CLIP 0,25</span><span>detecta <b>2 de 3</b> y <b>5 de 10</b>; bloquea por error el 1,3 % de las aptas</span></div>
+    </div>
+  </div>
+
+  <!-- Sesgo -->
+  <div class="abs" style="left:1000px;top:286px;width:860px">
+    <div class="r" style="--d:.3;display:flex;align-items:center;gap:16px"><img src="img/ico_gente.png" alt="" style="height:50px"><p style="font:700 40px/1 var(--f-titulo);color:var(--verde)">Sesgo en 100 figuras</p></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:28px">
+      <div class="r" style="--d:.45">
+        <p class="w-titulo">Género percibido</p>
+        <div class="waffle" style="--cols:10;--celda:31px" data-waffle='[["Ambiguo",79,"#CDE6C0"],["Femenino",17,"#287A36"],["Masculino",4,"#FFC107"]]'></div>
+      </div>
+      <div class="r" style="--d:.6">
+        <p class="w-titulo">Tono de piel percibido</p>
+        <div class="waffle" style="--cols:10;--celda:31px" data-waffle='[["No aplica",80,"#E5E1D2"],["Claro",17,"#F2CFA8"],["Medio",3,"#B9824F"],["Oscuro",0,"#5E3B22"]]'></div>
+      </div>
+    </div>
+    <p class="r" style="--d:.75;margin-top:22px;width:700px;font-size:22px">Una persona anotó cada figura. Cuando el modelo dibuja rasgos, tiende a la piel clara. Es una observación, no una conclusión.</p>
+  </div>
+  <span class="pill punteada abs r" style="--d:.9;left:1000px;top:996px;font-size:21px;padding:8px 22px">Estudio con usuarios (E4) y SUS: pendientes</span>
+  <img class="deco r pop flota" style="--d:.9;left:1735px;top:880px;height:170px" src="img/runa_piensa.png" alt="">
+  <aside class="notes">TIEMPO: 0:45. En E5 una persona revisó las 45 portadas generadas con las entradas de prueba: 42 eran aptas y 3 no. Con el umbral inicial de CLIP, 0,5, no detectó ninguna de las tres; con 0,25 detecta dos, aunque la calibración es débil porque son solo tres casos. Con 400 portadas más generadas sin filtro, una persona revisó las 25 más sospechosas: 10 no eran aptas, sobre todo dragones del motor B; con 0,25 se detectan 5 de esas 10 y se bloquean 5 aptas, y con 0,5 no se detecta ninguna. En sesgo, generamos 100 figuras humanas sin rasgos definidos y una persona anotó género y tono de piel percibidos: casi todo ambiguo, pero cuando hay rasgos tiende a piel clara y a género femenino, y ninguna imagen salió con tono oscuro. Es una observación con un solo anotador. El estudio con usuarios, E4, y la escala SUS están pendientes; no los reportamos.<br><br><strong>Preguntas probables del jurado.</strong> ¿Qué concluyen del sesgo? Es una observación con 100 figuras y un solo anotador: cuando el modelo dibuja rasgos, tiende a piel clara. El prompt no añade género ni etnia; se podría ofrecer un parámetro explícito.</aside>
+</section>
+
+<!-- =====================================================================
+     13 · LIMITACIONES (tabla de cinco filas)
+     ===================================================================== -->
+<section class="slide" aria-label="Limitaciones">
+  <span class="seccion r">Limitaciones</span>
+  <img class="deco r pop flota" style="--d:.5;left:1600px;top:40px;height:210px" src="img/runa_piensa.png" alt="">
+  <h2 class="titulo r" style="--d:.1;width:1400px">Cinco limitaciones que dejamos a la vista</h2>
+
+  <div class="abs" style="left:90px;top:320px;width:1730px;display:flex;flex-direction:column;gap:22px">
+    <div class="r izq" style="--d:.25;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+      <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Agente de historia</p>
+      <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">59–80 % de precisión</p>
+      <p style="padding-right:30px;font-size:23px">Meta: 90 %. Mejor caso: Qwen en inglés, 80 % (flexible).</p>
+    </div>
+    <div class="r izq" style="--d:.35;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+      <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Paleta del motor A</p>
+      <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">70 % → 79 %</p>
+      <p style="padding-right:30px;font-size:23px">Meta: 80 %. Tras reforzar el prompt, «primarios» sigue en 31,5 %.</p>
+    </div>
+    <div class="r izq" style="--d:.45;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+      <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Legibilidad del título</p>
+      <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">CER 17,6 %</p>
+      <p style="padding-right:30px;font-size:23px">Meta: 5 %. El OCR falla con títulos cortos o con dibujo detrás.</p>
+    </div>
+    <div class="r izq" style="--d:.55;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+      <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Filtro de imagen (CLIP)</p>
+      <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">5 de 10 no aptas</p>
+      <p style="padding-right:30px;font-size:23px">Con 0,25 también bloquea el 1,3 % de las aptas; es un filtro débil.</p>
+    </div>
+    <div class="r izq" style="--d:.65;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+      <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--lima);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Evidencia con personas</p>
+      <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">Pendiente</p>
+      <p style="padding-right:30px;font-size:23px">Entrevistas, estudio con usuarios (E4) y SUS aún no se hacen.</p>
+    </div>
+  </div>
+  <aside class="notes">TIEMPO: 0:30. Cinco limitaciones, sin esconderlas. El agente de historia no llega al 90 %: queda entre 59 y 80 % según modelo, idioma y tipo de comparación. La paleta del motor A pasó de 70 a 79 % tras reforzar el prompt, todavía bajo el 80 % pedido. El OCR del título no llega al 5 %. El filtro CLIP se calibró con tres casos. Y nos faltan las entrevistas, el estudio con usuarios y el SUS.<br><br><strong>Preguntas probables del jurado.</strong> ¿Qué harían primero? Las entrevistas y el estudio con usuarios, mejorar el filtro de imagen del motor B y subir la precisión del agente de historia.</aside>
+</section>
+
+<!-- =====================================================================
+     14 · CONCLUSIONES
+     ===================================================================== -->
+<section class="slide" aria-label="Conclusiones">
+  <span class="seccion r">Conclusiones</span>
+  <h2 class="titulo r" style="--d:.1;width:1150px">De un boceto a una experiencia creativa</h2>
+
+  <div class="abs" style="left:var(--margen);top:310px;width:1150px;display:flex;flex-direction:column;gap:34px">
+    <div class="r izq" style="--d:.25;display:flex;gap:30px;align-items:flex-start"><img src="img/destellos.png" alt="" style="height:64px"><div><p style="font:700 36px/1.15 var(--f-titulo);color:var(--verde)">Cinco propuestas comparables</p><p style="font-size:25px">Cada una cambia un parámetro y se explica qué cambió.</p></div></div>
+    <div class="r izq" style="--d:.35;display:flex;gap:30px;align-items:flex-start"><img src="img/destellos.png" alt="" style="height:64px"><div><p style="font:700 36px/1.15 var(--f-titulo);color:var(--verde)">Decisiones que se aprovechan</p><p style="font-size:25px">Aceptar y rechazar guía las rondas, con Thompson en hasta tres.</p></div></div>
+    <div class="r izq" style="--d:.45;display:flex;gap:30px;align-items:flex-start"><img src="img/destellos.png" alt="" style="height:64px"><div><p style="font:700 36px/1.15 var(--f-titulo);color:var(--verde)">Agentes que se pueden verificar</p><p style="font-size:25px">Historia, tipografía y resumen con validadores deterministas.</p></div></div>
+    <div class="r izq" style="--d:.55;display:flex;gap:30px;align-items:flex-start"><img src="img/destellos.png" alt="" style="height:64px"><div><p style="font:700 36px/1.15 var(--f-titulo);color:var(--verde)">Límites de seguridad medidos</p><p style="font-size:25px">Texto, foto, imagen y derechos, con sus fallos a la vista.</p></div></div>
+  </div>
+  <p class="abs r" style="--d:.7;left:var(--margen);top:930px;width:1100px;font-size:26px"><b style="font-weight:600;color:var(--verde)">Siguiente:</b> entrevistas, estudio con usuarios y SUS, y un filtro de imagen más fuerte, sobre todo para el motor B.</p>
+
+  <img class="deco r pop gira-lento" style="--d:.3;left:1370px;top:40px;width:430px" src="img/deco_explosion.png" alt="">
+  <div class="abs r pop" style="--d:.5;left:1290px;top:430px;width:590px"><img class="flota" src="img/runa_celebra.png" alt="Runa celebra" style="width:590px;max-width:none"></div>
+  <p class="abs r" style="--d:.9;left:1250px;top:900px;width:660px;text-align:center;font:700 52px/1.1 var(--f-titulo);color:var(--verde)"><span class="resalta">Gracias · ¿preguntas?</span></p>
+  <aside class="notes">TIEMPO: 0:30. En resumen: FROG genera cinco portadas comparables a partir del boceto y la historia, usa las decisiones de la persona para guiar las rondas, tiene agentes cuyo trabajo se puede verificar y límites de seguridad cuyos fallos medimos. Lo que sigue: entrevistas, estudio con usuarios y SUS, y un filtro de imagen más fuerte, sobre todo para el motor B. Gracias. TIEMPO TOTAL APROXIMADO: 14 min 45 s con la demostración de 5 min.</aside>
+</section>
+
+</main>
+</div>
+
+<!-- Controles fuera del lienzo -->
+<div class="progreso" id="progreso"></div>
+<div class="contador" id="contador">1 / 14</div>
+<div id="guion" role="region" aria-label="Guion del presentador"></div>
+<div id="tip" role="tooltip"></div>
+<div class="edit-hotzone" aria-hidden="true"></div>
+<button class="edit-toggle" id="editToggle" title="Modo edición (E)">Editar textos</button>
+
+<script>
+/* Modo captura (?captura): sin animaciones, para revisar o exportar cada diapositiva terminada */
+if (location.search.includes("captura")) document.documentElement.classList.add("captura");
+
+/* =====================================================================
+   GRÁFICOS: dibuja barras y líneas a partir de los atributos data-* de cada .grafico
+   ===================================================================== */
+const fmt = (v, dec, suf) => v.toLocaleString("es-ES", { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf;
+
+function graficoBarras(el) {
+  const d = el.dataset, cats = d.cats.split("|"), series = JSON.parse(d.series);
+  const alto = +d.alto, max = +d.max, paso = +(d.paso || 20), dec = +(d.decimales || 0);
+  const suf = d.sufijo === undefined ? " %" : d.sufijo, ancho = d.ancho || 64, etq = d.etq === undefined ? suf : d.etq;
+  let h = `<p class="g-titulo">${d.titulo}</p><div class="g-area" style="height:${alto}px;margin-left:70px">`;
+  for (let v = 0; v <= max; v += paso) {
+    const y = alto - v / max * alto;
+    h += `<div class="g-linea" style="top:${y}px"></div><span class="g-eje" style="top:${y}px">${v}${suf.trim() ? "%" : ""}</span>`;
+  }
+  h += `<div class="g-base"></div><div class="g-grupos">`;
+  cats.forEach((c, i) => {
+    h += `<div class="g-grupo">`;
+    series.forEach(([nombre, color, vals], s) => {
+      const v = vals[i];
+      h += `<div class="g-barra" style="--h:${Math.max(v / max * alto, 2)}px;--c:${color};--w:${ancho}px;--i:${i * series.length + s}"
+              data-tip="${nombre} · ${c}: ${fmt(v, dec, suf)}"><span class="g-valor">${fmt(v, dec, etq)}</span></div>`;
+    });
+    h += `<span class="g-cat">${c}</span></div>`;
+  });
+  h += `</div></div>`;
+  if (series.length > 1) {
+    h += `<div class="g-leyenda" style="margin-top:${cats.some(c => c.length > 12) ? 92 : 62}px">` +
+         series.map(([n, c]) => `<span style="--c:${c}">${n}</span>`).join("") + `</div>`;
+  }
+  el.innerHTML = h;
+}
+
+function graficoLineas(el) {
+  const d = el.dataset, cats = d.cats.split("|"), series = JSON.parse(d.series);
+  const alto = +d.alto, min = +d.min, max = +d.max, paso = +d.paso, W = el.offsetWidth - 70;
+  const x = i => 50 + i * (W - 100) / (cats.length - 1), y = v => alto - (v - min) / (max - min) * alto;
+  let svg = `<svg width="${W}" height="${alto + 50}" viewBox="0 0 ${W} ${alto + 50}">`;
+  for (let v = min; v <= max; v += paso) {
+    svg += `<line x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="#DDDACB" stroke-width="1.5"/>` +
+           `<text x="-12" y="${y(v) + 7}" text-anchor="end" font-size="19" fill="#4c6a52">${v} %</text>`;
+  }
+  svg += `<line x1="0" x2="${W}" y1="${alto}" y2="${alto}" stroke="#24452C" stroke-width="2"/>`;
+  cats.forEach((c, i) => svg += `<text x="${x(i)}" y="${alto + 36}" text-anchor="middle" font-size="20" fill="#24452C">${c}</text>`);
+  series.forEach(([nombre, color, vals], s) => {
+    const pts = vals.map((v, i) => `${x(i)},${y(v)}`).join(" ");
+    svg += `<polyline class="g-trazo" points="${pts}" fill="none" stroke="${color}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    vals.forEach((v, i) => {
+      svg += `<circle cx="${x(i)}" cy="${y(v)}" r="9" fill="${color}" stroke="#F7F5EE" stroke-width="3" data-tip="${nombre} · ${cats[i]}: ${fmt(v, 1, " %")}"/>`;
+      /* Etiquetas selectivas: solo la ronda 3, donde las series se separan */
+      if (i === vals.length - 1) svg += `<text x="${x(i) + 18}" y="${y(v) + 7}" font-size="22" font-weight="600" fill="#24452C">${fmt(v, 1, " %")}</text>`;
+    });
+  });
+  svg += `</svg>`;
+  el.innerHTML = `<p class="g-titulo">${d.titulo}</p><div style="margin-left:70px">${svg}</div>
+    <div class="g-leyenda" style="margin-top:22px;margin-left:70px">${series.map(([n, c]) => `<span style="--c:${c}">${n}</span>`).join("")}</div>`;
+}
+
+document.querySelectorAll(".grafico").forEach(el => (el.dataset.tipo === "lineas" ? graficoLineas : graficoBarras)(el));
+
+/* Tooltip: muestra el valor exacto al pasar el ratón por una barra o un punto */
+const tip = document.getElementById("tip");
+document.addEventListener("mouseover", e => {
+  const t = e.target.closest("[data-tip]");
+  if (!t) return tip.classList.remove("on");
+  tip.textContent = t.dataset.tip; tip.classList.add("on");
+});
+document.addEventListener("mousemove", e => { tip.style.left = e.clientX + 14 + "px"; tip.style.top = e.clientY - 38 + "px"; });
+
+
+/* Gráficos de cuadritos: cada cuadro es una portada; la leyenda dice cuántas hay de cada clase */
+document.querySelectorAll("[data-waffle]").forEach(el => {
+  const clases = JSON.parse(el.dataset.waffle);
+  let h = "", k = 0;
+  clases.forEach(([nombre, n, color]) => { for (let i = 0; i < n; i++) h += `<i style="--c:${color};--k:${k++}" data-tip="${nombre} (${n})"></i>`; });
+  h += `<div class="w-leyenda">` + clases.map(([nombre, n, color]) => `<span style="--c:${color}">${nombre} <b>${n}</b></span>`).join("") + `</div>`;
+  el.innerHTML = h;
+});
+
+/* Contadores: los números grandes suben desde 0 al entrar a la diapositiva */
+function contar(slide) {
+  const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("captura");
+  slide.querySelectorAll(".cuenta").forEach(el => {
+    const fin = +el.dataset.n, dec = +(el.dataset.dec || 0), suf = el.dataset.suf || "";
+    const pinta = v => (el.textContent = v.toLocaleString("es-ES", { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf);
+    if (quieto) return pinta(fin);
+    const t0 = performance.now(), dur = 1200;
+    const paso = t => { const x = Math.min((t - t0) / dur, 1); pinta(fin * (1 - Math.pow(1 - x, 3))); if (x < 1) requestAnimationFrame(paso); };
+    requestAnimationFrame(paso);
+  });
+}
+
+/* =====================================================================
+   CONTROLADOR DE LA PRESENTACIÓN
+   Escala el lienzo de 1920×1080 a la ventana y maneja teclado, rueda y gestos.
+   ===================================================================== */
+class SlidePresentation {
+  constructor() {
+    this.slides = [...document.querySelectorAll(".slide")];
+    this.stage = document.getElementById("deckStage");
+    this.guion = document.getElementById("guion");
+    this.actual = 0;
+    this.escalar();
+    window.addEventListener("resize", () => this.escalar());
+    this.teclado(); this.gestos();
+    const inicial = parseInt(location.hash.slice(1), 10);
+    this.mostrar(Number.isFinite(inicial) ? inicial - 1 : 0);
+  }
+  escalar() {
+    const f = Math.min(innerWidth / 1920, innerHeight / 1080);
+    this.stage.style.transform = `translate(${(innerWidth - 1920 * f) / 2}px, ${(innerHeight - 1080 * f) / 2}px) scale(${f})`;
+  }
+  mostrar(i) {
+    this.actual = Math.max(0, Math.min(i, this.slides.length - 1));
+    this.slides.forEach((s, k) => { s.classList.toggle("active", k === this.actual); s.classList.toggle("visible", k === this.actual); });
+    document.getElementById("contador").textContent = `${this.actual + 1} / ${this.slides.length}`;
+    document.getElementById("progreso").style.width = `${(this.actual + 1) / this.slides.length * 100}%`;
+    const nota = this.slides[this.actual].querySelector(".notes");
+    this.guion.innerHTML = `<strong>Diapositiva ${this.actual + 1}.</strong> ` + (nota ? nota.innerHTML : "");
+    history.replaceState(null, "", "#" + (this.actual + 1));
+    contar(this.slides[this.actual]);
+  }
+  teclado() {
+    document.addEventListener("keydown", e => {
+      if (document.body.classList.contains("editando") && e.target.isContentEditable) return;
+      const k = e.key;
+      if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(k)) { e.preventDefault(); this.mostrar(this.actual + 1); }
+      else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(k)) { e.preventDefault(); this.mostrar(this.actual - 1); }
+      else if (k === "Home") this.mostrar(0);
+      else if (k === "End") this.mostrar(this.slides.length - 1);
+      else if (k === "n" || k === "N") this.guion.classList.toggle("on");
+      else if (k === "f" || k === "F") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
+    });
+  }
+  gestos() {
+    let bloqueo = false, x0 = null;
+    addEventListener("wheel", e => {
+      if (bloqueo || Math.abs(e.deltaY) < 30 || this.guion.contains(e.target)) return;
+      bloqueo = true; setTimeout(() => (bloqueo = false), 700);
+      this.mostrar(this.actual + (e.deltaY > 0 ? 1 : -1));
+    }, { passive: true });
+    addEventListener("touchstart", e => (x0 = e.touches[0].clientX), { passive: true });
+    addEventListener("touchend", e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) this.mostrar(this.actual + (dx < 0 ? 1 : -1));
+    });
+  }
+}
+const deck = new SlidePresentation();
+
+/* =====================================================================
+   MODO EDICIÓN (tecla E o esquina superior izquierda)
+   Los cambios se guardan en este navegador; Ctrl+S descarga una copia del HTML con los cambios.
+   ===================================================================== */
+const editor = {
+  isActive: false,
+  campos: () => document.querySelectorAll(".slide h1, .slide h2, .slide h3, .slide p, .slide li > span:last-child, .slide .pill, .slide .seccion, .slide pre"),
+  clave: "frog-presentacion-ediciones",
+  toggleEditMode() {
+    this.isActive = !this.isActive;
+    document.body.classList.toggle("editando", this.isActive);
+    document.getElementById("editToggle").classList.toggle("active", this.isActive);
+    document.getElementById("editToggle").textContent = this.isActive ? "Terminar edición" : "Editar textos";
+    this.campos().forEach(el => el.contentEditable = this.isActive ? "true" : "false");
+    if (!this.isActive) this.guardar();
+  },
+  guardar() {
+    try { localStorage.setItem(this.clave, JSON.stringify([...this.campos()].map(el => el.innerHTML))); } catch (e) { /* sin almacenamiento: no pasa nada */ }
+  },
+  restaurar() {
+    try {
+      const datos = JSON.parse(localStorage.getItem(this.clave) || "null"), campos = [...this.campos()];
+      if (datos && datos.length === campos.length) campos.forEach((el, i) => (el.innerHTML = datos[i]));
+    } catch (e) { /* ignorar */ }
+  },
+  descargar() {
+    this.campos().forEach(el => el.removeAttribute("contenteditable"));
+    const copia = document.documentElement.cloneNode(true);
+    copia.querySelectorAll(".grafico").forEach(g => (g.innerHTML = ""));  /* los gráficos se vuelven a dibujar al abrir */
+    copia.querySelector("body").classList.remove("editando");
+    const blob = new Blob(["<!DOCTYPE html>\n" + copia.outerHTML], { type: "text/html" });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "FROG_presentacion.html" });
+    a.click(); URL.revokeObjectURL(a.href);
+    if (this.isActive) this.campos().forEach(el => (el.contentEditable = "true"));
+  }
+};
+editor.restaurar();
+
+const editToggle = document.getElementById("editToggle"), hotzone = document.querySelector(".edit-hotzone");
+let hideTimeout = null;
+editToggle.addEventListener("click", () => editor.toggleEditMode());
+hotzone.addEventListener("click", () => editor.toggleEditMode());
+hotzone.addEventListener("mouseenter", () => { clearTimeout(hideTimeout); editToggle.classList.add("show"); });
+hotzone.addEventListener("mouseleave", () => { hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove("show"); }, 400); });
+editToggle.addEventListener("mouseenter", () => clearTimeout(hideTimeout));
+editToggle.addEventListener("mouseleave", () => { hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove("show"); }, 400); });
+document.addEventListener("keydown", e => {
+  if ((e.key === "e" || e.key === "E") && !e.target.isContentEditable) editor.toggleEditMode();
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") { e.preventDefault(); editor.guardar(); editor.descargar(); }
+});
+document.addEventListener("input", () => editor.isActive && editor.guardar());
+</script>
+</body>
+</html>
