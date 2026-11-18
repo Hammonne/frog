@@ -286,16 +286,16 @@ img, video, canvas, svg { max-width: 100%; max-height: 100%; }
 .chip.casi { background: var(--amarillo-suave); color: #8A6A00; }
 .m-ejes { position: absolute; left: 270px; right: 40px; top: 0; bottom: 34px; }
 .m-ejes span { position: absolute; bottom: -34px; transform: translateX(-50%); font-size: 18px; color: #4c6a52; white-space: nowrap; }
-.m-ejes span::before { content: ""; position: absolute; left: 50%; bottom: 30px; height: 415px; border-left: 1.5px solid #E4E1D3; }
+.m-ejes span::before { content: ""; position: absolute; left: 50%; bottom: 30px; height: 382px; border-left: 1.5px solid #E4E1D3; }
 .m-meta { position: absolute; top: 0; bottom: 0; border-left: 3px dashed var(--rojo); }
 .m-meta b { position: absolute; top: -4px; left: 10px; font: 600 18px/1 var(--f-texto); color: var(--rojo); white-space: nowrap; }
-.mancuerna { position: relative; display: grid; grid-template-columns: 270px 1fr; align-items: center; height: 84px; padding-right: 40px; }
+.mancuerna { position: relative; display: grid; grid-template-columns: 270px 1fr; align-items: center; height: 76px; padding-right: 40px; }
 .mancuerna + .mancuerna { border-top: 1.5px dashed #E4E1D3; }
 .m-nombre { display: flex; align-items: center; gap: 14px; font: 600 26px/1 var(--f-texto); color: var(--texto); }
 .chips { display: flex; }
 .chips i { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--hueso); margin-left: -9px; }
 .chips i:first-child { margin-left: 0; }
-.m-pista { position: relative; height: 84px; }
+.m-pista { position: relative; height: 76px; }
 .mancuerna-linea { position: absolute; top: 50%; height: 8px; margin-top: -4px; border-radius: 4px; background: linear-gradient(90deg, var(--amarillo), var(--verde));
   left: var(--a); width: calc(var(--b) - var(--a)); transform-origin: left; transform: scaleX(0); transition: transform 1.1s var(--ease) .9s; }
 .mancuerna-punto { position: absolute; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, .18); }
@@ -312,7 +312,7 @@ img, video, canvas, svg { max-width: 100%; max-height: 100%; }
 .ley-meta { width: 24px; height: 0; border-top: 3px dashed var(--rojo); }
 
 /* Diapositiva 11: tarjetas de resultado */
-.resultado { position: absolute; top: 290px; width: 540px; height: 700px; background: var(--blanco); border-radius: 26px; overflow: hidden; box-shadow: 0 6px 20px rgba(42, 58, 32, .13); }
+.resultado { position: absolute; top: 290px; width: 540px; height: 676px; background: var(--blanco); border-radius: 26px; overflow: hidden; box-shadow: 0 6px 20px rgba(42, 58, 32, .13); }
 .res-cab { display: flex; align-items: center; gap: 16px; height: 86px; padding: 0 28px; font: 700 34px/1 var(--f-titulo); color: var(--verde); }
 .res-cab img { width: 50px; height: 50px; object-fit: contain; }
 .res-cuerpo { padding: 26px 30px; }
@@ -352,6 +352,29 @@ img, video, canvas, svg { max-width: 100%; max-height: 100%; }
 .u-val { flex: none; border-radius: 999px; padding: 7px 14px; background: #EEF0E6; font: 600 19px/1 var(--f-texto); }
 .umbral.elegido { outline: 3px solid var(--amarillo); }
 .umbral.elegido .u-val { background: var(--amarillo); }
+
+
+/* Diapositiva 5: panel del planificador */
+.plan { position: absolute; left: 1232px; top: 96px; width: 598px; height: 878px; background: var(--amarillo); border-radius: 36px; padding: 46px 46px; box-shadow: 0 16px 40px rgba(42, 58, 32, .18); }
+.plan::after { content: ""; position: absolute; inset: 14px; border: 3px dashed rgba(40, 122, 54, .35); border-radius: 26px; pointer-events: none; }
+.plan-cab { display: flex; align-items: center; gap: 20px; }
+.plan-cab img { width: 76px; height: 76px; object-fit: contain; flex: none; }
+.plan-cab h3 { font: 700 40px/1.12 var(--f-titulo); color: var(--verde); }
+.plan-pasos { list-style: none; position: relative; margin-top: 54px; display: flex; flex-direction: column; gap: 56px; }
+.plan-pasos::before { content: ""; position: absolute; left: 23px; top: 26px; bottom: 26px; border-left: 4px dotted var(--verde); }
+.plan-pasos li { position: relative; display: flex; align-items: center; gap: 22px; font-size: 27px; line-height: 1.3; }
+.plan-pasos .num { position: relative; z-index: 1; box-shadow: 0 0 0 6px var(--amarillo); }
+.plan-pill { position: absolute; left: 46px; bottom: 50px; background: var(--verde); color: #fff; border-radius: 999px; padding: 14px 28px; font: 700 30px/1 var(--f-titulo); }
+
+/* Diapositiva 6: nombres alineados con las 6 columnas de la lámina (boceto + 5 estilos) */
+.estilos { display: grid; grid-template-columns: repeat(6, 1fr); padding: 0 14px; text-align: center; font: 600 22px/1 var(--f-texto); color: var(--verde); }
+.estilos span:first-child { color: #6d8571; font-weight: 500; }
+.duelo { margin-top: 14px; }
+.duelo-fila { margin-top: 10px; }
+
+/* Diapositiva 7: separaciones algo menores */
+.agentes > div > div:nth-child(2) { margin-top: 22px !important; height: 100px !important; }
+.agentes .pill.amarilla { margin-top: 20px !important; }
 
 /* =====================================================================
    GUION DEL PRESENTADOR (tecla N) Y CONTROLES
@@ -396,15 +419,15 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 
   <h1 class="abs r" style="--d:.05;left:92px;top:150px;font:700 330px/1 var(--f-titulo);color:var(--verde);letter-spacing:-4px">FROG</h1>
   <p class="abs r izq" style="--d:.3;left:var(--margen);top:520px;background:var(--amarillo);padding:14px 30px;font:700 52px/1.1 var(--f-titulo);color:var(--verde)">Friendly Rounds Of Generation</p>
-  <p class="abs r" style="--d:.45;left:var(--margen);top:690px;width:1080px;font-size:34px">Portadas infantiles generativas con feedback humano: de un boceto y una historia a cinco propuestas.</p>
+  <p class="abs r" style="--d:.45;left:var(--margen);top:690px;width:1000px;font-size:34px">Portadas infantiles generativas con feedback humano: de un boceto y una historia a cinco propuestas.</p>
   <p class="abs r" style="--d:.6;left:var(--margen);top:828px;width:1080px;font:600 28px/1.5 var(--f-texto);color:var(--verde)">Andrea Coa · Jimena Gurbillon · Maria Surco<br>Bihonda Epiquien · Nayeli Guzman</p>
   <p class="abs r" style="--d:.7;left:var(--margen);top:966px;font-size:23px">Proyecto 2 · Planificación y Toma de Decisiones en IA · UTEC · Noviembre 2026</p>
 
-  <img class="deco r pop" style="--d:.15;left:1400px;top:6px;width:500px" src="img/deco_explosion.png" alt="">
-  <div class="abs r pop" style="--d:.25;left:1190px;top:90px;width:560px">
-    <img class="flota" src="img/runa_saluda_grande.png" alt="Runa, la ranita de FROG, saluda" style="width:560px;max-width:none">
+  <img class="deco r pop" style="--d:.15;left:1330px;top:90px;width:470px" src="img/deco_explosion.png" alt="">
+  <div class="abs r pop" style="--d:.25;left:1225px;top:150px;width:510px">
+    <img class="flota" src="img/runa_saluda_grande.png" alt="Runa, la ranita de FROG, saluda" style="width:510px;max-width:none">
   </div>
-  <div class="abs r" style="--d:.55;left:1290px;top:880px;width:450px;height:190px">
+  <div class="abs r" style="--d:.55;left:1255px;top:655px;width:450px;height:190px">
     <img src="img/papel_amarillo.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;transform:rotate(-3deg)">
     <p class="abs" style="left:0;right:0;top:34px;text-align:center;font:700 64px/1 var(--f-titulo);color:var(--verde);transform:rotate(-3deg)">Runa</p>
     <p class="abs" style="left:0;right:0;top:110px;text-align:center;font:600 26px/1 var(--f-texto);transform:rotate(-3deg)">la mascota de FROG</p>
@@ -451,6 +474,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
   <span class="seccion r">Solución técnica · Visión general</span>
   <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1730px;top:60px;width:110px">
   <h2 class="titulo r" style="--d:.1;width:1300px">De un boceto y una historia a cinco portadas</h2>
+  <div class="abs" style="inset:0;transform:translateY(-95px)">
 
   <!-- Flechas entre etapas y bucle de rondas -->
   <svg class="abs r" style="--d:.9;left:0;top:0;width:1920px;height:1080px;max-width:none;max-height:none" viewBox="0 0 1920 1080" aria-hidden="true">
@@ -512,6 +536,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
   <img class="deco" src="img/hierba.png" alt="" style="left:0;top:1010px;width:200px">
   <img class="deco r pop flota" style="--d:.8;left:22px;top:930px;height:140px" src="img/runa_dibuja.png" alt="">
   <img class="deco" src="img/flores.png" alt="" style="left:1760px;top:900px;width:122px">
+  </div>
   <aside class="notes">TIEMPO: 0:45. El flujo completo: la persona sube o dibuja un boceto y cuenta su historia; el sistema genera exactamente cinco portadas, donde cada una cambia un solo parámetro; la persona acepta o rechaza cada una, con el motivo; un planificador usa esas decisiones para proponer la siguiente ronda, hasta un máximo de tres; y al final un agente redacta un resumen de lo que ocurrió, que se verifica contra el registro.</aside>
 </section>
 
@@ -523,6 +548,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
   <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1740px;top:50px;width:100px">
   <h2 class="titulo r" style="--d:.1;width:1500px">Siete componentes y un registro de cada decisión</h2>
 
+  <div class="abs" style="inset:0;transform-origin:960px 290px;transform:scale(.92)">
   <div class="r" style="--d:.25">
     <div class="zona" style="left:79px;top:300px;width:670px;height:262px;background:var(--lima-suave)"><b>ENTRADA</b></div>
     <div class="zona" style="left:770px;top:300px;width:1073px;height:262px;background:var(--amarillo-suave)"><b>GENERACIÓN</b></div>
@@ -582,7 +608,8 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
     <p class="rot-flecha" style="left:583px;top:895px">si fallan los reintentos</p>
     <p class="rot-flecha" style="left:583px;top:528px;color:var(--rojo);font-size:16px">rechazo de la<br>entrada</p>
   </div>
-  <img class="deco r pop" style="--d:1.1;left:1730px;top:915px;height:140px" src="img/runa_lupa.png" alt="">
+  </div>
+  <img class="deco r pop" style="--d:1.1;left:1748px;top:860px;height:120px" src="img/runa_lupa.png" alt="">
   <aside class="notes">TIEMPO: 1:00. La arquitectura completa. 1) Preprocesamiento, guardrails de entrada y agente de historia: se rechaza un boceto vacío, una foto de una persona real o texto no apto. 2) El planificador propone las cinco configuraciones con Thompson. 3) El motor A o el B genera las portadas. 4) Guardrails de salida, agente tipográfico y render del título. 5) La interfaz: aceptar o rechazar con motivo y editar la fuente. 6) Todo queda en un registro JSON. Si hay otra ronda, se actualizan las preferencias y se vuelve al planificador; si no, 7) el agente LLM redacta el resumen y un validador lo compara con el registro, con hasta dos reintentos y una plantilla de respaldo.<br><br><strong>Preguntas probables del jurado.</strong> ¿Qué evita que el LLM invente? Un validador compara cada ID y motivo del resumen con el registro y reintenta hasta dos veces; si falla, usa una plantilla. ¿Qué conecta todo? El registro JSON de cada decisión.</aside>
 </section>
 
@@ -593,26 +620,28 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
   <span class="seccion r">Solución técnica · Personalización</span>
   <h2 class="titulo r" style="--d:.1;width:1080px">Seis parámetros para personalizar cada portada</h2>
 
-  <div class="abs" style="left:90px;top:330px;width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:30px 34px">
-    <div class="tarjeta r" style="--d:.25;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Estilo</p><p style="margin-top:8px">acuarela · lápices · collage · vectorial · plastilina</p></div>
-    <div class="tarjeta r" style="--d:.3;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Paleta</p><p style="margin-top:8px">pastel · cálida · fría · primarios · tierra</p></div>
-    <div class="tarjeta r" style="--d:.35;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Edad</p><p style="margin-top:8px">0-3 · 4-6 · 7-9 · 10-12 · sin</p></div>
-    <div class="tarjeta r" style="--d:.4;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Ambiente</p><p style="margin-top:8px">alegre · aventura · calma · misterio · humor</p></div>
-    <div class="tarjeta r" style="--d:.45;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Fidelidad al boceto</p><p style="margin-top:8px">muy baja · baja · media · alta · muy alta</p></div>
-    <div class="tarjeta r" style="--d:.5;position:relative;padding:24px 30px;height:190px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Zona del título</p><p style="margin-top:8px">superior · inferior · ambas · centrada · sin</p></div>
+  <div class="abs" style="left:var(--margen);top:308px;width:1060px;display:grid;grid-template-columns:1fr 1fr;gap:24px 30px">
+    <div class="tarjeta r" style="--d:.25;position:relative;padding:22px 28px;height:166px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Estilo</p><p style="margin-top:6px;font-size:25px">acuarela · lápices · collage · vectorial · plastilina</p></div>
+    <div class="tarjeta r" style="--d:.3;position:relative;padding:22px 28px;height:166px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Paleta</p><p style="margin-top:6px;font-size:25px">pastel · cálida · fría · primarios · tierra</p></div>
+    <div class="tarjeta r" style="--d:.35;position:relative;padding:22px 28px;height:166px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Edad</p><p style="margin-top:6px;font-size:25px">0-3 · 4-6 · 7-9 · 10-12 · sin</p></div>
+    <div class="tarjeta r" style="--d:.4;position:relative;padding:22px 28px;height:166px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Ambiente</p><p style="margin-top:6px;font-size:25px">alegre · aventura · calma · misterio · humor</p></div>
+    <div class="tarjeta r" style="--d:.45;position:relative;padding:22px 28px;height:166px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Fidelidad al boceto</p><p style="margin-top:6px;font-size:25px">muy baja · baja · media · alta · muy alta</p></div>
+    <div class="tarjeta r" style="--d:.5;position:relative;padding:22px 28px;height:166px"><p style="font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Zona del título</p><p style="margin-top:6px;font-size:25px">superior · inferior · ambas · centrada · sin</p></div>
   </div>
-  <p class="abs r" style="--d:.65;left:90px;top:1000px;width:1100px;font-size:25px"><b style="font-weight:600;color:var(--verde)">Una ronda:</b> un parámetro toma sus 5 valores (una portada por valor) y los otros cinco quedan fijos.</p>
+  <p class="abs r" style="--d:.65;left:var(--margen);top:880px;width:1060px;font-size:25px"><b style="font-weight:600;color:var(--verde)">Una ronda:</b> un parámetro toma sus 5 valores (una portada por valor) y los otros cinco quedan fijos.</p>
 
-  <div class="panel r" style="--d:.05;width:660px"></div>
-  <h3 class="abs r" style="--d:.25;left:1310px;top:110px;width:560px;font:700 46px/1.15 var(--f-titulo);color:var(--verde)">El planificador aprende de tus decisiones</h3>
-  <div class="abs" style="left:1310px;top:300px;width:540px;display:flex;flex-direction:column;gap:38px">
-    <div class="r izq" style="--d:.4;display:flex;gap:24px;align-items:center"><span class="num verde chico">1</span><p>Cada aceptación o rechazo actualiza qué valores prefieres.</p></div>
-    <div class="r izq" style="--d:.5;display:flex;gap:24px;align-items:center"><span class="num verde chico">2</span><p>Los parámetros con evidencia se fijan en lo que aceptaste.</p></div>
-    <div class="r izq" style="--d:.6;display:flex;gap:24px;align-items:center"><span class="num verde chico">3</span><p>Los demás se eligen al azar para seguir explorando.</p></div>
-    <div class="r izq" style="--d:.7;display:flex;gap:24px;align-items:center"><span class="num verde chico">4</span><p>Máximo tres rondas por sesión.</p></div>
+  <!-- Panel del planificador: tarjeta amarilla con pasos unidos por una línea punteada -->
+  <div class="plan r" style="--d:.15">
+    <div class="plan-cab"><img src="img/ico_ronda.png" alt=""><h3>El planificador aprende de tus decisiones</h3></div>
+    <ol class="plan-pasos">
+      <li class="r izq" style="--d:.35"><span class="num verde chico">1</span><p>Cada aceptación o rechazo actualiza qué valores prefieres.</p></li>
+      <li class="r izq" style="--d:.45"><span class="num verde chico">2</span><p>Los parámetros con evidencia se fijan en lo que aceptaste.</p></li>
+      <li class="r izq" style="--d:.55"><span class="num verde chico">3</span><p>Los demás se eligen al azar para seguir explorando.</p></li>
+      <li class="r izq" style="--d:.65"><span class="num verde chico">4</span><p>Máximo tres rondas por sesión.</p></li>
+    </ol>
+    <span class="plan-pill">Muestreo de Thompson</span>
   </div>
-  <p class="abs r" style="--d:.8;left:1310px;top:850px;font:700 34px/1.2 var(--f-titulo);color:var(--verde)">Muestreo de Thompson</p>
-  <img class="deco r pop flota" style="--d:.9;left:1600px;top:880px;height:180px" src="img/runa_piensa.png" alt="">
+  <img class="deco r pop flota" style="--d:.9;left:1668px;top:790px;height:175px" src="img/runa_piensa.png" alt="">
   <aside class="notes">TIEMPO: 0:45. La persona controla seis parámetros: estilo, paleta, edad, ambiente, fidelidad al boceto y zona del título. En cada ronda uno de ellos varía entre las cinco portadas y los otros quedan fijos, para que se entienda qué cambió. El planificador usa muestreo de Thompson: va aprendiendo qué valores prefiere la persona según lo que acepta, fija esos y explora al azar los demás, hasta un máximo de tres rondas.<br><br><strong>Preguntas probables del jurado.</strong> ¿Por qué Thompson? Equilibra explorar y aprovechar con pocas rondas (máximo 3). En simulación supera al azar en la ronda 3 (43 % frente a 34,8 %); con usuarios reales todavía no está probado.</aside>
 </section>
 
@@ -623,21 +652,21 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
   <span class="seccion r">Solución técnica · Modelo generativo</span>
   <h2 class="titulo r" style="--d:.1;width:1500px">El motor A reinterpreta el boceto; el B lo conserva</h2>
 
-  <div class="abs r izq" style="--d:.2;left:78px;top:286px;display:flex;align-items:center;gap:16px"><span class="pill mini" style="background:var(--verde);color:#fff">Motor A</span><span style="font-size:22px">Stable Diffusion 1.5 + ControlNet</span></div>
-  <div class="abs r lamina" style="--d:.3;left:78px;top:340px;width:1040px">
+  <div class="abs r izq" style="--d:.2;left:78px;top:280px;display:flex;align-items:center;gap:16px"><span class="pill mini" style="background:var(--verde);color:#fff">Motor A</span><span style="font-size:22px">Stable Diffusion 1.5 + ControlNet</span></div>
+  <div class="abs r lamina" style="--d:.3;left:78px;top:328px;width:960px">
     <img src="img/lamina_motor_a_recortada.png" alt="Cinco portadas del motor A, una por estilo">
   </div>
-  <div class="abs r" style="--d:.45;left:78px;top:632px;width:1040px;display:grid;grid-template-columns:repeat(5,1fr);text-align:center;font:600 22px/1 var(--f-texto);color:var(--verde)">
-    <span style="margin-left:19%">acuarela</span><span style="margin-left:15%">lápices</span><span style="margin-left:10%">collage</span><span style="margin-left:5%">vectorial</span><span>plastilina</span>
+  <div class="abs r estilos" style="--d:.45;left:78px;top:600px;width:960px">
+    <span>boceto</span><span>acuarela</span><span>lápices</span><span>collage</span><span>vectorial</span><span>plastilina</span>
   </div>
-  <div class="abs r izq" style="--d:.5;left:78px;top:680px;display:flex;align-items:center;gap:16px"><span class="pill amarilla mini">Motor B</span><span style="font-size:22px">SD-Turbo (img2img)</span></div>
-  <div class="abs r lamina" style="--d:.55;left:78px;top:734px;width:1040px">
+  <div class="abs r izq" style="--d:.5;left:78px;top:652px;display:flex;align-items:center;gap:16px"><span class="pill amarilla mini">Motor B</span><span style="font-size:22px">SD-Turbo (img2img)</span></div>
+  <div class="abs r lamina" style="--d:.55;left:78px;top:700px;width:960px">
     <img src="img/lamina_motor_b_recortada.png" alt="Cinco portadas del motor B, casi iguales al boceto">
   </div>
-  <p class="abs r" style="--d:.7;left:78px;top:1026px;font-size:21px;font-style:italic">Mismo boceto e historia; una ronda con el eje estilo.</p>
+  <p class="abs r" style="--d:.7;left:78px;top:978px;font-size:21px;font-style:italic">Mismo boceto e historia; una ronda con el eje estilo.</p>
 
   <!-- Duelo: cada métrica compara A (verde) y B (amarillo); la corona marca quién gana -->
-  <div class="abs" style="left:1172px;top:270px;width:690px">
+  <div class="abs" style="left:1110px;top:268px;width:730px">
     <p class="r" style="--d:.3;font:700 44px/1 var(--f-titulo);color:var(--verde)">Cara a cara</p>
     <div class="duelo r" style="--d:.45">
       <div class="duelo-cab"><img src="img/ico_estilo.webp" alt=""><span>Acierto de estilo</span><em>más es mejor</em></div>
@@ -672,7 +701,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
   <h2 class="titulo r" style="--d:.1;width:1400px">Tres agentes de IA, cada uno con su validador</h2>
 
   <!-- Una columna por agente: recibe, produce, se valida -->
-  <div class="abs" style="left:var(--margen);top:300px;width:1720px;display:grid;grid-template-columns:repeat(3,533px);column-gap:60px">
+  <div class="abs agentes" style="left:var(--margen);top:282px;width:1720px;display:grid;grid-template-columns:repeat(3,533px);column-gap:60px">
     <div class="r" style="--d:.25">
       <div style="display:flex;align-items:center;gap:30px;height:110px"><img src="img/ico_libro.png" alt="" style="height:100px"><p style="font:600 36px/1.15 var(--f-texto);color:var(--verde)">Agente de historia</p></div>
       <div style="display:flex;gap:22px;margin-top:34px;height:110px"><span class="pill mini" style="height:40px">RECIBE</span><p style="font-size:26px">Un cuento en español, hasta 500 palabras.</p></div>
@@ -726,8 +755,8 @@ motivo: colores)</pre>
   <img class="deco r pop gira-lento" style="--d:.2;left:1630px;top:-30px;width:260px" src="img/deco_explosion.png" alt="">
   <div class="abs r" style="--d:.4;left:1215px;top:330px;width:260px;height:340px"><div class="polaroid rot" style="--g:-4deg;inset:0"><img src="img/boceto_conejo.png" alt="Boceto"><div class="pie">Boceto</div></div></div>
   <div class="abs r" style="--d:.55;left:1490px;top:200px;width:260px;height:380px"><div class="polaroid rot" style="--g:4deg;inset:0"><img src="img/portada_v1.jpg" alt="Propuesta generada"><div class="pie">Propuesta</div></div></div>
-  <div class="abs r" style="--d:.7;left:1580px;top:640px;width:260px;height:380px"><div class="polaroid rot" style="--g:3deg;inset:0"><img src="img/portada_v4.jpg" alt="Otra propuesta generada"><div class="pie">Propuesta</div></div></div>
-  <img class="deco r pop flota" style="--d:.85;left:1250px;top:760px;height:250px" src="img/runa_dibuja.png" alt="">
+  <div class="abs r" style="--d:.7;left:1580px;top:595px;width:250px;height:360px"><div class="polaroid rot" style="--g:3deg;inset:0"><img src="img/portada_v4.jpg" alt="Otra propuesta generada"><div class="pie">Propuesta</div></div></div>
+  <img class="deco r pop flota" style="--d:.85;left:1260px;top:745px;height:220px" src="img/runa_dibuja.png" alt="">
   <aside class="notes">TIEMPO: 5:00 (demostración en vivo). Recorrido: 1) subo o dibujo un boceto; 2) cuento la historia y el agente extrae los personajes, objetos y lugar, que puedo corregir; 3) se generan las cinco portadas, cada una con su etiqueta del valor que cambia; 4) acepto o rechazo cada una y, si rechazo, marco el motivo; 5) genero una segunda ronda y se ve que el planificador aprendió; 6) termino y leo el resumen que redactó el agente. También muestro un guardrail: un texto bloqueado. Plan B: si Colab tarda, tener una ronda ya generada.</aside>
 </section>
 
@@ -739,13 +768,13 @@ motivo: colores)</pre>
   <h2 class="titulo r" style="--d:.1;width:1400px">La generación tiene cuatro capas de protección</h2>
 
   <div class="abs" style="left:90px;top:320px;width:1764px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px">
-    <div class="tarjeta r" style="--d:.25;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">1</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Texto</p></div><p style="margin-top:22px;font-size:25px">Lista de bloqueo de violencia, contenido sexual, artistas y personajes con marca.</p></div>
-    <div class="tarjeta r" style="--d:.35;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">2</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Foto</p></div><p style="margin-top:22px;font-size:25px">Solo dibujos: se rechaza toda foto con el rostro de una persona.</p></div>
-    <div class="tarjeta r" style="--d:.45;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">3</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Imagen</p></div><p style="margin-top:22px;font-size:25px">CLIP compara cada portada con descriptores de contenido no apto para niños.</p></div>
-    <div class="tarjeta r" style="--d:.55;position:relative;padding:26px 28px;height:310px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">4</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Derechos</p></div><p style="margin-top:22px;font-size:25px">Estilos genéricos y aviso de que la protección de autor no está garantizada.</p></div>
+    <div class="tarjeta r" style="--d:.25;position:relative;padding:26px 28px;height:296px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">1</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Texto</p></div><p style="margin-top:22px;font-size:25px">Lista de bloqueo de violencia, contenido sexual, artistas y personajes con marca.</p></div>
+    <div class="tarjeta r" style="--d:.35;position:relative;padding:26px 28px;height:296px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">2</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Foto</p></div><p style="margin-top:22px;font-size:25px">Solo dibujos: se rechaza toda foto con el rostro de una persona.</p></div>
+    <div class="tarjeta r" style="--d:.45;position:relative;padding:26px 28px;height:296px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">3</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Imagen</p></div><p style="margin-top:22px;font-size:25px">CLIP compara cada portada con descriptores de contenido no apto para niños.</p></div>
+    <div class="tarjeta r" style="--d:.55;position:relative;padding:26px 28px;height:296px"><div style="display:flex;align-items:center;gap:18px"><span class="num chico">4</span><p style="font:700 34px/1 var(--f-titulo);color:var(--verde)">Derechos</p></div><p style="margin-top:22px;font-size:25px">Estilos genéricos y aviso de que la protección de autor no está garantizada.</p></div>
   </div>
 
-  <div class="abs r" style="--d:.7;left:90px;top:684px;width:1764px;height:324px;background:var(--amarillo);display:flex;align-items:center;gap:70px;padding:0 60px">
+  <div class="abs r" style="--d:.7;left:90px;top:650px;width:1764px;height:310px;background:var(--amarillo);display:flex;align-items:center;gap:70px;padding:0 60px">
     <div style="width:520px;flex:none">
       <p style="font:700 150px/1 var(--f-titulo);color:var(--verde)">20 / 20</p>
       <p style="margin-top:14px;font-size:27px">entradas adversariales bloqueadas por el filtro de texto</p>
@@ -776,7 +805,7 @@ motivo: colores)</pre>
   </div>
 
   <!-- Paleta: de dónde salía el 69,7 % y cuánto mejoró al reforzar el prompt -->
-  <div class="abs r" style="--d:.4;left:var(--margen);top:580px;width:470px">
+  <div class="abs r" style="--d:.4;left:var(--margen);top:566px;width:470px">
     <p style="font:700 40px/1.1 var(--f-titulo);color:var(--verde)">La paleta, color por color</p>
     <p style="margin-top:16px;font-size:24px">Cálida y primarios fallaban. Reforzamos su texto en el prompt y repetimos el eje paleta con los mismos 200 pares.</p>
     <div style="margin-top:22px;display:flex;flex-direction:column;gap:10px;font-size:21px">
@@ -786,7 +815,7 @@ motivo: colores)</pre>
     </div>
     <p style="margin-top:22px;font-size:19px;font-style:italic">Motor B: paleta 84 % y elemento principal 90 %, porque casi copia el boceto.</p>
   </div>
-  <div class="abs" style="left:640px;top:575px;width:1200px;height:470px">
+  <div class="abs" style="left:640px;top:566px;width:1200px;height:416px">
     <div class="m-ejes" aria-hidden="true">
       <span style="left:0">0 %</span><span style="left:25%">25 %</span><span style="left:50%">50 %</span><span style="left:75%">75 %</span><span style="left:100%">100 %</span>
       <i class="m-meta" style="left:80%"><b>meta 80 %</b></i>
@@ -898,10 +927,10 @@ motivo: colores)</pre>
         <div class="waffle" style="--cols:10;--celda:31px" data-waffle='[["No aplica",80,"#E5E1D2"],["Claro",17,"#F2CFA8"],["Medio",3,"#B9824F"],["Oscuro",0,"#5E3B22"]]'></div>
       </div>
     </div>
-    <p class="r" style="--d:.75;margin-top:22px;width:700px;font-size:22px">Una persona anotó cada figura. Cuando el modelo dibuja rasgos, tiende a la piel clara. Es una observación, no una conclusión.</p>
+    <p class="r" style="--d:.75;margin-top:18px;width:710px;font-size:22px">Una persona anotó cada figura. Cuando el modelo dibuja rasgos, tiende a la piel clara. Es una observación, no una conclusión.</p>
   </div>
-  <span class="pill punteada abs r" style="--d:.9;left:1000px;top:996px;font-size:21px;padding:8px 22px">Estudio con usuarios (E4) y SUS: pendientes</span>
-  <img class="deco r pop flota" style="--d:.9;left:1735px;top:880px;height:170px" src="img/runa_piensa.png" alt="">
+  <span class="pill punteada abs r" style="--d:.9;left:var(--margen);top:948px;font-size:21px;padding:8px 22px">Estudio con usuarios (E4) y SUS: pendientes</span>
+  <img class="deco r pop flota" style="--d:.9;left:1740px;top:820px;height:150px" src="img/runa_piensa.png" alt="">
   <aside class="notes">TIEMPO: 0:45. En E5 una persona revisó las 45 portadas generadas con las entradas de prueba: 42 eran aptas y 3 no. Con el umbral inicial de CLIP, 0,5, no detectó ninguna de las tres; con 0,25 detecta dos, aunque la calibración es débil porque son solo tres casos. Con 400 portadas más generadas sin filtro, una persona revisó las 25 más sospechosas: 10 no eran aptas, sobre todo dragones del motor B; con 0,25 se detectan 5 de esas 10 y se bloquean 5 aptas, y con 0,5 no se detecta ninguna. En sesgo, generamos 100 figuras humanas sin rasgos definidos y una persona anotó género y tono de piel percibidos: casi todo ambiguo, pero cuando hay rasgos tiende a piel clara y a género femenino, y ninguna imagen salió con tono oscuro. Es una observación con un solo anotador. El estudio con usuarios, E4, y la escala SUS están pendientes; no los reportamos.<br><br><strong>Preguntas probables del jurado.</strong> ¿Qué concluyen del sesgo? Es una observación con 100 figuras y un solo anotador: cuando el modelo dibuja rasgos, tiende a piel clara. El prompt no añade género ni etnia; se podría ofrecer un parámetro explícito.</aside>
 </section>
 
@@ -913,28 +942,28 @@ motivo: colores)</pre>
   <img class="deco r pop flota" style="--d:.5;left:1600px;top:40px;height:210px" src="img/runa_piensa.png" alt="">
   <h2 class="titulo r" style="--d:.1;width:1400px">Cinco limitaciones que dejamos a la vista</h2>
 
-  <div class="abs" style="left:90px;top:320px;width:1730px;display:flex;flex-direction:column;gap:22px">
-    <div class="r izq" style="--d:.25;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+  <div class="abs" style="left:90px;top:304px;width:1730px;display:flex;flex-direction:column;gap:18px">
+    <div class="r izq" style="--d:.25;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:108px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
       <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Agente de historia</p>
       <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">59–80 % de precisión</p>
       <p style="padding-right:30px;font-size:23px">Meta: 90 %. Mejor caso: Qwen en inglés, 80 % (flexible).</p>
     </div>
-    <div class="r izq" style="--d:.35;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+    <div class="r izq" style="--d:.35;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:108px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
       <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Paleta del motor A</p>
       <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">70 % → 79 %</p>
       <p style="padding-right:30px;font-size:23px">Meta: 80 %. Tras reforzar el prompt, «primarios» sigue en 31,5 %.</p>
     </div>
-    <div class="r izq" style="--d:.45;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+    <div class="r izq" style="--d:.45;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:108px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
       <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Legibilidad del título</p>
       <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">CER 17,6 %</p>
       <p style="padding-right:30px;font-size:23px">Meta: 5 %. El OCR falla con títulos cortos o con dibujo detrás.</p>
     </div>
-    <div class="r izq" style="--d:.55;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+    <div class="r izq" style="--d:.55;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:108px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
       <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--amarillo);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Filtro de imagen (CLIP)</p>
       <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">5 de 10 no aptas</p>
       <p style="padding-right:30px;font-size:23px">Con 0,25 también bloquea el 1,3 % de las aptas; es un filtro débil.</p>
     </div>
-    <div class="r izq" style="--d:.65;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:118px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
+    <div class="r izq" style="--d:.65;display:grid;grid-template-columns:500px 440px 1fr;align-items:center;height:108px;background:var(--blanco);border-radius:14px;box-shadow:0 5px 14px rgba(42,58,32,.16);overflow:hidden">
       <p style="height:100%;display:flex;align-items:center;padding:0 30px;background:var(--lima);font:700 28px/1.15 var(--f-titulo);color:var(--verde)">Evidencia con personas</p>
       <p style="padding:0 34px;font:600 32px/1.1 var(--f-texto);color:var(--verde)">Pendiente</p>
       <p style="padding-right:30px;font-size:23px">Entrevistas, estudio con usuarios (E4) y SUS aún no se hacen.</p>
@@ -956,11 +985,11 @@ motivo: colores)</pre>
     <div class="r izq" style="--d:.45;display:flex;gap:30px;align-items:flex-start"><img src="img/destellos.png" alt="" style="height:64px"><div><p style="font:700 36px/1.15 var(--f-titulo);color:var(--verde)">Agentes que se pueden verificar</p><p style="font-size:25px">Historia, tipografía y resumen con validadores deterministas.</p></div></div>
     <div class="r izq" style="--d:.55;display:flex;gap:30px;align-items:flex-start"><img src="img/destellos.png" alt="" style="height:64px"><div><p style="font:700 36px/1.15 var(--f-titulo);color:var(--verde)">Límites de seguridad medidos</p><p style="font-size:25px">Texto, foto, imagen y derechos, con sus fallos a la vista.</p></div></div>
   </div>
-  <p class="abs r" style="--d:.7;left:var(--margen);top:930px;width:1100px;font-size:26px"><b style="font-weight:600;color:var(--verde)">Siguiente:</b> entrevistas, estudio con usuarios y SUS, y un filtro de imagen más fuerte, sobre todo para el motor B.</p>
+  <p class="abs r" style="--d:.7;left:var(--margen);top:872px;width:1100px;font-size:26px"><b style="font-weight:600;color:var(--verde)">Siguiente:</b> entrevistas, estudio con usuarios y SUS, y un filtro de imagen más fuerte, sobre todo para el motor B.</p>
 
   <img class="deco r pop gira-lento" style="--d:.3;left:1370px;top:40px;width:430px" src="img/deco_explosion.png" alt="">
   <div class="abs r pop" style="--d:.5;left:1290px;top:430px;width:590px"><img class="flota" src="img/runa_celebra.png" alt="Runa celebra" style="width:590px;max-width:none"></div>
-  <p class="abs r" style="--d:.9;left:1250px;top:900px;width:660px;text-align:center;font:700 52px/1.1 var(--f-titulo);color:var(--verde)"><span class="resalta">Gracias · ¿preguntas?</span></p>
+  <p class="abs r" style="--d:.9;left:1250px;top:870px;width:660px;text-align:center;font:700 52px/1.1 var(--f-titulo);color:var(--verde)"><span class="resalta">Gracias · ¿preguntas?</span></p>
   <aside class="notes">TIEMPO: 0:30. En resumen: FROG genera cinco portadas comparables a partir del boceto y la historia, usa las decisiones de la persona para guiar las rondas, tiene agentes cuyo trabajo se puede verificar y límites de seguridad cuyos fallos medimos. Lo que sigue: entrevistas, estudio con usuarios y SUS, y un filtro de imagen más fuerte, sobre todo para el motor B. Gracias. TIEMPO TOTAL APROXIMADO: 14 min 45 s con la demostración de 5 min.</aside>
 </section>
 
