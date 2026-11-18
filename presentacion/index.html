@@ -6,7 +6,7 @@
 <title>FROG · Presentación final</title>
 <!--
   Presentación final de FROG (Proyecto 2, UTEC), en HTML.
-  Misma estética y contenido que la versión en PowerPoint (14 diapositivas).
+  Misma estética y contenido que la versión en PowerPoint (15 diapositivas).
 
   Cómo se usa
   - Abrir este archivo en Chrome o Firefox. Necesita las carpetas img/ y fuentes/ a su lado.
@@ -468,7 +468,79 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 </section>
 
 <!-- =====================================================================
-     3 · SOLUCIÓN: VISIÓN GENERAL (flujo de cinco etapas)
+     3 · PROTOPERSONA (ficha de Valeria + objetivos frente a frustraciones)
+     ===================================================================== -->
+<section class="slide" aria-label="Protopersona">
+  <span class="seccion r">Usuario objetivo · Protopersona</span>
+  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1120px;top:46px;width:82px">
+  <h2 class="titulo r" style="--d:.1;width:1080px">Diseñamos para una creadora, no para un usuario genérico</h2>
+
+  <!-- Columnas sin cajas: mismo lenguaje de la diapositiva anterior (número + texto) -->
+  <div class="abs r izq" style="--d:.2;left:var(--margen);top:288px;display:flex;align-items:center;gap:16px">
+    <img src="img/ico_lapiz.png" alt="" style="height:38px">
+    <span class="pill">Lo que busca</span>
+  </div>
+  <div class="abs r izq" style="--d:.22;left:666px;top:288px;display:flex;align-items:center;gap:16px">
+    <img src="img/ico_robot.png" alt="" style="height:38px">
+    <span class="pill amarilla">Lo que le frustra</span>
+  </div>
+
+  <div class="abs r izq" style="--d:.3;left:var(--margen);top:362px;width:535px;display:flex;gap:22px">
+    <span class="num verde chico">1</span>
+    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Portadas atractivas y fieles a la historia</p><p style="margin-top:6px;font-size:20px">Imágenes vistosas para niños que respeten su idea original.</p></div>
+  </div>
+  <div class="abs r izq" style="--d:.35;left:666px;top:362px;width:535px;display:flex;gap:22px">
+    <span class="num chico">P1</span>
+    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">La IA altera personajes o composición</p><p style="margin-top:6px;font-size:20px">Siente que pierde el control sobre su idea.</p></div>
+  </div>
+
+  <div class="abs r izq" style="--d:.4;left:var(--margen);top:502px;width:535px;display:flex;gap:22px">
+    <span class="num verde chico">2</span>
+    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Colores y estilo propios del público infantil</p><p style="margin-top:6px;font-size:20px">Que la paleta y el estilo transmitan ternura y diversión.</p></div>
+  </div>
+  <div class="abs r izq" style="--d:.45;left:666px;top:502px;width:535px;display:flex;gap:22px">
+    <span class="num chico">P3</span>
+    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Los colores no transmiten lo infantil buscado</p><p style="margin-top:6px;font-size:20px">La imagen puede resultar poco atractiva para niños.</p></div>
+  </div>
+
+  <div class="abs r izq" style="--d:.5;left:var(--margen);top:642px;width:535px;display:flex;gap:22px">
+    <span class="num verde chico">3</span>
+    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Un título legible, correcto y bien ubicado</p><p style="margin-top:6px;font-size:20px">Editar fuente y posición sin programas complejos.</p></div>
+  </div>
+  <div class="abs r izq" style="--d:.55;left:666px;top:642px;width:535px;display:flex;gap:22px">
+    <span class="num chico">P4</span>
+    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">El título sale mal escrito o se superpone</p><p style="margin-top:6px;font-size:20px">Baja la legibilidad y calidad de la portada.</p></div>
+  </div>
+
+  <!-- Dos polaroids con el boceto y la portada de la diapositiva anterior, como su material de trabajo -->
+  <div class="abs r" style="--d:.6;left:380px;top:812px;width:150px;height:206px"><div class="polaroid rot" style="--g:-6deg;inset:0;padding:8px 8px 0"><img src="img/boceto_conejo.png" alt="Boceto de Valeria" style="height:calc(100% - 38px)"><div class="pie" style="height:38px;font-size:16px">Su boceto</div></div></div>
+  <div class="abs r" style="--d:.68;left:554px;top:792px;width:150px;height:226px"><div class="polaroid rot" style="--g:5deg;inset:0;padding:8px 8px 0"><img src="img/portada_v1.jpg" alt="La portada que imagina" style="height:calc(100% - 38px)"><div class="pie" style="height:38px;font-size:16px">Lo que imagina</div></div></div>
+  <img class="deco" src="img/hierba.png" alt="" style="left:0;top:1012px;width:150px">
+  <img class="deco" src="img/flores.png" alt="" style="left:960px;top:980px;width:150px">
+
+  <!-- Ficha de Valeria: mismo panel del planificador (slide del planificador) para que combine con el resto del deck -->
+  <div class="plan r" style="--d:.15">
+    <div class="plan-cab">
+      <img src="img/runa_creando.png" alt="" style="width:76px;height:76px;object-fit:contain">
+      <h3>Valeria Mendoza</h3>
+    </div>
+    <p style="margin-top:16px;font:600 23px/1.3 var(--f-texto);color:var(--texto)">23 años · Lima, Perú · Estudiante universitaria</p>
+    <p style="margin-top:18px;font-size:22px;line-height:1.45">Crea y adapta cuentos para niños de su entorno. Sabe imaginar la escena, pero no domina la edición profesional de imágenes.</p>
+    <div style="margin-top:24px;background:#fff;border-radius:20px;padding:26px 28px;position:relative;box-shadow:0 5px 0 rgba(40,122,54,.14)">
+      <img src="img/runa_corazon.png" alt="" style="position:absolute;right:-20px;top:-28px;width:70px">
+      <p style="font:600 22px/1.45 var(--f-texto);font-style:italic;color:var(--texto)">“Quiero que mi portada se vea como la imaginé, que llame la atención de los niños y que pueda cambiar detalles sin empezar de cero.”</p>
+    </div>
+    <div style="margin-top:22px;display:flex;align-items:center;gap:16px">
+      <img src="img/Rana_Niños.png" alt="Runa leyendo un cuento con dos niños" style="width:150px;height:auto;flex:none">
+      <p style="font-size:19px;color:var(--texto)">Sus cuentos son para <b style="font-weight:600;color:var(--verde)">niños en edad preescolar y primaria</b>.</p>
+    </div>
+    <span class="plan-pill">Decide la portada final</span>
+  </div>
+  <aside class="notes">TIEMPO: 0:40. Esta es nuestra protopersona: Valeria, una estudiante que crea y adapta cuentos para niños de su entorno. Tiene ideas claras de personajes y escena, pero no formación profesional en diseño; al usar herramientas de IA, a veces el resultado cambia su idea, los colores no transmiten lo infantil que buscaba, o el título sale ilegible. Por eso sus prioridades son fidelidad al boceto, colores y estilo acordes al público infantil, y un título legible: FROG se diseña directamente para resolver estas tres frustraciones.<br><br><strong>Preguntas probables del jurado.</strong> ¿Valeria es una persona real? No: es un arquetipo de diseño que sintetiza las necesidades identificadas en la exploración del problema; las entrevistas de validación están pendientes.</aside>
+</section>
+
+<!-- =====================================================================
+     4 · SOLUCIÓN: VISIÓN GENERAL (flujo de cinco etapas)
      ===================================================================== -->
 <section class="slide" aria-label="Visión general">
   <span class="seccion r">Solución técnica · Visión general</span>
@@ -541,7 +613,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 </section>
 
 <!-- =====================================================================
-     4 · ARQUITECTURA (zonas, nodos y flechas con coordenadas del PPTX × 144)
+     5 · ARQUITECTURA (zonas, nodos y flechas con coordenadas del PPTX × 144)
      ===================================================================== -->
 <section class="slide" aria-label="Arquitectura">
   <span class="seccion r">Solución técnica · Arquitectura</span>
@@ -614,7 +686,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 </section>
 
 <!-- =====================================================================
-     5 · PERSONALIZACIÓN (seis parámetros + planificador)
+     6 · PERSONALIZACIÓN (seis parámetros + planificador)
      ===================================================================== -->
 <section class="slide" aria-label="Personalización">
   <span class="seccion r">Solución técnica · Personalización</span>
@@ -646,7 +718,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 </section>
 
 <!-- =====================================================================
-     6 · MOTORES A Y B (láminas + duelo de métricas)
+     7 · MOTORES A Y B (láminas + duelo de métricas)
      ===================================================================== -->
 <section class="slide" aria-label="Modelo generativo">
   <span class="seccion r">Solución técnica · Modelo generativo</span>
@@ -693,7 +765,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 </section>
 
 <!-- =====================================================================
-     7 · TRES AGENTES
+     8 · TRES AGENTES
      ===================================================================== -->
 <section class="slide" aria-label="Agentes de IA">
   <span class="seccion r">Solución técnica · Agentes de IA</span>
@@ -736,7 +808,7 @@ motivo: colores)</pre>
 </section>
 
 <!-- =====================================================================
-     8 · DEMOSTRACIÓN EN VIVO
+     9 · DEMOSTRACIÓN EN VIVO
      ===================================================================== -->
 <section class="slide" aria-label="Demostración en vivo">
   <span class="seccion r">Demostración en vivo</span>
@@ -761,7 +833,7 @@ motivo: colores)</pre>
 </section>
 
 <!-- =====================================================================
-     9 · ASPECTOS ÉTICOS
+     10 · ASPECTOS ÉTICOS
      ===================================================================== -->
 <section class="slide" aria-label="Aspectos éticos">
   <span class="seccion r">Aspectos éticos</span>
@@ -789,7 +861,7 @@ motivo: colores)</pre>
 </section>
 
 <!-- =====================================================================
-     10 · CALIDAD VISUAL (cifras del motor A + paleta color por color)
+     11 · CALIDAD VISUAL (cifras del motor A + paleta color por color)
      ===================================================================== -->
 <section class="slide" aria-label="Calidad visual">
   <span class="seccion r">Evaluación · Calidad visual</span>
@@ -830,7 +902,7 @@ motivo: colores)</pre>
 </section>
 
 <!-- =====================================================================
-     11 · FEEDBACK Y AGENTES (tres tarjetas de resultado)
+     12 · FEEDBACK Y AGENTES (tres tarjetas de resultado)
      ===================================================================== -->
 <section class="slide" aria-label="Feedback y agentes">
   <span class="seccion r">Evaluación · Feedback y agentes</span>
@@ -895,7 +967,7 @@ motivo: colores)</pre>
 </section>
 
 <!-- =====================================================================
-     12 · SEGURIDAD Y SESGO (gráficos de cuadritos: cada cuadro es una portada)
+     13 · SEGURIDAD Y SESGO (gráficos de cuadritos: cada cuadro es una portada)
      ===================================================================== -->
 <section class="slide" aria-label="Seguridad y sesgo">
   <span class="seccion r">Evaluación · Seguridad y sesgo</span>
@@ -935,7 +1007,7 @@ motivo: colores)</pre>
 </section>
 
 <!-- =====================================================================
-     13 · LIMITACIONES (tabla de cinco filas)
+     14 · LIMITACIONES (tabla de cinco filas)
      ===================================================================== -->
 <section class="slide" aria-label="Limitaciones">
   <span class="seccion r">Limitaciones</span>
@@ -973,7 +1045,7 @@ motivo: colores)</pre>
 </section>
 
 <!-- =====================================================================
-     14 · CONCLUSIONES
+     15 · CONCLUSIONES
      ===================================================================== -->
 <section class="slide" aria-label="Conclusiones">
   <span class="seccion r">Conclusiones</span>
