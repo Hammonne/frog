@@ -145,7 +145,7 @@ FROG tiene **cuatro capas de protección**:
 | `docs/etapa1/` | Design Thinking: guía de entrevistas, consentimiento, mapa de empatía, protopersona |
 | `informe/` | El informe: `main.tex`, `main.pdf` y la carpeta `figuras/` (máximo 10 páginas) |
 | `presentacion/index.html` | La presentación (15 diapositivas) |
-| `presentacion/guion_10min.md` | El guion de 10 minutos |
+| `presentacion/guion_15a20min.md` | El guion de la presentación (15 a 20 minutos) |
 
 ## 12. Palabras que conviene saber
 

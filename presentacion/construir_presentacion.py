@@ -765,5 +765,6 @@ NL = chr(10)
 guion = ["# Guion del presentador: FROG" + NL, "Exposición de 15 minutos; la demo en vivo (slide 8) dura 5 y el enunciado permite como máximo 6." + NL]
 for i, sl in enumerate(prs.slides, start=1):
     guion.append(NL + f"## Slide {i}" + NL + NL + sl.notes_slide.notes_text_frame.text + NL)
-(Path(__file__).resolve().parent / "guion_presentador.md").write_text("".join(guion), encoding="utf-8")
+# El guion ya no se genera aquí: el vigente es guion_15a20min.md.
+# (Path(__file__).resolve().parent / "guion_presentador.md").write_text("".join(guion), encoding="utf-8")
 print("guardado", SALIDA)
