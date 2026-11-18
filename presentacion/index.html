@@ -713,6 +713,54 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 </section>
 
 <!-- =====================================================================
+     5b · DATOS Y LICENCIAS
+     ===================================================================== -->
+<section class="slide" aria-label="Datos y licencias">
+  <span class="seccion r">Solución técnica · Datos</span>
+  <h2 class="titulo r" style="--d:.1;width:1500px">Cuatro fuentes de datos con su licencia</h2>
+
+  <div class="abs" style="left:90px;top:300px;width:1764px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px">
+    <div class="tarjeta r" style="--d:.25;position:relative;padding:26px 28px;height:330px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:16px"><span class="num chico">D1</span><p style="font:700 32px/1.05 var(--f-titulo);color:var(--verde)">Portadas reales</p></div>
+      <p style="font-size:23px">2 000 portadas infantiles de Amazon (Book32).</p>
+      <span class="pill amarilla mini" style="align-self:flex-start;letter-spacing:0">Derechos reservados</span>
+      <p style="font-size:21px;color:#4b5d4e">Solo estadísticas y referencia del KID: nunca se muestran ni se usan para entrenar.</p>
+    </div>
+    <div class="tarjeta r" style="--d:.35;position:relative;padding:26px 28px;height:330px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:16px"><span class="num chico">D2</span><p style="font:700 32px/1.05 var(--f-titulo);color:var(--verde)">Quick, Draw!</p></div>
+      <p style="font-size:23px">200 bocetos de 10 categorías de cuento.</p>
+      <span class="pill amarilla mini" style="align-self:flex-start;letter-spacing:0">CC BY 4.0</span>
+      <p style="font-size:21px;color:#4b5d4e">Bocetos de prueba; se cita la fuente.</p>
+    </div>
+    <div class="tarjeta r" style="--d:.45;position:relative;padding:26px 28px;height:330px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:16px"><span class="num chico">D3</span><p style="font:700 32px/1.05 var(--f-titulo);color:var(--verde)">Bocetos de E4</p></div>
+      <p style="font-size:23px">Cada participante dibujó el suyo.</p>
+      <span class="pill amarilla mini" style="align-self:flex-start;letter-spacing:0">Del participante</span>
+      <p style="font-size:21px;color:#4b5d4e">Solo en su sesión; las portadas se muestran con su permiso.</p>
+    </div>
+    <div class="tarjeta r" style="--d:.55;position:relative;padding:26px 28px;height:330px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:16px"><span class="num chico">D4</span><p style="font:700 32px/1.05 var(--f-titulo);color:var(--verde)">Historias</p></div>
+      <p style="font-size:23px">200 TinyStories en inglés y 60 cuentos de Wikisource en español.</p>
+      <span class="pill amarilla mini" style="align-self:flex-start;letter-spacing:0">CDLA-Sharing · dominio público</span>
+      <p style="font-size:21px;color:#4b5d4e">30 + 30 anotadas a mano para evaluar al agente de historia.</p>
+    </div>
+  </div>
+
+  <div class="abs r" style="--d:.7;left:90px;top:680px;width:1764px;height:290px;background:var(--amarillo);display:flex;align-items:center;gap:60px;padding:0 60px">
+    <div style="width:470px;flex:none">
+      <p style="font:700 64px/1 var(--f-titulo);color:var(--verde)">Modelos libres</p>
+      <p style="margin-top:14px;font-size:25px">Todos corren gratis en Colab; ninguna API externa.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;font-size:25px">
+      <p><b style="font-weight:600;color:var(--verde)">SD 1.5 y ControlNet:</b> OpenRAIL-M, que prohíbe usos dañinos. <b style="font-weight:600;color:var(--verde)">SD-Turbo:</b> licencia comunitaria, uso académico.</p>
+      <p><b style="font-weight:600;color:var(--verde)">Qwen 2.5:</b> Apache 2.0. <b style="font-weight:600;color:var(--verde)">Phi 3.5:</b> MIT.</p>
+      <p><b style="font-weight:600;color:var(--verde)">Portadas generadas:</b> la ley protege solo el aporte humano, así que FROG registra el boceto, la historia y las decisiones.</p>
+    </div>
+  </div>
+  <aside class="notes">TIEMPO: 0:40. Usamos cuatro fuentes de datos y revisamos la licencia de cada una. Las portadas de Amazon tienen derechos de autor: solo las usamos para medir cómo son las portadas reales y como referencia del KID; nunca se muestran ni se usan para entrenar. Los bocetos de prueba vienen de Quick, Draw!, con licencia CC BY 4.0; en E4 cada participante dibujó el suyo. Las historias son TinyStories en inglés y cuentos de dominio público de Wikisource en español, y anotamos 30 de cada idioma a mano para evaluar al agente. Todos los modelos son libres y corren en Colab. Sobre las portadas generadas, la ley solo protege el aporte humano; por eso FROG registra el boceto, la historia y las decisiones de la persona.<br><br><strong>Preguntas probables del jurado.</strong> ¿Por qué no entrenaron con las portadas de Amazon? Porque tienen derechos de autor y la ley peruana no tiene una excepción general como el fair use; las usamos solo para estadísticas.</aside>
+</section>
+
+<!-- =====================================================================
      6 · PERSONALIZACIÓN (seis parámetros + planificador)
      ===================================================================== -->
 <section class="slide" aria-label="Personalización">
@@ -792,6 +840,41 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
 </section>
 
 <!-- =====================================================================
+     7b · EXPERIMENTO CON LORA
+     ===================================================================== -->
+<section class="slide" aria-label="Experimento con LoRA">
+  <span class="seccion r">Solución técnica · Modelo generativo</span>
+  <h2 class="titulo r" style="--d:.1;width:1500px">Probamos un LoRA y lo descartamos</h2>
+
+  <div class="abs tarjeta r izq" style="--d:.25;left:90px;top:390px;width:800px;padding:34px 38px">
+    <p style="font:700 34px/1.1 var(--f-titulo);color:var(--verde)">Qué probamos</p>
+    <p style="margin-top:18px;font-size:25px">El adaptador <b style="font-weight:600">dimension-w-sd15</b> sobre el motor A, con licencia OpenRAIL-M y sin nombrar a un artista. Su ficha no documenta con qué datos se entrenó.</p>
+    <p style="margin-top:18px;font-size:25px">20 bocetos, con el LoRA a escala 0 (apagado), 0,6 y 1,0.</p>
+  </div>
+  <div class="abs r" style="--d:.45;left:90px;top:710px;width:800px">
+    <span class="pill punteada" style="font-size:24px;letter-spacing:0">Impone su propio estilo y pisa el que elige la persona: no entra al sistema.</span>
+  </div>
+
+  <div class="abs" style="left:980px;top:380px;width:860px">
+    <div class="duelo r" style="--d:.4">
+      <div class="duelo-cab"><img src="img/ico_lupa.png" alt=""><span>CLIPScore (parecido con el prompt)</span><em>más es mejor</em></div>
+      <div class="duelo-fila"><b class="letra a" style="font-size:16px">0</b><i class="pista"><i class="lleno a" style="--p:72%"></i></i><span class="valor">0,72</span></div>
+      <div class="duelo-fila"><b class="letra a" style="font-size:16px">0,6</b><i class="pista"><i class="lleno a" style="--p:74%"></i></i><span class="valor">0,74</span></div>
+      <div class="duelo-fila"><b class="letra a" style="font-size:16px">1</b><i class="pista"><i class="lleno a" style="--p:76%"></i></i><span class="valor">0,76</span></div>
+    </div>
+    <div class="duelo r" style="--d:.6">
+      <div class="duelo-cab"><img src="img/ico_estilo.webp" alt=""><span>Acierto del estilo elegido</span><em>más es mejor</em></div>
+      <div class="duelo-fila"><b class="letra b" style="font-size:16px">0</b><i class="pista"><i class="lleno b" style="--p:95%"></i></i><span class="valor">95 %</span></div>
+      <div class="duelo-fila"><b class="letra b" style="font-size:16px">0,6</b><i class="pista"><i class="lleno b" style="--p:75%"></i></i><span class="valor">75 %</span></div>
+      <div class="duelo-fila"><b class="letra b" style="font-size:16px">1</b><i class="pista"><i class="lleno b" style="--p:45%"></i></i><span class="valor">45 %</span></div>
+    </div>
+    <p class="r" style="--d:.8;margin-top:20px;font-size:21px;font-style:italic">Escala del LoRA en el círculo: 0 = sin LoRA.</p>
+  </div>
+  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1800px;top:200px;width:80px">
+  <aside class="notes">TIEMPO: 0:30. El enunciado sugiere explorar modelos de Hugging Face y Civitai, así que probamos un LoRA, un adaptador que cambia el estilo del motor A. Con 20 bocetos, al subir su escala el CLIPScore mejora un poco, de 0,72 a 0,76, pero el acierto del estilo que elige la persona cae de 95 a 45 %: el LoRA impone su propio estilo. Como FROG se basa en que la persona elige el estilo, lo descartamos.<br><br><strong>Preguntas probables del jurado.</strong> ¿Entrenaron un modelo propio? No: el nivel avanzado se descartó por costo de cómputo y de datos; el LoRA ya venía entrenado. ¿Por qué no otro LoRA? Cualquier LoRA de estilo tendría el mismo problema: fija un estilo y quita esa decisión a la persona.</aside>
+</section>
+
+<!-- =====================================================================
      8 · TRES AGENTES
      ===================================================================== -->
 <section class="slide" aria-label="Agentes de IA">
@@ -832,6 +915,20 @@ motivo: colores)</pre>
     </div>
   </div>
   <aside class="notes">TIEMPO: 1:00. Hay tres agentes y ninguno recibe imágenes. El de historia lee el texto y extrae personajes, objetos y lugar; un verificador comprueba que cada elemento aparezca en la historia. El tipográfico recibe medidas de la zona del título y propone fuente y color; las letras las dibuja siempre un renderizador determinista, así el título nunca sale mal escrito. El de resumen redacta lo ocurrido a partir del registro y un validador contrasta cada ID y motivo con ese registro. Los modelos son Qwen 2.5 y Phi 3.5, que corren dentro de la sesión de Colab.<br><br><strong>Preguntas probables del jurado.</strong> ¿El LLM ve las imágenes? No: recibe texto, medidas o el registro JSON. ¿Qué tan fiel es el resumen? Una comprobación automática halló 85 % en Qwen y 50 % en Phi; no evalúa la parte interpretativa.</aside>
+</section>
+
+<!-- =====================================================================
+     8b · LA INTERFAZ
+     ===================================================================== -->
+<section class="slide" aria-label="Interfaz">
+  <span class="seccion r">Solución técnica · Interfaz</span>
+  <h2 class="titulo r" style="--d:.1;width:1500px">Una interfaz pensada para quien no diseña</h2>
+
+  <div class="abs r lamina" style="--d:.3;left:90px;top:300px;width:860px"><img src="img/ui_inicio.jpg" alt="Pantalla de inicio de FROG"></div>
+  <div class="abs r lamina" style="--d:.45;left:990px;top:300px;width:860px"><img src="img/ui_entrada.jpg" alt="Pantalla de entrada: boceto, título e historia"></div>
+  <div class="abs r" style="--d:.6;left:90px;top:860px;width:860px;display:flex;align-items:flex-start;gap:16px"><span class="num chico">1</span><p style="font-size:24px">Inicio: qué hace FROG en tres pasos, con Runa.</p></div>
+  <div class="abs r" style="--d:.7;left:990px;top:860px;width:860px;display:flex;align-items:flex-start;gap:16px"><span class="num chico">2</span><p style="font-size:24px">Entrada: subir o dibujar el boceto, título, historia, y elegir motor y asistente.</p></div>
+  <aside class="notes">TIEMPO: 0:30. Así se ve FROG. A la izquierda, la pantalla de inicio, que explica en tres pasos qué hace el sistema. A la derecha, la entrada: la persona sube o dibuja su boceto, escribe el título y la historia, declara que el boceto es suyo y elige si quiere un resultado fiel a su trazo o más libre, y qué asistente redacta el resumen. Si la demostración en vivo falla, esta diapositiva sirve de respaldo.<br><br><strong>Preguntas probables del jurado.</strong> ¿Por qué Gradio? Corre dentro de Colab, gratis, y se comparte con un enlace.</aside>
 </section>
 
 <!-- =====================================================================
@@ -1119,7 +1216,7 @@ motivo: colores)</pre>
   <img class="deco r pop gira-lento" style="--d:.3;left:1370px;top:40px;width:430px" src="img/deco_explosion.png" alt="">
   <div class="abs r pop" style="--d:.5;left:1290px;top:430px;width:590px"><img class="flota" src="img/runa_celebra.png" alt="Runa celebra" style="width:590px;max-width:none"></div>
   <p class="abs r" style="--d:.9;left:1250px;top:870px;width:660px;text-align:center;font:700 52px/1.1 var(--f-titulo);color:var(--verde)"><span class="resalta">Gracias · ¿preguntas?</span></p>
-  <aside class="notes">TIEMPO: 0:30. En resumen: FROG genera cinco portadas comparables a partir del boceto y la historia, usa las decisiones de la persona para guiar las rondas, tiene agentes cuyo trabajo se puede verificar y límites de seguridad cuyos fallos medimos. Lo que sigue: explicar los estilos en la interfaz, como pidieron en E4, y un filtro de imagen más fuerte, sobre todo para el motor B. Gracias. TIEMPO TOTAL APROXIMADO: 14 min 45 s con la demostración de 5 min.</aside>
+  <aside class="notes">TIEMPO: 0:30. En resumen: FROG genera cinco portadas comparables a partir del boceto y la historia, usa las decisiones de la persona para guiar las rondas, tiene agentes cuyo trabajo se puede verificar y límites de seguridad cuyos fallos medimos. Lo que sigue: explicar los estilos en la interfaz, como pidieron en E4, y un filtro de imagen más fuerte, sobre todo para el motor B. Gracias. TIEMPO TOTAL APROXIMADO: 17 min 45 s con la demostración de 5 min.</aside>
 </section>
 
 </main>
@@ -1127,7 +1224,7 @@ motivo: colores)</pre>
 
 <!-- Controles fuera del lienzo -->
 <div class="progreso" id="progreso"></div>
-<div class="contador" id="contador">1 / 16</div>
+<div class="contador" id="contador">1 / 19</div>
 <div id="guion" role="region" aria-label="Guion del presentador"></div>
 <div id="tip" role="tooltip"></div>
 <div class="edit-hotzone" aria-hidden="true"></div>
