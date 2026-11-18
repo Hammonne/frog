@@ -6,7 +6,7 @@
 <title>FROG · Presentación final</title>
 <!--
   Presentación final de FROG (Proyecto 2, UTEC), en HTML.
-  Misma estética y contenido que la versión en PowerPoint (15 diapositivas).
+  Misma estética y contenido que la versión en PowerPoint (16 diapositivas).
 
   Cómo se usa
   - Abrir este archivo en Chrome o Firefox. Necesita las carpetas img/ y fuentes/ a su lado.
@@ -403,6 +403,59 @@ img, video, canvas, svg { max-width: 100%; max-height: 100%; }
 }
 .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
 body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .55); outline-offset: 4px; cursor: text; }
+
+/* =====================================================================
+   SLIDE PROTOPERSONA (Valeria): composición editorial, sin tarjetas
+   ===================================================================== */
+.vl-bloque { position: absolute; left: 70px; width: 1000px; padding: 26px 46px 12px 56px; }
+.vl-bloque.busca { top: 326px; background: #E8F7DC; border-radius: 62px 38px 70px 44px / 44px 64px 40px 70px; }
+.vl-bloque.frustra { top: 706px; background: #FCE5E1; border-radius: 40px 66px 44px 72px / 66px 42px 70px 40px; }
+.vl-etq { display: inline-flex; align-items: center; justify-content: center; height: 70px; padding: 0 44px;
+  background: center / 100% 100% no-repeat; font: 700 32px/1 var(--f-titulo); letter-spacing: .02em; text-transform: uppercase; }
+.vl-etq.a { background-image: url("img/cinta_amarilla.png"); color: var(--verde); }
+.vl-etq.f { background-image: url("img/cinta_crema.png"); color: #B5473F; }
+.vl-etq-fila { position: absolute; top: -34px; left: 36px; transform: rotate(-2deg); }
+.vl-lista { list-style: none; margin: 10px 0 0; padding: 0; }
+.vl-lista li { display: flex; align-items: center; gap: 24px; padding: 8px 0; }
+.vl-lista li + li { border-top: 2.5px dashed rgba(40, 122, 54, .26); }
+.frustra .vl-lista li + li { border-top-color: rgba(181, 71, 63, .30); }
+.vl-ico { flex: none; width: 62px; height: 62px; object-fit: contain; }
+.vl-lista b { display: block; font: 600 28px/1.2 var(--f-texto); color: var(--verde); }
+.vl-lista span { display: block; margin-top: 3px; font: 400 20px/1.3 var(--f-texto); color: var(--texto); }
+.frustra .vl-lista b { color: #A93F37; }
+
+.vl-mancha { position: absolute; left: 1260px; top: 104px; width: 580px; height: 400px; background: #FFE69A;
+  border-radius: 58% 42% 52% 48% / 46% 56% 44% 54%; transform: rotate(-4deg); }
+.vl-mancha2 { position: absolute; left: 1740px; top: 340px; width: 160px; height: 160px; background: #D6F2BF;
+  border-radius: 50% 50% 46% 54% / 56% 44% 56% 44%; }
+.vl-retrato { position: absolute; left: 1290px; top: 60px; width: 470px; filter: drop-shadow(0 12px 14px rgba(70, 60, 20, .20)); }
+.vl-nombre { position: absolute; left: 1230px; top: 500px; width: 640px; font: 700 54px/1 var(--f-titulo); color: var(--verde); }
+.vl-meta { position: absolute; left: 1230px; top: 566px; font: 600 23px/1.2 var(--f-texto); color: var(--texto); }
+.vl-tags { position: absolute; left: 1230px; top: 606px; display: flex; flex-wrap: wrap; gap: 10px; width: 640px; }
+.vl-tags .pill { font-size: 18px; padding: 7px 18px; }
+.vl-extra { position: absolute; left: 1230px; top: 692px; width: 620px; font: 400 19px/1.3 var(--f-texto); color: var(--texto); }
+.vl-extra b { font-weight: 600; color: var(--verde); }
+.vl-cita { position: absolute; left: 1200px; top: 776px; width: 440px; height: 267px; transform: rotate(-1.5deg); }
+.vl-cita img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; filter: drop-shadow(0 6px 8px rgba(60, 50, 20, .18)); }
+.vl-cita p { position: absolute; left: 40px; right: 36px; top: 64px; font: 500 20px/1.34 var(--f-texto); font-style: italic; color: var(--texto); }
+
+/* =====================================================================
+   SLIDE ESTUDIO CON USUARIOS (E4): número grande + barras + collage de portadas
+   ===================================================================== */
+.e4-num { position: absolute; left: var(--margen); top: 262px; font: 700 168px/1 var(--f-titulo); color: var(--verde); letter-spacing: -2px; }
+.e4-sub { position: absolute; left: var(--margen); top: 440px; width: 640px; font: 500 26px/1.3 var(--f-texto); color: var(--texto); }
+.e4-barras { position: absolute; left: var(--margen); top: 540px; width: 760px; height: 400px; }
+.e4-barras .b { position: absolute; bottom: 62px; width: 52px; background: var(--verde); border-radius: 12px 12px 0 0; }
+.e4-barras .b.baja { background: #D9776D; }
+.e4-barras .b i { position: absolute; bottom: 100%; left: 50%; transform: translate(-50%, -6px); font: 600 19px/1 var(--f-texto); font-style: normal; color: var(--texto); }
+.e4-barras .b u { position: absolute; top: 100%; left: 50%; transform: translate(-50%, 10px); font: 500 17px/1 var(--f-texto); text-decoration: none; color: #6d8571; }
+.e4-barras .b.baja i { background: var(--hueso); padding: 0 5px; border-radius: 4px; }
+.e4-barras .linea { position: absolute; left: 0; right: 0; border-top: 3px dashed #C0463C; }
+.e4-barras .linea span { position: absolute; right: 0; bottom: 6px; font: 600 19px/1 var(--f-texto); color: #B5473F; background: var(--hueso); padding: 0 6px; }
+.e4-collage { position: absolute; left: 930px; top: 238px; width: 920px; filter: drop-shadow(0 6px 8px rgba(40, 60, 30, .10)); }
+.e4-fila { position: absolute; left: 930px; width: 900px; display: flex; gap: 22px; align-items: flex-start; }
+.e4-fila p { font: 400 23px/1.32 var(--f-texto); color: var(--texto); }
+.e4-fila p b { font-weight: 600; color: var(--verde); }
 </style>
 </head>
 
@@ -449,7 +502,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
   </div>
   <div class="abs r izq" style="--d:.45;left:var(--margen);top:600px;width:1000px;display:flex;gap:30px">
     <span class="num">2</span>
-    <div><p style="font:600 34px/1.2 var(--f-texto);color:var(--verde)">No puede pagar a un ilustrador</p><p>No alcanza para cada cuento que escribe para su aula.</p></div>
+    <div><p style="font:600 34px/1.2 var(--f-texto);color:var(--verde)">No puede pagar a un ilustrador</p><p>No alcanza para ilustrar cada cuento que escribe.</p></div>
   </div>
   <div class="abs r izq" style="--d:.6;left:var(--margen);top:760px;width:1000px;display:flex;gap:30px">
     <span class="num">3</span>
@@ -464,7 +517,7 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
     <div class="polaroid rot" style="--g:4deg;inset:0"><img src="img/portada_v1.jpg" alt="Portada generada de un conejo entre flores"><div class="pie">Una de las 5 portadas</div></div>
   </div>
   <img class="deco r pop" style="--d:.7;left:1268px;top:740px;width:220px" src="img/runa_lee.png" alt="">
-  <aside class="notes">TIEMPO: 0:45. Diseñamos para Carmen, una docente de inicial que escribe cuentos para su aula. Sabe lo que quiere contar pero no sabe dibujar, no puede pagar un ilustrador por cada cuento, y las herramientas de IA genéricas le dan imágenes que no se parecen a su idea y con el título mal escrito. Aclaración honesta: Carmen es una hipótesis de diseño que construimos antes de las entrevistas; las cinco entrevistas con consentimiento están pendientes, por eso aquí no hay citas.<br><br><strong>Preguntas probables del jurado.</strong> ¿Cómo saben que la necesidad es real? Carmen es una hipótesis de diseño; las cinco entrevistas están pendientes, así que no afirmamos evidencia de campo. ¿Por qué IA y no un ilustrador? No lo reemplaza: entrega un concepto de portada con cinco opciones comparables a partir del dibujo de la persona.</aside>
+  <aside class="notes">TIEMPO: 0:45. Diseñamos para Valeria, una estudiante universitaria que crea cuentos para niños. Sabe lo que quiere contar y hace bocetos sencillos, pero no puede pagar un ilustrador por cada cuento, y las herramientas de IA genéricas le dan imágenes que no se parecen a su idea y con el título mal escrito. Aclaración honesta: Valeria es un arquetipo de diseño que construimos antes de las entrevistas; las cinco entrevistas con consentimiento están pendientes, por eso aquí no hay citas.<br><br><strong>Preguntas probables del jurado.</strong> ¿Cómo saben que la necesidad es real? Valeria es un arquetipo de diseño; las cinco entrevistas están pendientes, así que no afirmamos evidencia de campo. ¿Por qué IA y no un ilustrador? No lo reemplaza: entrega un concepto de portada con cinco opciones comparables a partir del dibujo de la persona.</aside>
 </section>
 
 <!-- =====================================================================
@@ -472,70 +525,44 @@ body.editando [contenteditable="true"] { outline: 2px dashed rgba(192, 70, 60, .
      ===================================================================== -->
 <section class="slide" aria-label="Protopersona">
   <span class="seccion r">Usuario objetivo · Protopersona</span>
-  <img class="deco titila" src="img/deco_estrellas.png" alt="" style="left:1120px;top:46px;width:82px">
-  <h2 class="titulo r" style="--d:.1;width:1080px">Diseñamos para una creadora, no para un usuario genérico</h2>
+  <img class="deco titila" src="img/destello_amarillo.png" alt="" style="left:1140px;top:196px;width:70px">
+  <h2 class="titulo r" style="--d:.1;width:1110px">Diseñamos para una creadora, no para un usuario genérico</h2>
 
-  <!-- Columnas sin cajas: mismo lenguaje de la diapositiva anterior (número + texto) -->
-  <div class="abs r izq" style="--d:.2;left:var(--margen);top:288px;display:flex;align-items:center;gap:16px">
-    <img src="img/ico_lapiz.png" alt="" style="height:38px">
-    <span class="pill">Lo que busca</span>
-  </div>
-  <div class="abs r izq" style="--d:.22;left:666px;top:288px;display:flex;align-items:center;gap:16px">
-    <img src="img/ico_robot.png" alt="" style="height:38px">
-    <span class="pill amarilla">Lo que le frustra</span>
-  </div>
-
-  <div class="abs r izq" style="--d:.3;left:var(--margen);top:362px;width:535px;display:flex;gap:22px">
-    <span class="num verde chico">1</span>
-    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Portadas atractivas y fieles a la historia</p><p style="margin-top:6px;font-size:20px">Imágenes vistosas para niños que respeten su idea original.</p></div>
-  </div>
-  <div class="abs r izq" style="--d:.35;left:666px;top:362px;width:535px;display:flex;gap:22px">
-    <span class="num chico">P1</span>
-    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">La IA altera personajes o composición</p><p style="margin-top:6px;font-size:20px">Siente que pierde el control sobre su idea.</p></div>
+  <!-- Lo que busca: zona verde suave, lista ilustrada sin tarjetas -->
+  <div class="vl-bloque busca r" style="--d:.2">
+    <div class="vl-etq-fila"><span class="vl-etq a">Lo que busca</span></div>
+    <ul class="vl-lista">
+      <li><img class="vl-ico" src="img/runa_corazon.png" alt=""><div><b>Portadas atractivas y fieles a la historia</b><span>Imágenes vistosas para niños que respeten su idea original.</span></div></li>
+      <li><img class="vl-ico" src="img/flor_amarilla.png" alt=""><div><b>Colores y estilo propios del público infantil</b><span>Que la paleta y el estilo transmitan ternura y diversión.</span></div></li>
+      <li><img class="vl-ico" src="img/hojas.png" alt=""><div><b>Un título legible, correcto y bien ubicado</b><span>Editar fuente y posición sin programas complejos.</span></div></li>
+    </ul>
   </div>
 
-  <div class="abs r izq" style="--d:.4;left:var(--margen);top:502px;width:535px;display:flex;gap:22px">
-    <span class="num verde chico">2</span>
-    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Colores y estilo propios del público infantil</p><p style="margin-top:6px;font-size:20px">Que la paleta y el estilo transmitan ternura y diversión.</p></div>
-  </div>
-  <div class="abs r izq" style="--d:.45;left:666px;top:502px;width:535px;display:flex;gap:22px">
-    <span class="num chico">P3</span>
-    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Los colores no transmiten lo infantil buscado</p><p style="margin-top:6px;font-size:20px">La imagen puede resultar poco atractiva para niños.</p></div>
-  </div>
-
-  <div class="abs r izq" style="--d:.5;left:var(--margen);top:642px;width:535px;display:flex;gap:22px">
-    <span class="num verde chico">3</span>
-    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">Un título legible, correcto y bien ubicado</p><p style="margin-top:6px;font-size:20px">Editar fuente y posición sin programas complejos.</p></div>
-  </div>
-  <div class="abs r izq" style="--d:.55;left:666px;top:642px;width:535px;display:flex;gap:22px">
-    <span class="num chico">P4</span>
-    <div><p style="font:600 27px/1.2 var(--f-texto);color:var(--verde)">El título sale mal escrito o se superpone</p><p style="margin-top:6px;font-size:20px">Baja la legibilidad y calidad de la portada.</p></div>
+  <!-- Lo que le frustra: zona coral suave -->
+  <div class="vl-bloque frustra r" style="--d:.35">
+    <div class="vl-etq-fila"><span class="vl-etq f">Lo que le frustra</span></div>
+    <ul class="vl-lista">
+      <li><img class="vl-ico" src="img/runa_lupa.png" alt=""><div><b>La IA altera personajes o composición</b><span>Siente que pierde el control sobre su idea.</span></div></li>
+      <li><img class="vl-ico" src="img/destello_coral.png" alt="" style="width:62px;margin:0 6px"><div><b>Los colores no transmiten lo infantil buscado</b><span>La imagen puede resultar poco atractiva para niños.</span></div></li>
+      <li><img class="vl-ico" src="img/destello_coral.png" alt="" style="width:62px;margin:0 6px;transform:scaleX(-1) rotate(14deg)"><div><b>El título sale mal escrito o se superpone</b><span>Baja la legibilidad y calidad de la portada.</span></div></li>
+    </ul>
   </div>
 
-  <!-- Dos polaroids con el boceto y la portada de la diapositiva anterior, como su material de trabajo -->
-  <div class="abs r" style="--d:.6;left:380px;top:812px;width:150px;height:206px"><div class="polaroid rot" style="--g:-6deg;inset:0;padding:8px 8px 0"><img src="img/boceto_conejo.png" alt="Boceto de Valeria" style="height:calc(100% - 38px)"><div class="pie" style="height:38px;font-size:16px">Su boceto</div></div></div>
-  <div class="abs r" style="--d:.68;left:554px;top:792px;width:150px;height:226px"><div class="polaroid rot" style="--g:5deg;inset:0;padding:8px 8px 0"><img src="img/portada_v1.jpg" alt="La portada que imagina" style="height:calc(100% - 38px)"><div class="pie" style="height:38px;font-size:16px">Lo que imagina</div></div></div>
-  <img class="deco" src="img/hierba.png" alt="" style="left:0;top:1012px;width:150px">
-  <img class="deco" src="img/flores.png" alt="" style="left:960px;top:980px;width:150px">
+  <!-- Valeria como protagonista -->
+  <div class="vl-mancha r" style="--d:.15"></div>
+  <div class="vl-mancha2 r" style="--d:.25"></div>
+  <img class="vl-retrato r pop" style="--d:.3" src="img/valeria_retrato.webp" alt="Retrato ilustrado de Valeria Mendoza, con la mano en la mejilla y libros sobre la mesa">
+  <h3 class="vl-nombre r" style="--d:.45">Valeria Mendoza</h3>
+  <p class="vl-meta r" style="--d:.5">23 años · Lima, Perú</p>
+  <div class="vl-tags r" style="--d:.55"><span class="pill mini">Estudiante universitaria</span><span class="pill amarilla mini">Creadora aficionada de cuentos</span></div>
+  <p class="vl-extra r" style="--d:.58">Sus cuentos son para <b>niños de preescolar y primaria</b>.<br>Ella decide la portada final.</p>
 
-  <!-- Ficha de Valeria: mismo panel del planificador (slide del planificador) para que combine con el resto del deck -->
-  <div class="plan r" style="--d:.15">
-    <div class="plan-cab">
-      <img src="img/runa_creando.png" alt="" style="width:76px;height:76px;object-fit:contain">
-      <h3>Valeria Mendoza</h3>
-    </div>
-    <p style="margin-top:16px;font:600 23px/1.3 var(--f-texto);color:var(--texto)">23 años · Lima, Perú · Estudiante universitaria</p>
-    <p style="margin-top:18px;font-size:22px;line-height:1.45">Crea y adapta cuentos para niños de su entorno. Sabe imaginar la escena, pero no domina la edición profesional de imágenes.</p>
-    <div style="margin-top:24px;background:#fff;border-radius:20px;padding:26px 28px;position:relative;box-shadow:0 5px 0 rgba(40,122,54,.14)">
-      <img src="img/runa_corazon.png" alt="" style="position:absolute;right:-20px;top:-28px;width:70px">
-      <p style="font:600 22px/1.45 var(--f-texto);font-style:italic;color:var(--texto)">“Quiero que mi portada se vea como la imaginé, que llame la atención de los niños y que pueda cambiar detalles sin empezar de cero.”</p>
-    </div>
-    <div style="margin-top:22px;display:flex;align-items:center;gap:16px">
-      <img src="img/Rana_Niños.png" alt="Runa leyendo un cuento con dos niños" style="width:150px;height:auto;flex:none">
-      <p style="font-size:19px;color:var(--texto)">Sus cuentos son para <b style="font-weight:600;color:var(--verde)">niños en edad preescolar y primaria</b>.</p>
-    </div>
-    <span class="plan-pill">Decide la portada final</span>
+  <div class="vl-cita r" style="--d:.65">
+    <img src="img/papel_cita.webp" alt="">
+    <p>“Quiero que mi portada se vea como la imaginé, que llame la atención de los niños y que pueda cambiar detalles sin empezar de cero.”</p>
   </div>
+  <img class="deco r pop" style="--d:.8;left:1650px;top:810px;width:190px" src="img/runa_creando.png" alt="Runa con un lápiz">
+  <img class="deco" src="img/destello_amarillo.png" alt="" style="left:1782px;top:790px;width:56px">
   <aside class="notes">TIEMPO: 0:40. Esta es nuestra protopersona: Valeria, una estudiante que crea y adapta cuentos para niños de su entorno. Tiene ideas claras de personajes y escena, pero no formación profesional en diseño; al usar herramientas de IA, a veces el resultado cambia su idea, los colores no transmiten lo infantil que buscaba, o el título sale ilegible. Por eso sus prioridades son fidelidad al boceto, colores y estilo acordes al público infantil, y un título legible: FROG se diseña directamente para resolver estas tres frustraciones.<br><br><strong>Preguntas probables del jurado.</strong> ¿Valeria es una persona real? No: es un arquetipo de diseño que sintetiza las necesidades identificadas en la exploración del problema; las entrevistas de validación están pendientes.</aside>
 </section>
 
@@ -964,6 +991,37 @@ motivo: colores)</pre>
     </div>
   </div>
   <aside class="notes">TIEMPO: 1:00. Tres resultados. Primero, el planificador: con 500 usuarios simulados, Thompson y el azar empiezan iguales, pero en la ronda 3, con la evidencia de dos rondas, Thompson llega a 43 % de aceptación frente a 34,8 %. Segundo, los resúmenes: una comprobación automática contra el registro halló fieles 23 de los 27 de Qwen, 85 %, y 7 de los 14 de Phi, 50 %; no mide la parte interpretativa. Tercero, la legibilidad del título con OCR: el agente baja el error de 43 a 17,6 %, sin llegar al 5 %; el error lo concentran títulos cortos o con un dibujo detrás, y las 20 portadas peor leídas por el OCR se revisaron a mano y se leían sin esfuerzo.<br><br><strong>Preguntas probables del jurado.</strong> ¿Son resultados con personas? No: los usuarios son simulados y la fidelidad del resumen se comprobó con un script. El estudio con usuarios y el SUS están pendientes.</aside>
+</section>
+
+<!-- =====================================================================
+     12b · ESTUDIO CON USUARIOS (SUS de E4, collage de portadas generadas por los participantes)
+     ===================================================================== -->
+<section class="slide" aria-label="Estudio con usuarios">
+  <span class="seccion r">Evaluación · Usabilidad</span>
+  <img class="deco titila" src="img/destello_amarillo.png" alt="" style="left:1500px;top:70px;width:84px">
+  <h2 class="titulo r" style="--d:.1;width:1400px">Usabilidad: SUS de 86,8 en 10 sesiones</h2>
+
+  <p class="e4-num r" style="--d:.2">86,8</p>
+  <p class="e4-sub r" style="--d:.28">SUS medio sobre 100, con un criterio de 68 (el promedio de referencia).</p>
+  <div class="e4-barras r" style="--d:.35" role="img" aria-label="SUS de cada una de las 10 sesiones; solo la sesión 8 queda bajo 68">
+    <div class="linea" style="bottom:252px"><span>68</span></div>
+    <div class="b" style="left:8px;height:259px"><i>92,5</i><u>U01</u></div>
+    <div class="b" style="left:82px;height:266px"><i>95</i><u>U02</u></div>
+    <div class="b" style="left:156px;height:252px"><i>90</i><u>U03</u></div>
+    <div class="b" style="left:230px;height:280px"><i>100</i><u>U04</u></div>
+    <div class="b" style="left:304px;height:238px"><i>85</i><u>U05</u></div>
+    <div class="b" style="left:378px;height:238px"><i>85</i><u>U06</u></div>
+    <div class="b" style="left:452px;height:238px"><i>85</i><u>U07</u></div>
+    <div class="b baja" style="left:526px;height:175px"><i>62,5</i><u>U08</u></div>
+    <div class="b" style="left:600px;height:224px"><i>80</i><u>U09</u></div>
+    <div class="b" style="left:674px;height:259px"><i>92,5</i><u>U10</u></div>
+  </div>
+
+  <img class="e4-collage r" style="--d:.3" src="img/collage_e4.png" alt="Cuatro portadas generadas por participantes con su propio boceto e historia">
+  <div class="e4-fila r" style="--d:.5;top:660px"><span class="num chico">1</span><p><b>9 de 10 sesiones superan 68.</b> Intervalo de confianza al 95 %: de 79,3 a 94,2; con 10 sesiones es un resultado descriptivo.</p></div>
+  <div class="e4-fila r" style="--d:.58;top:766px"><span class="num chico">2</span><p><b>Piden</b> explicar los estilos y más precisión en las imágenes. <b>Les preocupa</b> la reutilización de bocetos y el trabajo de quienes ilustran.</p></div>
+  <div class="e4-fila r" style="--d:.66;top:872px"><span class="pill punteada mini">Limitación</span><p style="padding-top:2px">Nadie era autora, ilustradora ni docente: no es la usuaria objetivo completa.</p></div>
+  <aside class="notes">TIEMPO: 0:40. Probamos FROG con 10 sesiones de 9 personas ajenas a la computación, cada una con su propio boceto y su propia historia, y respondieron el cuestionario SUS. La media fue 86,8 sobre 100, con un intervalo de confianza al 95 % de 79,3 a 94,2; 9 de 10 sesiones superaron el criterio de 68. La única que quedó por debajo, 62,5, fue de una persona que no entendió el resumen ni los parámetros. Pidieron que se expliquen los estilos y que las imágenes sean más precisas, y les preocupa que se reutilicen sus bocetos y el trabajo de quienes ilustran. Aclaración honesta: nadie era autora, ilustradora o docente, y una persona participó dos veces; con 10 sesiones el resultado es descriptivo.<br><br><strong>Preguntas probables del jurado.</strong> ¿86,8 es bueno? Sí, supera el promedio de referencia de 68, pero la muestra es pequeña y de conveniencia. ¿Las portadas del collage son suyas? Sí, de participantes que autorizaron mostrarlas.</aside>
 </section>
 
 <!-- =====================================================================

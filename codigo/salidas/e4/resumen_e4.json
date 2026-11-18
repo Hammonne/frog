@@ -1,0 +1,80 @@
+{
+  "n": 10,
+  "sus_media": 86.8,
+  "sus_desv": 10.3,
+  "sus_mediana": 87.5,
+  "sus_ic95": [
+    79.3,
+    94.2
+  ],
+  "n_sobre_criterio": 9,
+  "aporte_medio_por_item_0a4": [
+    3.3,
+    3.5,
+    3.1,
+    3.2,
+    3.6,
+    3.6,
+    3.6,
+    3.7,
+    3.7,
+    3.4
+  ],
+  "sus_min": 62.5,
+  "sus_max": 100.0,
+  "criterio": 68.0,
+  "cumple": true,
+  "tarea_completada": null,
+  "participantes": [
+    {
+      "participante": "U01",
+      "sus": 92.5,
+      "completo": ""
+    },
+    {
+      "participante": "U02",
+      "sus": 95.0,
+      "completo": ""
+    },
+    {
+      "participante": "U03",
+      "sus": 90.0,
+      "completo": ""
+    },
+    {
+      "participante": "U04",
+      "sus": 100.0,
+      "completo": ""
+    },
+    {
+      "participante": "U05",
+      "sus": 85.0,
+      "completo": ""
+    },
+    {
+      "participante": "U06",
+      "sus": 85.0,
+      "completo": ""
+    },
+    {
+      "participante": "U07",
+      "sus": 85.0,
+      "completo": ""
+    },
+    {
+      "participante": "U08",
+      "sus": 62.5,
+      "completo": ""
+    },
+    {
+      "participante": "U09",
+      "sus": 80.0,
+      "completo": ""
+    },
+    {
+      "participante": "U10",
+      "sus": 92.5,
+      "completo": ""
+    }
+  ]
+}

@@ -350,15 +350,15 @@ texto(s, 9.25, 6.55, 3.7, 0.35, "la mascota de FROG", size=14, fuente=SUB, align
 s = nueva()
 encabezado(s, "Problemática", "Quien escribe un cuento no siempre puede ilustrarlo", ancho_titulo=6.4, size=38)
 dif = [("No sabe dibujar bien", "Hace dibujos simples, pero sabe lo que quiere contar."),
-       ("No puede pagar a un ilustrador", "No alcanza para cada cuento que escribe para su aula."),
+       ("No puede pagar a un ilustrador", "No alcanza para ilustrar cada cuento que escribe."),
        ("La IA genérica no le sirve", "Las imágenes no se parecen a su idea ni a su historia, y el título sale mal escrito.")]
 for i, (t, d) in enumerate(dif):
     y = 2.95 + i * 1.12
     numero(s, MARGEN, y, i + 1)
     texto(s, MARGEN + 0.7, y - 0.02, 5.2, 0.4, t, size=18, fuente=SUB, color=VERDE, nombre="Dificultad")
     texto(s, MARGEN + 0.7, y + 0.4, 5.2, 0.7, d, size=14, nombre="Detalle")
-texto(s, MARGEN, 6.35, 6.3, 0.7, [[("Carmen, 34 años, docente de inicial", {"fuente": SUB, "color": VERDE}),
-                                    (" · proto-persona del caso de uso, construida antes de las entrevistas "
+texto(s, MARGEN, 6.35, 6.3, 0.7, [[("Valeria, 23 años, estudiante universitaria", {"fuente": SUB, "color": VERDE}),
+                                    (" · protopersona del caso de uso, construida antes de las entrevistas "
                                      "(pendientes).", {})]], size=13, nombre="Proto-persona")
 polaroid(s, DEMO / "boceto_preprocesado.png", 7.55, 1.75, 2.6, 3.4, rot=-3, pie="Su boceto", nombre="Boceto")
 polaroid(s, DEMO / "R1-V1.png", 10.15, 2.0, 2.6, 3.4, rot=3, pie="Una de las 5 portadas", nombre="Portada")

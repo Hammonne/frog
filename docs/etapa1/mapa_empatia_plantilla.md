@@ -28,7 +28,7 @@ Agrupar en notas adhesivas (o en Miro) todo lo que se repite en al menos 2 perso
 | | | | |
 
 ## Proto-persona actualizada
-Reemplazar en el informe (sección 1.1) lo que contradiga la hipótesis inicial de "Carmen".
+Reemplazar en el informe (sección 1.1) lo que contradiga la hipótesis inicial de "Valeria" (ver `FROG_Protopersona.md`).
 
 - Nombre y perfil:
 - Objetivo:

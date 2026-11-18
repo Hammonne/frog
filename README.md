@@ -15,7 +15,7 @@ a saltos, el sistema da la siguiente ronda (máximo tres) aprendiendo de tus dec
 explica en palabras qué elegiste y por qué cambió cada ronda. El título lo escribe un agente
 tipográfico y lo puedes cambiar.
 
-Proyecto 2 del curso *Planificación y Toma de Decisiones en IA* (UTEC). Todo es **gratuito**:
+Proyecto 2 del curso *Planificación y Toma de Decisiones en IA* (UTEC). Repositorio: [github.com/Hammonne/frog](https://github.com/Hammonne/frog). Todo es **gratuito**:
 modelos abiertos de Hugging Face en Google Colab, sin APIs de pago.
 
 ## Cómo funciona
@@ -46,7 +46,7 @@ python3 -m venv .venv && .venv/bin/pip install -r codigo/requirements-local.txt
 cd codigo && ../.venv/bin/python -m pytest -q tests      # pruebas en CPU
 ```
 
-Para generar portadas se usa, desde la [carpeta de Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing), la aplicación con el cuaderno de Colab
+Para generar portadas se usa, desde la [carpeta de Drive](https://drive.google.com/drive/folders/1bebWecmvzINCaMLLFQGWMJSW5mUVRG8i?usp=sharing), la aplicación con el cuaderno de Colab
 [`codigo/notebooks/app_frog.ipynb`](codigo/notebooks/app_frog.ipynb) (GPU L4 o T4); existe una variante sin Drive,
 [`app_frog_sin_drive.ipynb`](codigo/notebooks/app_frog_sin_drive.ipynb), que usa un zip. Los experimentos están en
 [`portadas_etapas_1_3.ipynb`](codigo/notebooks/portadas_etapas_1_3.ipynb).
@@ -64,7 +64,7 @@ Instrucciones completas en [`codigo/README.md`](codigo/README.md).
 
 ## Datos y licencias
 
-Los **resultados** de los experimentos (calibración, E1, E5, LoRA, EDA, demos) sí están en [`codigo/salidas/`](codigo/salidas/), salvo las 2 730 portadas de E1 (1,2 GB), que no caben en GitHub y están en Drive dentro de `frog_solo_drive_portadas_e1_y_datos.zip` (también se regeneran con `experimentos/e1_automatica.py`). Los **datos** no están en el repositorio. El equipo los tiene en esta **[carpeta de Google Drive](https://drive.google.com/drive/folders/1SeLJ5SfBTYIJw6wqwDgotYYCGDPyCJl1?usp=sharing)**
+Los **resultados** de los experimentos (calibración, E1, E5, LoRA, EDA, demos) sí están en [`codigo/salidas/`](codigo/salidas/), salvo las 2 730 portadas de E1 (1,2 GB), que no caben en GitHub y están en Drive dentro de `frog_solo_drive_portadas_e1_y_datos.zip` (también se regeneran con `experimentos/e1_automatica.py`). Los **datos** no están en el repositorio. El equipo los tiene en esta **[carpeta de Google Drive](https://drive.google.com/drive/folders/1bebWecmvzINCaMLLFQGWMJSW5mUVRG8i?usp=sharing)**
 (acceso restringido al equipo), junto con el código y los resultados, lista para correr el cuaderno en Colab.
 También se pueden volver a descargar con `python -m scripts.preparar_datos`.
 

@@ -337,7 +337,7 @@ deco(s, "deco_estrellas", 0.35, 0.4, w=1.0)
 titulo(s, "Quien escribe un cuento no siempre puede ilustrarlo", x=1.45, w=7.0, size=30, rotulo="Problemática")
 y0 = 1.95
 for ico, linea in (("ico_lapiz", "No sabe dibujar bien: hace dibujos simples, pero sabe lo que quiere contar."),
-                   ("ico_informe", "No puede pagar un ilustrador por cada cuento que escribe para su aula."),
+                   ("ico_informe", "No puede pagar un ilustrador por cada cuento que escribe."),
                    ("ico_imagenes", "Las IA que probó dieron imágenes que no se parecían a su idea ni a su historia, "
                                     "con el título mal escrito.")):
     imagen(s, REC / f"{ico}.png", 0.85, y0, h=0.62, nombre="Icono")
@@ -346,18 +346,18 @@ for ico, linea in (("ico_lapiz", "No sabe dibujar bien: hace dibujos simples, pe
 texto(s, 0.85, 5.2, 7.6, 0.9, [[("¿Por qué IA? ", {"negrita": True, "color": VERDE}),
                                  ("Genera cinco opciones comparables y aprende de lo que la persona elige, con seis "
                                   "parámetros que ella controla.", {})]], size=16, nombre="Por qué IA")
-texto(s, 0.85, 6.2, 7.6, 0.5, [[("Carmen, 34 años, docente de inicial", {"negrita": True, "color": VERDE}),
-                                (" · proto-persona del caso de uso", {})]], size=15, nombre="Quién es Carmen")
+texto(s, 0.85, 6.2, 7.6, 0.5, [[("Valeria, 23 años, estudiante universitaria", {"negrita": True, "color": VERDE}),
+                                (" · protopersona del caso de uso", {})]], size=15, nombre="Quién es Valeria")
 pendiente(s, "Hipótesis previa: las 5 entrevistas aún no se hacen", 0.85, 6.7, 5.8)
 caja(s, 8.65, 0.0, 4.68, 7.5, color=AMARILLO, nombre="Bloque amarillo")
 polaroid(s, ASS.parent.parent / "codigo" / "app" / "ejemplos" / "boceto_conejo.png", 8.95, 0.7, 2.3, 2.3, rot=-4,
          pie="Su dibujo")
 polaroid(s, DEMO / "R1-V1.png", 10.6, 3.05, 2.25, 3.0, rot=3, pie="Una de las 5 portadas")
 imagen(s, REC / "runa_lee.png", 8.85, 5.35, h=1.75, nombre="Runa lee")
-notas(s, "TIEMPO: 0:45. Diseñamos para Carmen, una docente de inicial que escribe cuentos para su aula. Sabe lo que "
-         "quiere contar pero no sabe dibujar, no puede pagar un ilustrador por cada cuento, y las herramientas de IA "
-         "genéricas le dan imágenes que no se parecen a su idea y con el título mal escrito. Aclaración honesta: Carmen "
-         "es una hipótesis de diseño que construimos antes de las entrevistas; las cinco entrevistas con consentimiento "
+notas(s, "TIEMPO: 0:45. Diseñamos para Valeria, una estudiante universitaria que crea cuentos para niños. Sabe lo que "
+         "quiere contar y hace bocetos sencillos, pero no puede pagar un ilustrador por cada cuento, y las herramientas de IA "
+         "genéricas le dan imágenes que no se parecen a su idea y con el título mal escrito. Aclaración honesta: Valeria "
+         "es un arquetipo de diseño que construimos antes de las entrevistas; las cinco entrevistas con consentimiento "
          "están pendientes, por eso aquí no hay citas.")
 
 # =========================================================================== 3 FLUJO
@@ -733,7 +733,7 @@ notas(s, "TIEMPO: 0:30. En resumen: FROG genera cinco portadas comparables a par
          "más fuerte, sobre todo para el motor B. Gracias. TIEMPO TOTAL APROXIMADO: 14 min 45 s con la demostración de 5 min.")
 
 PREGUNTAS = {
-    2: "¿Cómo saben que la necesidad es real? Carmen es una hipótesis de diseño; las cinco entrevistas están "
+    2: "¿Cómo saben que la necesidad es real? Valeria es un arquetipo de diseño; las cinco entrevistas están "
        "pendientes, así que no afirmamos evidencia de campo. ¿Por qué IA y no un ilustrador? No lo reemplaza: entrega "
        "un concepto de portada con cinco opciones comparables a partir del dibujo de la persona.",
     4: "¿Qué evita que el LLM invente? Un validador compara cada ID y motivo del resumen con el registro y reintenta "
