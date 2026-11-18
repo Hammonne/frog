@@ -113,7 +113,7 @@ No escondemos lo que falta. El agente de historia acierta entre 59 y 80 %, por d
 
 ## 19. Conclusiones (0:25)
 
-En resumen: FROG da cinco propuestas comparables, aprende de las decisiones de la persona, sus agentes se pueden verificar y sus límites de seguridad están medidos. Lo siguiente es explicar los estilos en la interfaz, como pidieron en E4, y un filtro de imagen más fuerte, sobre todo para el motor B. Gracias, ¿preguntas?
+En resumen: FROG da cinco propuestas comparables, aprende de las decisiones de la persona, sus agentes se pueden verificar y sus límites de seguridad están medidos. Gracias, ¿preguntas?
 
 ---
 
