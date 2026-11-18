@@ -18,7 +18,7 @@ Evaluacion_*.pdf
 *Enunciado*.pdf
 Proyecto Final - Planificación.pdf
 
-# LaTeX: archivos intermedios (main.tex y main.pdf sí se suben)
+# LaTeX: archivos intermedios (informe/main.tex y informe/main.pdf sí se suben)
 *.aux
 *.log
 *.out

@@ -153,14 +153,14 @@ Cuidado: los resultados se guardan en `codigo/salidas/` y `codigo/datos/` dentro
 |---|---|---|---|---|
 | 8 | Hacer las 5 entrevistas (2 docentes, 2 personas que escriben cuentos, 1 ilustrador) con consentimiento firmado | `docs/etapa1/guia_entrevistas.md`, `consentimiento_entrevista.md` | 1 | 1 |
 | 9 | Un mapa de empatía por entrevista y la síntesis; comparar con el mapa de hipótesis | `docs/etapa1/mapa_empatia_plantilla.md` | 1 | 1 |
-| 10 | Pasar los hallazgos al informe (texto en rojo de la sección 1.1) | `main.tex` | 1 | 1 |
+| 10 | Pasar los hallazgos al informe (texto en rojo de la sección 1.1) | `informe/main.tex` | 1 | 1 |
 | 11 | Probar el prototipo en papel con 2 personas | `docs/etapa1/ideacion_y_prototipo.md` | 1 y 4 | 1 |
 | 12 | Reunir unos 20 bocetos propios fotografiados con celular (D3) | `datos/d3_bocetos/` | 2 | 1 |
 | 13 | Anotar a mano, en inglés, los elementos visuales de 30 historias | `datos/d4_historias/anotacion_30.csv` | 2 | 2 |
 | 14 | Anotar a mano, en español, otras 30 historias | `datos/d4es_historias/anotacion_30_es.csv` | 2 | 2 |
 | 15 | Revisar a mano cada portada que mostró E5a (¿es apta para niños?) | `salidas/e5/e5a_revision_manual.csv` | 3 | 3 |
 | 16 | Anotar el género y el tono de piel percibidos en E5b, con dos anotadoras | `salidas/e5/e5b_anotacion_sesgo.csv` | 3 | 3 |
-| 17 | Escribir los resultados de la sección 7 | `main.tex` | 3 | 3 |
+| 17 | Escribir los resultados de la sección 7 | `informe/main.tex` | 3 | 3 |
 
 ## Costo
 

@@ -57,10 +57,10 @@ Instrucciones completas en [`codigo/README.md`](codigo/README.md).
 | Ruta | Contenido |
 |---|---|
 | [`codigo/`](codigo/) | Implementación en Python: paquete `portadas` (motores, agentes, planificador), `app/` (interfaz Gradio), scripts, experimentos, pruebas y cuadernos |
-| [`assets/`](assets/) | Logo y hoja de recursos visuales de la que se recortan los de la interfaz |
+| [`assets/`](assets/) | Logo, hoja de recursos visuales (de ella se recortan los de la interfaz) y recortes de la presentación |
 | [`docs/etapa1/`](docs/etapa1/) | Guía de entrevistas, consentimiento, ideación y el [mapa de empatía y lienzo de propuesta de valor](docs/etapa1/mapa_empatia_y_propuesta_de_valor.pdf) (PDF) |
 | [`codigo/salidas/`](codigo/salidas/) | Resultados de los experimentos (CSV, JSON y láminas) |
-| [`main.tex`](main.tex) / [`main.pdf`](main.pdf) | Informe en LaTeX y su PDF (máximo 10 páginas) |
+| [`informe/`](informe/) | Informe en LaTeX ([`main.tex`](informe/main.tex)), su PDF ([`main.pdf`](informe/main.pdf)) y sus figuras (máximo 10 páginas) |
 
 ## Datos y licencias
 

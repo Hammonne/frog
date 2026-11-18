@@ -107,7 +107,7 @@ def main():
     salida = Path(args.resumen[0]).with_name("tabla_e1.tex")
     salida.write_text(tabla, encoding="utf-8")
     print(tabla)
-    print(f"\nGuardada en {salida}: copiarla en la sección 7 de main.tex.")
+    print(f"\nGuardada en {salida}: copiarla en la sección 7 de informe/main.tex.")
 
 
 if __name__ == "__main__":

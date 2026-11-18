@@ -471,7 +471,7 @@ deco(s, "deco_estrellas", 12.1, 0.3, w=0.8)
 for nom in ("lamina_motor_a", "lamina_motor_b"):
     destino = ASS / f"{nom}_recortada.png"
     if not destino.exists():
-        Image.open(ASS.parent / f"{nom}.png").convert("RGB").crop((0, 38, 1606, 444)).save(destino)
+        Image.open(RAIZ / "informe" / "figuras" / f"{nom}.png").convert("RGB").crop((0, 38, 1606, 444)).save(destino)
 ESC = 8.0 / 1606                      # pulgadas por píxel de la lámina
 estilos = ["acuarela", "lápices", "collage", "vectorial", "plastilina"]
 for k, e in enumerate(estilos):
