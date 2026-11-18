@@ -68,7 +68,7 @@ def rana(tam: int = 120, clase: str = "") -> str:
     """Ranita plana del logotipo del README (respaldo si faltaran las ilustraciones)."""
     if not _RANA:
         return f'<span class="frog-emoji {clase}">FROG</span>'
-    return f'<img class="frog-mascota {clase}" src="{_RANA}" width="{tam}" height="{tam}" alt="Ranita lectora de FROG">'
+    return f'<img class="frog-mascota {clase}" src="{_RANA}" width="{tam}" height="{tam}" alt="Runa, la ranita de FROG">'
 
 
 # --------------------------------------------------------------------- piezas gráficas
@@ -152,12 +152,12 @@ def inicio_texto() -> str:
   <h1 class="f-display f-gigante">FROG</h1>
   <p class="f-lema">Convierte tu historia en una portada ilustrada.</p>
   <p class="f-parrafo">Sube un boceto y cuéntanos tu cuento. En cada ronda recibes cinco propuestas de
-  portada, eliges las que te gustan y el sistema aprende de tus decisiones.</p>
+  portada, eliges las que te gustan y el sistema aprende de tus decisiones. Te acompaña <b>Runa</b>.</p>
 </div>"""
 
 
 def inicio_imagen() -> str:
-    rana_ = R.img("frog_hero", ancho=430, clase="f-hero-rana", alt="Ranita leyendo un libro") or rana(300)
+    rana_ = R.img("frog_hero", ancho=430, clase="f-hero-rana", alt="Runa, la ranita de FROG, leyendo un libro") or rana(300)
     return f'<div class="f-hero-imagen">{estallido()}{rana_}</div>'
 
 
@@ -172,7 +172,7 @@ def como_funciona() -> str:
 
 def carga(titulo_: str, detalle: str, aviso: str = "", mascota: str = "frog_generando") -> str:
     extra = f'<p class="f-aviso-tiempo">{aviso}</p>' if aviso else ""
-    rana_ = R.img(mascota, alto=230, clase="salta", alt="Ranita trabajando") or rana(180, "salta")
+    rana_ = R.img(mascota, alto=230, clase="salta", alt="Runa trabajando") or rana(180, "salta")
     return (f'<div class="f-carga"><div class="f-carga-rana">{rana_}</div>'
             f'<div class="f-carga-texto"><h2 class="f-display">{titulo_}</h2><p>{detalle}</p>'
             f'<div class="f-barra" role="progressbar" aria-label="Trabajando"><span></span></div>{extra}</div></div>')

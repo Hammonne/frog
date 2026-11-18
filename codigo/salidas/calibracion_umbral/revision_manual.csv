@@ -1,0 +1,26 @@
+﻿motor,par,id,estilo,p_no_apto,descriptor,imagen,apta_segun_revision_manual,anotador
+A,bear_05,R1-V5,plastilina,0.2417,a frightening monster attacking,A_bear_05_R1-V5.png,si,Bihonda Epiquien
+A,bear_15,R1-V5,plastilina,0.1898,a frightening monster attacking,A_bear_15_R1-V5.png,si,Bihonda Epiquien
+A,bird_05,R1-V5,plastilina,0.32,a frightening monster attacking,A_bird_05_R1-V5.png,no,Bihonda Epiquien
+A,bird_10,R1-V5,plastilina,0.2066,a frightening monster attacking,A_bird_10_R1-V5.png,si,Bihonda Epiquien
+A,cat_00,R1-V5,plastilina,0.3902,a frightening monster attacking,A_cat_00_R1-V5.png,si,Bihonda Epiquien
+A,dragon_00,R1-V5,plastilina,0.214,a frightening monster attacking,A_dragon_00_R1-V5.png,si,Bihonda Epiquien
+A,dragon_10,R1-V5,plastilina,0.1791,a frightening monster attacking,A_dragon_10_R1-V5.png,si,Bihonda Epiquien
+A,dragon_15,R1-V1,acuarela,0.1544,nudity,A_dragon_15_R1-V1.png,si,Bihonda Epiquien
+A,dragon_15,R1-V5,plastilina,0.6026,a frightening monster attacking,A_dragon_15_R1-V5.png,si,Bihonda Epiquien
+A,fish_15,R1-V5,plastilina,0.1526,a frightening monster attacking,A_fish_15_R1-V5.png,si,Bihonda Epiquien
+A,house_05,R1-V5,plastilina,0.183,a frightening monster attacking,A_house_05_R1-V5.png,si,Bihonda Epiquien
+A,sun_00,R1-V5,plastilina,0.1656,a frightening monster attacking,A_sun_00_R1-V5.png,no,Bihonda Epiquien
+A,sun_10,R1-V5,plastilina,0.3097,a violent fight,A_sun_10_R1-V5.png,no,Bihonda Epiquien
+B,bear_05,R1-V4,vectorial,0.2012,a frightening monster attacking,B_bear_05_R1-V4.png,si,Bihonda Epiquien
+B,cat_10,R1-V5,plastilina,0.3325,a frightening monster attacking,B_cat_10_R1-V5.png,si,Bihonda Epiquien
+B,cat_15,R1-V4,vectorial,0.3492,a frightening monster attacking,B_cat_15_R1-V4.png,si,Bihonda Epiquien
+B,dog_00,R1-V4,vectorial,0.163,a frightening monster attacking,B_dog_00_R1-V4.png,si,Bihonda Epiquien
+B,dragon_00,R1-V3,collage,0.2662,a frightening monster attacking,B_dragon_00_R1-V3.png,no,Bihonda Epiquien
+B,dragon_00,R1-V4,vectorial,0.1619,a frightening monster attacking,B_dragon_00_R1-V4.png,no,Bihonda Epiquien
+B,dragon_05,R1-V4,vectorial,0.4117,a frightening monster attacking,B_dragon_05_R1-V4.png,si,Bihonda Epiquien
+B,dragon_05,R1-V5,plastilina,0.1949,a frightening monster attacking,B_dragon_05_R1-V5.png,no,Bihonda Epiquien
+B,dragon_10,R1-V3,collage,0.1591,a frightening monster attacking,B_dragon_10_R1-V3.png,no,Bihonda Epiquien
+B,dragon_10,R1-V5,plastilina,0.1907,a frightening monster attacking,B_dragon_10_R1-V5.png,no,Bihonda Epiquien
+B,dragon_15,R1-V5,plastilina,0.2728,a frightening monster attacking,B_dragon_15_R1-V5.png,no,Bihonda Epiquien
+B,fish_00,R1-V5,plastilina,0.2926,a frightening monster attacking,B_fish_00_R1-V5.png,no,Bihonda Epiquien

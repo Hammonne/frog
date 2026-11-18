@@ -506,7 +506,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
                     yield cargando(3, "Despertando al ilustrador", "Cargando los modelos de dibujo y de seguridad.", aviso)
                 MODELOS.motor(mot)
                 MODELOS.revisor_salida()
-                yield cargando(3, "Dibujando tus 5 portadas", "Cada una cambia solo un detalle para que puedas "
+                yield cargando(3, "Runa está dibujando tus 5 portadas", "Cada una cambia solo un detalle para que puedas "
                                                                 "compararlas.", "Esto toma alrededor de 30 segundos.")
                 ronda = _generar(estado, ej)
                 _log(f"ronda {ronda['round']} lista en {ronda['latency_round_s']:.1f} s")
