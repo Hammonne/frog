@@ -12,17 +12,20 @@ from scripts.recortar_recursos import ALFA_MIN, RECURSOS, recortar
 
 APP = Path(__file__).resolve().parents[1] / "app"
 OPACOS = {"textura_papel"}                  # rectángulo con fondo propio: no tiene transparencia
+EXTRAS = {"runa_saluda"}                    # Runa con borde de sticker (para fondos amarillos); no sale de la hoja de recursos
 
 
 def archivos():
     return {p.stem: p for c in R.CATEGORIAS for p in (APP / "assets" / c).glob("*.png")}
 
 
-def test_estan_los_29_recursos_en_su_categoria():
+def test_estan_los_29_recursos_de_la_hoja_y_los_extras_en_su_categoria():
     for categoria, recursos in RECURSOS.items():
         for nombre in recursos:
             assert (APP / "assets" / categoria / f"{nombre}.png").exists(), f"falta {categoria}/{nombre}.png"
-    assert len(archivos()) == sum(len(r) for r in RECURSOS.values()) == 29
+    assert sum(len(r) for r in RECURSOS.values()) == 29
+    assert len(archivos()) == 29 + len(EXTRAS)
+    assert all((APP / "assets" / "mascotas" / f"{n}.png").exists() for n in EXTRAS)
 
 
 def test_los_nombres_son_unicos_entre_categorias():

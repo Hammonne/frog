@@ -347,7 +347,7 @@ footer { display: none !important; }
 .f-asoma-img { filter: drop-shadow(0 6px 8px rgba(30,40,20,.25)); display: block; }
 .f-asoma .f-asoma-img { max-width: none !important; }
 .f-col-boceto { min-height: 740px; padding-bottom: 150px !important; }
-.f-asoma-entrada { width: 250px !important; right: -4px; bottom: -46px; }
+.f-asoma-entrada { width: 200px !important; right: 6px; bottom: -66px; }
 .f-col-escena { padding-bottom: 36px !important; }
 .f-asoma-elem { width: 190px !important; right: 22px; top: -64px; }
 .f-col-eje { padding-bottom: 175px !important; margin-bottom: 40px !important; }

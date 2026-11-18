@@ -184,7 +184,7 @@ def construir_interfaz(pagina_inicial: str = "inicio"):
                     C["declara"] = gr.Checkbox(
                         label="Declaro que este boceto es mío o que tengo permiso para usarlo "
                               "(si lo dibujó una persona menor de edad, con permiso de su tutor).")
-                    gr.HTML(E.asoma("frog_hero", 250), elem_classes="f-asoma f-asoma-entrada")
+                    gr.HTML(E.asoma("runa_saluda", 200), elem_classes="f-asoma f-asoma-entrada")
                 with gr.Column(scale=7):
                     gr.HTML(E.titulo("Cuéntanos tu cuento"))
                     C["err_entrada"] = gr.HTML(visible=False)
